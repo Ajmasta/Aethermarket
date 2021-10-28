@@ -1,0 +1,58 @@
+.allListingsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.listingContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100px;
+}
+#image {
+  width: 50px;
+  height: 50px;
+}
+.profileImage {
+  border-radius: 50%;
+  width: 150px;
+}
+.profileContainer {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.collectionName {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.activeTab,
+.inactiveTab {
+  padding: 15px 16px;
+  border: none;
+  background-color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  text-align: center;
+  justify-content: space-around;
+  width: 120px;
+  align-items: center;
+}
+.inactiveTab {
+  color: black;
+}
+.activeTab {
+  background-color: #fff;
+  border-bottom: 3px #0074d9 solid;
+}
+.tabs {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  border-bottom: 1px #eee solid;
+}

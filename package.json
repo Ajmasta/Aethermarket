@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "imx-marketplace",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "@imtbl/imx-sdk": "^1.1.7",
+    "@material-ui/utils": "^4.11.2",
+    "@mui/icons-material": "^5.0.4",
+    "@mui/material": "^5.0.4",
+    "bignumber.js": "^9.0.1",
+    "chart.js": "^3.6.0",
     "next": "11.1.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-chartjs-2": "^3.2.0",
+    "react-dom": "17.0.2",
+    "swr": "^1.0.1"
   },
   "devDependencies": {
     "eslint": "8.0.1",

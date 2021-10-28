@@ -1,0 +1,79 @@
+.mainContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.tableContainer {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  padding: 0 0px;
+  border-top: none;
+}
+.tableRow:nth-child(2n + 1) {
+  background-color: #eee;
+}
+.tableTitle {
+  text-align: center;
+  font-weight: 600;
+  background-color: #eee;
+  padding: 20px 0;
+  margin: 10px 0 0 0;
+
+  border-bottom: none;
+}
+.tableRow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.tableCell {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.quantityCell {
+  flex: 1;
+}
+.nameCell {
+  justify-content: space-between;
+}
+.tableImage {
+  width: 150px;
+}
+.tableSeeMore {
+  cursor: pointer;
+  font-size: 16px;
+  padding: 20px 0;
+}
+.tableSeeMore:hover {
+  background-color: #fff;
+  color: black;
+}
+.tabs {
+  display: Flex;
+  width: 300px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+.activeTab,
+.inactiveTab {
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+.activeTab {
+  border-bottom: none;
+  box-shadow: inset 2px 2px 3px black;
+}
+.inactiveTab {
+  background-color: rgb(100, 99, 99);
+  color: white;
+  box-shadow: 2px 2px 6px black;
+}
+.chartContainer {
+  width: 80%;
+}

@@ -1,0 +1,40 @@
+.mainContainer {
+  width: 100%;
+  height: 1600px;
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.collectionContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.iconContainer {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.image {
+  max-width: 150px;
+  border-radius: 50%;
+}
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 200px;
+}
+
+.name {
+  color: #eee;
+}
+.info {
+  font-size: 16px;
+}

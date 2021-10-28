@@ -1,0 +1,31 @@
+.listingContainer {
+  width: 250px;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px;
+  margin: 5px 5px;
+}
+.allListingsContainer {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.image {
+  max-width: 250px;
+  max-height: 250px;
+}
+.imageContainer {
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.listingDescription {
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

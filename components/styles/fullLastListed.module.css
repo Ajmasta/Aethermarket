@@ -1,0 +1,71 @@
+.allListingsContainer {
+  display: flex;
+  flex-direction: row;
+}
+.similarDescription {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: white;
+  padding: 10px 20px;
+  border-top: none;
+  font-weight: 500;
+  font-size: 14px;
+  height: 80px;
+  border-top: 1px solid #666;
+}
+.similarListingsContainer {
+  margin: 0 5px 5px 0;
+  background-color: black;
+  box-shadow: 1px 1px 3px black;
+  border-radius: 10px;
+}
+.similarImageContainer {
+  padding: 10px 10px;
+  background-color: white;
+}
+.similarImage {
+  width: 250px;
+  background-color: white;
+}
+.bottomImagesContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.moreButton {
+  width: 250px;
+  background-color: #0074d9;
+  color: white;
+  height: 80px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 50px;
+}
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nameDescription {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+}
+.collectionName {
+  color: rgba(5, 5, 5, 0.6);
+}
+.inputFilter {
+  padding: 10px 5px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #eee;
+  outline-width: 0;
+}

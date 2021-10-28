@@ -1,0 +1,143 @@
+.container {
+  max-height: 80px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  align-items: center;
+  padding-left: 14px;
+  box-shadow: 1px 1px 12px black;
+  background-color: white;
+  z-index: 4;
+}
+
+.logo {
+  width: 100%;
+  height: 72px;
+}
+.logoContainer {
+  padding: 5px 0;
+  padding-right: 80px;
+}
+.searchBar {
+  max-width: 768px;
+  height: 36px;
+  width: 90%;
+  border: none;
+}
+.searchBar:focus-visible {
+  outline-width: 0;
+}
+.searchIconContainer {
+  height: 36px;
+  align-items: center;
+
+  display: flex;
+}
+.textElement {
+  padding: 0 20px;
+  font-weight: 600;
+}
+.imgElement {
+  height: 32px;
+  padding: 0 20px;
+}
+
+.iconElement {
+  width: 36px;
+}
+
+.accountContainer {
+  height: 32px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 150px;
+}
+
+.textContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 450px;
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  max-width: 768px;
+  height: 40px;
+  border-radius: 8px;
+  width: 100%;
+  border: 1px solid black;
+}
+
+@media (max-width: 600px) {
+  .textContainer {
+    display: none;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.exploreMenu {
+  background-color: white;
+  position: absolute;
+  top: 75px;
+  padding: 0px 10px;
+}
+.reference {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.invisibleCover {
+  background-color: transparent;
+  height: 150px;
+  position: absolute;
+  top: 0px;
+  width: 130px;
+  z-index: 5;
+}
+.exploreElement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.elongatedElement {
+}
+
+.drawerContainer {
+  position: absolute;
+  top: 0px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: transparent;
+  z-index: 250;
+  display: flex;
+}
+
+.transparentCover {
+  background-color: transparent;
+  flex: 4;
+}
+.drawer {
+  flex: 1;
+  background-color: #eee;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.usernameDrawer {
+  height: 50px;
+  text-align: center;
+}
