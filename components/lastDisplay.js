@@ -7,7 +7,7 @@ import { useGetBothData, useGetData } from "./functions/functions"
 
 const LastDisplay = ({finalData}) => {
     
-const {data, isLoading,isError} = useGetBothData("https://api.x.immutable.com/v1/orders?page_size=10")
+const {data, isLoading,isError} = useGetBothData("https://api.x.immutable.com/v1/orders?page_size=15")
 console.log(data)
     return(
         <>

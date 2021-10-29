@@ -4,7 +4,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import SearchIcon from '@mui/icons-material/Search';
 import Link from 'next/link'
 import { useState } from "react";
-import { getUserAssets, getUserBalances, logout, setupAndLogin } from "./functions/ImxFunctions";
+import { getUserAssets, getUserBalances, logout, sellAsset, setupAndLogin } from "./functions/ImxFunctions";
 import BigNumber from "bignumber.js";
 
 const NavBar= () =>{
@@ -13,6 +13,7 @@ const [mouseOnTop,setMouseOnTop] = useState(false)
 const[openDrawer,setOpenDrawer] = useState(false)
 const [userBalance,setUserBalance] = useState("")
 const [account,setAccount] = useState("")
+const [assets,setAssets] = useState({result:[]})
 const formatUserBalances = async () => {
     const userBalance = await getUserBalances()
     const account = await ethereum.request({ method: 'eth_requestAccounts' });
@@ -22,13 +23,13 @@ const formatUserBalances = async () => {
   ethBalance = new BigNumber(ethBalance)
   console.log(ethBalance/10**18)
   let ethNetwork = await  ethereum.request({ method: 'net_version' });
+  console.log(ethNetwork)
     setUserBalance({imx:userBalance.imx,ethBalance:ethNetwork===1?(ethBalance.toFixed()/10**18):"Change your network to Mainnet Ethereum"})
     const assets = await (await fetch(`https://api.x.immutable.com/v1/assets?user=${account}`)).json()  
-    console.log(assets)
+    setAssets(assets)
+    
 }
-console.log(account)
-
-
+console.log(assets.result[0])
 
 let timeout
 console.log(userBalance)
@@ -74,6 +75,7 @@ return (
          <div className={styles.transparentCover} onClick={()=>setOpenDrawer(false)}></div>
          <div className={styles.drawer}>
             <p className={styles.usernameDrawer}> Imx: {userBalance.imx} Eth:{userBalance.ethBalance} <button onClick={()=>formatUserBalances()}>Get user Balances</button> </p>
+         {assets.result.map(asset=> <p key={asset.id} onClick={()=>sellAsset(asset,0.05)}> {asset.token_address}</p>) }
          <div>
          </div>
          

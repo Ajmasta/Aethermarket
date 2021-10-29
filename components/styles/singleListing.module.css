@@ -8,10 +8,7 @@
 .image {
   max-width: 500px;
 }
-.similarImage {
-  width: 200px;
-  background-color: white;
-}
+
 .bottomContainer {
   display: flex;
   flex-direction: column;
@@ -227,6 +224,10 @@
 }
 .similarImageContainer {
   padding: 10px 10px;
+  background-color: white;
+}
+.similarImage {
+  width: 200px;
   background-color: white;
 }
 .linkToUser {

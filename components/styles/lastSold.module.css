@@ -19,40 +19,42 @@
 .similarListingsContainer {
   margin: 0 5px 5px 0;
   background-color: transparent;
-  box-shadow: -12px 1px 30px black;
+
+  margin: 0 4px;
   transition: all 0.2s ease;
   border-radius: 10px;
-  min-height: 450px;
+  min-height: 200px;
 }
 
 .similarListingsContainer:hover {
-  transform: translateY(-8%);
+  transform: translateY(-15px);
 }
 .similarListingsContainer:not(:first-child):hover {
-  margin-left: -5px;
 }
 .similarListingsContainer:hover ~ .similarListingsContainer {
-  transform: translateX(10px);
+  transform: translateX(12px);
 }
 
 .similarImageContainer {
   padding: 10px 10px;
   background-color: transparent;
-  min-height: 364px;
+  min-height: 292px;
   display: flex;
   align-items: center;
 }
 .similarImage {
-  width: 250px;
+  width: 200px;
   background-color: transparent;
 }
 .bottomImagesContainer {
   display: flex;
   width: 100%;
   justify-content: flex-start;
+  align-items: flex-end;
   position: relative;
   overflow-x: scroll;
   scroll-behavior: smooth;
+  min-height: 400px;
 }
 .arrowContainerRight,
 .arrowContainerLeft {
@@ -96,6 +98,7 @@
   align-items: center;
   width: 100%;
   position: relative;
+  background-color: transparent;
 }
 .nameDescription {
   display: flex;
@@ -112,4 +115,7 @@
   margin-right: 35px;
   display: flex;
   justify-content: space-between;
+}
+.mainContainer {
+  background-color: transparent;
 }

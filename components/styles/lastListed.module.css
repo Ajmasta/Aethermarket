@@ -18,7 +18,7 @@
 }
 .similarListingsContainer {
   margin: 0 5px 5px 0;
-  background-color: transparent;
+  background-color: blue;
   box-shadow: -12px 1px 30px black;
   transition: all 0.2s ease;
   border-radius: 10px;

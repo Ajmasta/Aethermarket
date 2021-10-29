@@ -48,7 +48,7 @@ const LastListed = ({data}) => {
     }
   
  return(
-<div>
+<div className={styles.mainContainer}>
 
 <div className={styles.title} ><h3>Last Listed </h3></div>
 <div className={styles.container}>

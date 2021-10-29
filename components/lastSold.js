@@ -52,11 +52,11 @@ const LastSold = ({data}) => {
 console.log(data)
  
     return(
-<div>
+<div className={styles.mainContainer}>
 
 <div className={styles.title} ><h3>Last Sold </h3></div>
 <div className={styles.container}>
-<div className={styles.arrowContainerRight} onClick={(e)=>setTranslateLeft(translateLeft+400)}><ArrowForwardIosIcon height={"100px"}/></div>
+<div className={styles.arrowContainerRight} onClick={(e)=>setTranslateLeft(translateLeft+800)}><ArrowForwardIosIcon height={"100px"}/></div>
 <div className={styles.arrowContainerLeft} onClick={(e)=>setTranslateLeft(0)}><ArrowBackIosNewIcon height={"100px"}/></div>
 <div className={styles.bottomImagesContainer} id="salesContainer"  >
 {createSimilarListings(data.sales,15)}
