@@ -115,7 +115,7 @@
 }
 
 .drawerContainer {
-  position: absolute;
+  position: fixed;
   top: 0px;
   bottom: 0;
   right: 0;
@@ -134,10 +134,33 @@
   background-color: #eee;
   color: black;
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.currencyDrawer {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.usernameDrawer {
-  height: 50px;
+.assetDrawer {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.assetImage {
+  width: 90%;
+}
+.currencyInfo {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.drawerTitle {
   text-align: center;
 }

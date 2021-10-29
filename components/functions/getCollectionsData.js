@@ -2,14 +2,13 @@ import badGrandma from "./badGrandma.json"
 
 export const getCollectionsMeta =async  (collection,id) => {
 const allData = []
-for(let i = 0;i<=0 ;i++){
+for(let i = 0;i<0 ;i++){
 const data = await (await fetch(`https://api.x.immutable.com/v1/assets/0x4ebfb80f9144713a690ec5a6485d0d4ed65194cd/${i}`)).json()
 allData.push(data)
 console.log(i)
-
 }
-console.log(badGrandma)
 getTraitsRarity(badGrandma)
+console.log(allData)
 }
 
 const getTraitsRarity= (array) => {
@@ -19,7 +18,7 @@ const filteredArray = array.map(item=>{
     if(item.metadata){
     delete item.metadata.name
     delete item.metadata.description
-    delete item.metadata.image}
+    delete item.metadata.image}else{console.log(item)}
     return item.metadata})
 
 console.log(filteredArray.length)
@@ -57,7 +56,7 @@ console.log(traitsArray)
 console.log(traitsArray.reduce((a,b)=>{
     
     
-    return a+b[1]},32)/7882)
+    return a+b[1]},49))
 
 
 
@@ -66,604 +65,544 @@ console.log(traitsArray.reduce((a,b)=>{
 
 const badGrandmaArray = [
     [
-        "Hoodie",
-        42,
-        "Clothes"
+        "Clothes~Hoodie",
+        49
     ],
     [
-        "Devil Horn",
-        43,
-        "Head"
+        "Head~Devil Horn",
+        51
     ],
     [
-        "Witch",
-        68,
-        "Clothes"
+        "Head~Witch",
+        51
     ],
     [
-        "Leather Jacket",
-        73,
-        "Clothes"
+        "Clothes~Witch",
+        52
     ],
     [
-        "Crown",
-        74,
-        "Head"
+        "Clothes~Leather Jacket",
+        98
     ],
     [
-        "Demon",
-        76,
-        "Eyes"
+        "Eyes~Demon",
+        99
     ],
     [
-        "Holy",
-        77,
-        "Head"
+        "Head~Holy",
+        99
     ],
     [
-        "Leopard",
-        77,
-        "Clothes"
+        "Pet~Chameleon",
+        99
     ],
     [
-        "Golden Teeth",
-        77,
-        "Mouth"
+        "Body~Pink Body Tattoo",
+        100
     ],
     [
-        "Chameleon",
-        82,
-        "Pet"
+        "Necklace~Ether",
+        100
     ],
     [
-        "Pink Body Tattoo",
-        83,
-        "Body"
+        "Clothes~Leopard",
+        100
     ],
     [
-        "Tough Life",
-        87,
-        "Glasses"
+        "Head~Crown",
+        100
     ],
     [
-        "Dark Brown Body Tattoo",
-        135,
-        "Body"
+        "Mouth~Golden Teeth",
+        100
     ],
     [
-        "Bunny",
-        147,
-        "Head"
+        "Earrings~Ether",
+        102
     ],
     [
-        "Animal Skin",
-        152,
-        "Clothes"
+        "Glasses~Tough Life",
+        120
     ],
     [
-        "Monkey",
-        157,
-        "Pet"
+        "Necklace~Crystal",
+        199
     ],
     [
-        "Tongue",
-        158,
-        "Mouth"
+        "Body~Dark Brown Body Tattoo",
+        200
     ],
     [
-        "Bikini",
-        161,
-        "Clothes"
+        "Pet~Monkey",
+        200
     ],
     [
-        "Insomnia",
-        162,
-        "Eyes"
+        "Head~Bunny",
+        201
     ],
     [
-        "Eyepatch",
-        173,
-        "Glasses"
+        "Eyes~Insomnia",
+        201
     ],
     [
-        "Fur Coat",
-        200,
-        "Clothes"
+        "Head~80s",
+        201
     ],
     [
-        "Army Shirt",
-        237,
-        "Clothes"
+        "Clothes~Animal Skin",
+        201
     ],
     [
-        "Mini Dress",
-        251,
-        "Clothes"
+        "Earrings~Crystal",
+        202
     ],
     [
-        "Sport",
-        267,
-        "Clothes"
+        "Mouth~Tongue",
+        202
     ],
     [
-        "Mini Shirt",
-        267,
-        "Clothes"
+        "Clothes~Bikini",
+        202
     ],
     [
-        "Bandana",
-        296,
-        "Head"
+        "Nose Piercing~Ether",
+        205
     ],
     [
-        "Glaring",
-        303,
-        "Eyes"
+        "Glasses~Eyepatch",
+        235
     ],
     [
-        "Smile Teeth",
-        308,
-        "Mouth"
+        "Clothes~80s",
+        246
     ],
     [
-        "Ether",
-        309,
-        "Earrings"
+        "Clothes~Fur Coat",
+        249
     ],
     [
-        "Brown Body Tattoo",
-        313,
-        "Body"
+        "Clothes~Army Shirt",
+        300
     ],
     [
-        "Bones",
-        315,
-        "Necklace"
+        "Clothes~Mini Dress",
+        348
     ],
     [
-        "Crystal",
-        315,
-        "Earrings"
+        "Clothes~Mini Shirt",
+        351
     ],
     [
-        "Bird",
-        322,
-        "Pet"
+        "Clothes~Sport",
+        352
     ],
     [
-        "Cat Ear Violet",
-        329,
-        "Head"
+        "Head~Bandana",
+        378
     ],
     [
-        "Rocka Billy",
-        331,
-        "Clothes"
+        "Mouth~Smile Teeth",
+        397
     ],
     [
-        "80s",
-        353,
-        "Clothes"
+        "Eyes~Glaring",
+        400
     ],
     [
-        "Love",
-        354,
-        "Glasses"
+        "Earrings~Diamond",
+        401
     ],
     [
-        "Sweater",
-        434,
-        "Clothes"
+        "Body~Brown Body Tattoo",
+        402
     ],
     [
-        "Stripe",
-        441,
-        "Clothes"
+        "Necklace~Bones",
+        402
     ],
     [
-        "Bomber Jacket",
-        443,
-        "Clothes"
+        "Pet~Bird",
+        402
     ],
     [
-        "Turtleneck",
-        446,
-        "Clothes"
+        "Nose Piercing~Diamond",
+        405
     ],
     [
-        "House Dress",
-        446,
-        "Clothes"
+        "Head~Cat Ear Violet",
+        423
     ],
     [
-        "Apron",
-        447,
-        "Clothes"
+        "Clothes~Rocka Billy",
+        449
     ],
     [
-        "Kimono",
-        450,
-        "Clothes"
+        "Glasses~Love",
+        475
     ],
     [
-        "Casual",
-        451,
-        "Clothes"
+        "Clothes~Turtleneck",
+        571
     ],
     [
-        "Tanktop",
-        453,
-        "Clothes"
+        "Clothes~Apron",
+        580
     ],
     [
-        "Checkerboard",
-        455,
-        "Clothes"
+        "Clothes~Bomber Jacket",
+        581
     ],
     [
-        "Puffy Jacket",
-        457,
-        "Clothes"
+        "Clothes~Kimono",
+        583
     ],
     [
-        "Formal",
-        459,
-        "Clothes"
+        "Clothes~Sweater",
+        583
     ],
     [
-        "Headband",
-        557,
-        "Head"
+        "Clothes~Stripe",
+        583
     ],
     [
-        "Ocean Blue",
-        573,
-        "Background"
+        "Clothes~Tanktop",
+        584
     ],
     [
-        "Android Green",
-        577,
-        "Background"
+        "Clothes~Casual",
+        584
     ],
     [
-        "Deep Chestnut",
-        581,
-        "Background"
+        "Clothes~Puffy Jacket",
+        588
     ],
     [
-        "Deer",
-        587,
-        "Background"
+        "Clothes~Formal",
+        588
     ],
     [
-        "Smitten",
-        588,
-        "Background"
+        "Clothes~House Dress",
+        588
     ],
     [
-        "Brown Sugar",
-        590,
-        "Background"
+        "Clothes~Checkerboard",
+        588
     ],
     [
-        "Apple",
-        592,
-        "Background"
+        "Head~Headband",
+        723
     ],
     [
-        "Ocean Green",
-        594,
-        "Background"
+        "Background~Apple",
+        763
     ],
     [
-        "Mafia Hat",
-        595,
-        "Head"
+        "Background~Moonstone",
+        766
     ],
     [
-        "Moonstone",
-        595,
-        "Background"
+        "Background~Deer",
+        767
     ],
     [
-        "Royal Purple",
-        595,
-        "Background"
+        "Background~Smitten",
+        767
     ],
     [
-        "Medium Turquoise",
-        599,
-        "Background"
+        "Background~Android Green",
+        767
     ],
     [
-        "Deep Fuchsia",
-        601,
-        "Background"
+        "Background~Medium Turquoise",
+        767
     ],
     [
-        "Laugh Toothless",
-        603,
-        "Mouth"
+        "Background~Ocean Green",
+        767
     ],
     [
-        "Brass",
-        606,
-        "Background"
+        "Background~Deep Chestnut",
+        769
     ],
     [
-        "Dog",
-        607,
-        "Pet"
+        "Background~Ocean Blue",
+        771
     ],
     [
-        "Think",
-        615,
-        "Eyes"
+        "Background~Brown Sugar",
+        772
     ],
     [
-        "Diamond",
-        619,
-        "Earrings"
+        "Background~Royal Purple",
+        773
     ],
     [
-        "Skull",
-        620,
-        "Necklace"
+        "Background~Deep Fuchsia",
+        774
     ],
     [
-        "White Body Tattoo",
-        629,
-        "Body"
+        "Head~Mafia Hat",
+        775
     ],
     [
-        "VR",
-        703,
-        "Glasses"
+        "Background~Brass",
+        775
     ],
     [
-        "HUD",
-        792,
-        "Glasses"
+        "Earrings~Golden Circle",
+        797
     ],
     [
-        "Ski Goggles",
-        792,
-        "Glasses"
+        "Eyes~Think",
+        800
     ],
     [
-        "3D",
-        814,
-        "Glasses"
+        "Necklace~Skull",
+        800
     ],
     [
-        "Cat Ear Light Green",
-        850,
-        "Head"
+        "Mouth~Laugh Toothless",
+        802
     ],
     [
-        "Cat Ear Green",
-        853,
-        "Head"
+        "Body~White Body Tattoo",
+        802
     ],
     [
-        "Cat Ear Yellow",
-        871,
-        "Head"
+        "Pet~Dog",
+        805
     ],
     [
-        "Sunglasses",
-        887,
-        "Glasses"
+        "Nose Piercing~Golden Circle",
+        809
     ],
     [
-        "Cat Ear Sky Blue",
-        935,
-        "Head"
+        "Glasses~VR",
+        941
     ],
     [
-        "Cat Ear Pink",
-        939,
-        "Head"
+        "Glasses~3D",
+        1029
     ],
     [
-        "Big Glasses",
-        941,
-        "Glasses"
+        "Glasses~HUD",
+        1030
     ],
     [
-        "Rich Lilac",
-        1011,
-        "Hair Band"
+        "Glasses~Ski Goggles",
+        1031
     ],
     [
-        "Super Pink",
-        1022,
-        "Hair Band"
+        "Head~Cat Ear Green",
+        1135
     ],
     [
-        "Iceberg",
-        1026,
-        "Hair Band"
+        "Glasses~Sunglasses",
+        1136
     ],
     [
-        "Small Glasses",
-        1029,
-        "Glasses"
+        "Head~Cat Ear Light Green",
+        1142
     ],
     [
-        "Slate Blue",
-        1106,
-        "Hair Band"
+        "Head~Cat Ear Yellow",
+        1144
     ],
     [
-        "Mantis",
-        1145,
-        "Hair Band"
+        "Head~None",
+        1145
     ],
     [
-        "Cat",
-        1147,
-        "Pet"
+        "Head~Cat Ear Pink",
+        1193
     ],
     [
-        "Laugh",
-        1159,
-        "Mouth"
+        "Glasses~Big Glasses",
+        1233
     ],
     [
-        "Pink Body",
-        1160,
-        "Body"
+        "Head~Cat Ear Sky Blue",
+        1237
     ],
     [
-        "Rose",
-        1168,
-        "Necklace"
+        "Glasses~Small Glasses",
+        1334
     ],
     [
-        "Angry",
-        1175,
-        "Eyes"
+        "Hair Band~Iceberg",
+        1343
     ],
     [
-        "Chinese Green",
-        1175,
-        "Hair Band"
+        "Hair Band~Rich Lilac",
+        1343
     ],
     [
-        "Pearl",
-        1190,
-        "Earrings"
+        "Hair Band~Super Pink",
+        1344
     ],
     [
-        "Fuzzy Wuzzy",
-        1199,
-        "Hair Band"
+        "Glasses~None",
+        1434
     ],
     [
-        "Golden Circle",
-        1218,
-        "Earrings"
+        "Hair Band~Mantis",
+        1445
     ],
     [
-        "Dollar",
-        1283,
-        "Necklace"
+        "Hair Band~Slate Blue",
+        1447
     ],
     [
-        "Mouth Open",
-        1327,
-        "Mouth"
+        "Necklace~Rose",
+        1496
     ],
     [
-        "Disappointed",
-        1335,
-        "Mouth"
+        "Earrings~Golden Square",
+        1499
     ],
     [
-        "Gold",
-        1342,
-        "Necklace"
+        "Pet~Cat",
+        1499
     ],
     [
-        "Close Smile",
-        1344,
-        "Mouth"
+        "Body~Pink Body",
+        1500
     ],
     [
-        "Flat",
-        1371,
-        "Mouth"
+        "Eyes~Angry",
+        1502
     ],
     [
-        "Pearls",
-        1414,
-        "Necklace"
+        "Mouth~Laugh",
+        1505
     ],
     [
-        "Bored",
-        1708,
-        "Eyes"
+        "Nose Piercing~Golden Square",
+        1516
     ],
     [
-        "Worried",
-        1745,
-        "Eyes"
+        "Hair Band~Fuzzy Wuzzy",
+        1538
     ],
     [
-        "White Body",
-        1762,
-        "Body"
+        "Hair Band~Chinese Green",
+        1538
     ],
     [
-        "Brown Body",
-        1762,
-        "Body"
+        "Earrings~Pearl",
+        1576
     ],
     [
-        "Front Cut Back",
-        1793,
-        "Hair"
+        "Necklace~Dollar",
+        1665
     ],
     [
-        "Dark Brown Body",
-        1839,
-        "Body"
+        "Earrings~Silver Circle",
+        1679
     ],
     [
-        "Bangs Back",
-        1877,
-        "Hair"
+        "Necklace~None",
+        1712
     ],
     [
-        "Open",
-        1899,
-        "Eyes"
+        "Mouth~Mouth Open",
+        1741
     ],
     [
-        "Bangs",
-        1974,
-        "Hair"
+        "Mouth~Flat",
+        1749
     ],
     [
-        "Front Cut",
-        2043,
-        "Hair"
+        "Mouth~Disappointed",
+        1749
     ],
     [
-        "Straight Bun",
-        2144,
-        "Bun"
+        "Mouth~Close Smile",
+        1753
     ],
     [
-        "Golden Square",
-        2330,
-        "Nose Piercing"
+        "Necklace~Gold",
+        1763
     ],
     [
-        "Curly Bun",
-        2594,
-        "Bun"
+        "Earrings~Silver Square",
+        1771
     ],
     [
-        "Circle Bun",
-        2950,
-        "Bun"
+        "Necklace~Pearls",
+        1861
     ],
     [
-        "Silver Circle",
-        2993,
-        "Earrings"
+        "Earrings~None",
+        1971
     ],
     [
-        "Silver Square",
-        3113,
-        "Nose Piercing"
+        "Nose Piercing~Silver Circle",
+        2219
     ],
     [
-        "None",
-        12226,
-        "Pet"
+        "Nose Piercing~Silver Square",
+        2220
+    ],
+    [
+        "Eyes~Bored",
+        2262
+    ],
+    [
+        "Eyes~Worried",
+        2263
+    ],
+    [
+        "Body~Dark Brown Body",
+        2327
+    ],
+    [
+        "Body~Brown Body",
+        2332
+    ],
+    [
+        "Body~White Body",
+        2335
+    ],
+    [
+        "Hair~Front Cut Back",
+        2346
+    ],
+    [
+        "Hair~Bangs Back",
+        2447
+    ],
+    [
+        "Eyes~Open",
+        2471
+    ],
+    [
+        "Hair~Bangs",
+        2553
+    ],
+    [
+        "Nose Piercing~None",
+        2624
+    ],
+    [
+        "Hair~Front Cut",
+        2652
+    ],
+    [
+        "Bun~Straight Bun",
+        2833
+    ],
+    [
+        "Bun~Curly Bun",
+        3328
+    ],
+    [
+        "Bun~Circle Bun",
+        3837
+    ],
+    [
+        "Pet~None",
+        6993
     ]
 ]
 

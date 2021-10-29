@@ -100,7 +100,11 @@ export async function getUserAssets(assetCursor) {
 export async function sellAsset(asset, priceInEth) {
    let sellParams = { amount: priceInEth, tokenId: asset.id, tokenAddress: asset.token_address };
    //Throws an error if not successful
+   try{
    await link.sell(sellParams);
+   }catch(err){
+      console.log(err)
+   }
 }
 
 //Transfers an asset to another address

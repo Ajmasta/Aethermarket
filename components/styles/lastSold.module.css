@@ -43,7 +43,7 @@
   align-items: center;
 }
 .similarImage {
-  width: 200px;
+  width: 220px;
   background-color: transparent;
 }
 .bottomImagesContainer {
@@ -103,7 +103,7 @@
 .nameDescription {
   display: flex;
   flex-direction: column;
-  max-width: 200px;
+  max-width: 220px;
 }
 .collectionName {
   color: rgba(5, 5, 5, 0.6);
