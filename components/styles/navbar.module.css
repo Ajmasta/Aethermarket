@@ -68,12 +68,36 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-
+  position: relative;
   max-width: 768px;
   height: 40px;
   border-radius: 8px;
   width: 100%;
   border: 1px solid black;
+}
+.resultContainer {
+  position: absolute;
+  bottom: -203px;
+  max-width: 768px;
+  width: 100%;
+  height: 200px;
+  background-color: white;
+  padding: 10px 10px;
+  overflow-y: scroll;
+  scrollbar-width: 0;
+  border: 1px solid black;
+  border-top: none;
+  border-radius: 10px;
+}
+
+.resultContainer::-webkit-scrollbar {
+  display: none;
+}
+.searchCollectionSectionTitle {
+  font-weight: 600;
+  width: 100%;
+  color: #666;
+  border-bottom: 1px solid #666;
 }
 
 @media (max-width: 600px) {

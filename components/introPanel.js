@@ -42,7 +42,7 @@ console.log(panel)
     
     
             <div className={styles.pictureFrame}>
-                <Image src={"/images/frame5.png"} width={400} height={400} alt="NFT picture"/>
+                <Image src={"/images/image1.jpg"} width={400} height={400} alt="NFT picture"/>
                 <div className={styles.pictureDetails}>
                     <p className={styles.pictureName}>Bored in the District </p>
                     <p className={styles.pictureCollection}> TikTok Moments </p>
