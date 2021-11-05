@@ -12,6 +12,7 @@
   width: 100%;
   flex-wrap: wrap;
   justify-content: center;
+  background-color: white;
 }
 .image {
   max-width: 250px;
@@ -28,4 +29,118 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.similarDescription {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: white;
+  padding: 10px 20px;
+  border-top: none;
+  font-weight: 500;
+  font-size: 14px;
+  height: 95px;
+  border-top: 1px solid #666;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.similarListingsContainer {
+  background-color: transparent;
+  box-shadow: 2px 2px 12px black;
+  margin: 5px 8px;
+  transition: all 0.2s ease;
+  border-radius: 10px;
+  min-height: 200px;
+}
+
+.similarImageContainer {
+  padding: 10px 10px;
+  background-color: transparent;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+}
+.similarImage {
+  width: 220px;
+  background-color: transparent;
+}
+.bottomImagesContainer {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: flex-end;
+  position: relative;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  min-height: 400px;
+  background-color: transparent;
+}
+.arrowContainerRight,
+.arrowContainerLeft {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0px;
+  width: 50px;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.arrowContainerLeft {
+  left: 0;
+}
+.arrowContainerLeft:hover,
+.arrowContainerRight:hover {
+  background-color: rgba(0, 0, 0, 1);
+}
+.bottomImagesContainer::-webkit-scrollbar {
+  display: none;
+}
+.moreButton {
+  width: 250px;
+  background-color: #0074d9;
+  color: white;
+  height: 80px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 50px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  background-color: transparent;
+}
+.nameDescription {
+  display: flex;
+  flex-direction: column;
+  max-width: 220px;
+}
+.collectionName {
+  color: rgba(5, 5, 5, 0.6);
+  max-width: 150px;
+}
+.nameDescription {
+  max-width: 140px;
+}
+.title {
+  color: white;
+  font-size: 32px;
+  margin-left: 35px;
+  margin-right: 35px;
+  display: flex;
+  justify-content: space-between;
+}
+.mainContainer {
+  background-color: ;
 }

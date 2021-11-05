@@ -11,21 +11,27 @@ import xLogo from "../public/images/xLogo.svg"
 import RefreshIcon from '@mui/icons-material/Refresh';
 import useSWR from "swr";
 import { useGetData } from "./functions/functions";
+import {
+    RecoilRoot,
+    atom,
+    selector,
+    useRecoilState,
+    useRecoilValue,
+  } from 'recoil';
+import { accountAtom, assetsAtom } from "./states/states";
+
 const NavBar= () =>{
+
 const [exploreMenu,setExploreMenu] = useState(false)
 const [mouseOnTop,setMouseOnTop] = useState(false)
 const[openDrawer,setOpenDrawer] = useState(false)
 const [userBalance,setUserBalance] = useState("")
-const [account,setAccount] = useState("")
-const [assets,setAssets] = useState({result:[]})
+const [account,setAccount] = useRecoilState(accountAtom)
+const [assets,setAssets] = useRecoilState(assetsAtom)
 const [searchInput,setSearchInput] = useState("")
 const [collections,setCollections] = useState([])
 const [researchOpen,setResearchOpen] = useState(false)
-const fetch = async url => {
-    const data = await (await fetch(url)).json()
-    console.log(data)
-    return data
-} 
+
 const {data,isLoading,isError} = useGetData("https://api.x.immutable.com/v1/collections?page_size=999999999")
 console.log(data)
 
@@ -35,7 +41,6 @@ const formatUserBalances = async () => {
     setAccount(account)
   let ethBalance = await ethereum.request({ method: 'eth_getBalance', params:[...account,"latest"] });
   ethBalance = new BigNumber(ethBalance)
-  let ethNetwork = await  ethereum.request({ method: 'net_version' });
     
   setUserBalance({imx:userBalance.imx,ethBalance:(ethBalance.toFixed()/10**18)})
    
@@ -46,7 +51,7 @@ const formatUserBalances = async () => {
 }
 
 const filterCollections = async (filter) => {
-  const blacklist = ["0x04792367709c5daea4fd781f558cba092695bbc0"]
+  const blacklist = ["0x04792367709c5daea4fd781f558cba092695bbc0","0xf797fa8b22218f4a82286e28a2727cd1680f4237"]
     let collections2 = data.filter(collection => collection.name.toUpperCase().includes(filter.toUpperCase()))
      collections2 = collections2.filter(collection =>!blacklist.includes(collection.address))
     console.log(collections2)
@@ -70,7 +75,8 @@ return (
         {researchOpen && searchInput.length >1?
             <div className={styles.resultContainer} onFocus={()=>setResearchOpen(true)} >
              <div className={styles.searchCollectionSectionTitle}>Collections</div>
-                {collections.length>0?collections.map((collection,i)=><><Link  key={`${i}collec`} href={`/collections/${collection.address}`}><a>{collection.name}</a></Link></>):"No results"}
+                {collections.length>0?collections.map((collection,i)=><><Link  key={`${i}collec`} href={`/collections/${collection.address}`}>
+                <a>{collection.name}</a></Link></>):"No results"}
             </div>
         :""}
      
@@ -105,15 +111,16 @@ return (
          {account? <button onClick={()=>{logout();setAccount("");setAssets("");setUserBalance("")}}> Logout </button>:
          <button onClick={()=>{setupAndLogin();formatUserBalances()}}> Login </button>}
          <h3 className={styles.drawerTitle}> Current Balance</h3>
-            <p className={styles.currencyDrawer}> 
+            <div className={styles.currencyDrawer}> 
            <RefreshIcon onClick={()=>formatUserBalances()} />
-            <span className={styles.currencyInfo}>  {userBalance.ethBalance} <Image src={ethLogo} width={30} height={30} alt="ethereum logo" /></span>
-            <span className={styles.currencyInfo}> {userBalance.imx} <Image src={xLogo} width={30} height={30} alt="IMX logo"/> </span>
-              </p>
+            <div className={styles.currencyInfo}>  {userBalance.ethBalance} <Image src={ethLogo} width={30} height={30} alt="ethereum logo" /></div>
+            <div className={styles.currencyInfo}> {userBalance.imx} <Image src={xLogo} width={30} height={30} alt="IMX logo"/> </div>
+              </div>
             <div className={styles.assetDrawer}>
             <h3 className={styles.drawerTitle}> Current Assets</h3>
 
-            {assets.result?.slice(0,3).map(asset=> <img key={asset.id} className={styles.assetImage} src={asset.image_url} />) }
+            {assets.result?.slice(0,3).map(asset=> <Link key={asset.id} href={`../../../collections/${asset.token_address}/${asset.token_id}`}>
+                                                        <a><img  className={styles.assetImage} src={asset.image_url} /></a></Link> ) }
             </div>
              
         

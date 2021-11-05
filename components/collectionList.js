@@ -77,8 +77,8 @@ const createCollectionWidget =  () => {
 return (collections.map((collection,i)=>{
     
   
-    return (<>
-        <Link  href={`/collections/${collection.address}`}>
+    return (
+        <Link  href={`/collections/${collection.address}`} key={`widget${i}`}>
         <a className={`${styles.collectionContainer} panel${i}`}>
             <div className={styles.iconContainer}>
                 <img className={styles.image} src={collection.icon_url} />
@@ -87,16 +87,16 @@ return (collections.map((collection,i)=>{
             <span className={styles.name}>{collection.name} </span>
             </div>
         </a> 
-        </Link> </>)})
+        </Link> )})
     )
 }
 const createUpcomigCollectionWidget =  (collections) => {
 
     return (collections.map((collection,i)=>{
         
-        return (<>
+        return (
             
-            <div className={`${styles.upcomingCollectionContainer} panel${i}`}>
+            <div key={`upcollec${i}`} className={`${styles.upcomingCollectionContainer} panel${i}`} >
                 <div className={styles.upcomingImageContainer}>
                 <img className={styles.upcomingImage} src={collection.icon_url} alt="collection sample" />
                 <div className={styles.upcomingIconContainer}>
@@ -114,7 +114,7 @@ const createUpcomigCollectionWidget =  (collections) => {
                             <Image src={"/images/discord.png"} alt="discord Icon" width={24} height={24} />
                 </div>
             </div> 
-            </>)})
+            )})
         )
     }
     return(

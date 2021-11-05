@@ -11,7 +11,7 @@
   padding: 10px 20px;
   border-top: none;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
   height: 95px;
   border-top: 1px solid #666;
   border-radius: 5px;
@@ -120,4 +120,22 @@
 }
 .mainContainer {
   background-color: ;
+}
+.collectionName {
+  color: rgba(5, 5, 5, 0.6);
+  max-width: 150px;
+}
+.nameDescription {
+  max-width: 130px;
+}
+.priceDescription {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+.priceName {
+  display: flex;
+  justify-content: flex-end;
+}
+.priceQuantity {
 }

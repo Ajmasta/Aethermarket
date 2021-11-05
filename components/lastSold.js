@@ -16,7 +16,7 @@ const LastSold = ({data}) => {
     const createSimilarListings = (array, numberOfItems) =>{
         array = array.slice(0,numberOfItems)
         return (array.map((result,i)=>{
-           console.log(result,i)
+           
 
            return (
            
@@ -37,13 +37,15 @@ const LastSold = ({data}) => {
     
            <div className={styles.priceDescription}>
               <div className={styles.nameDescription}>
-               <span className={styles.collectionName}> 
-               Price 
-               </span>
-               </div>
-           {result.buy.data.quantity/(10**18)} <Image alt="ethereum logo" src={ethLogo} width={15} height={15} /></div>  
-                   
-                </div>
+                <span className={styles.priceName}> 
+                            Price 
+            </span>
+           </div>
+            <span className={styles.priceQuantity}>
+                        {result.buy.data.quantity/(10**18)} <Image alt="ethereum logo" src={ethLogo} width={15} height={15} />
+            </span>
+            </div>
+            </div>
             </a>
             </Link>)}
            )

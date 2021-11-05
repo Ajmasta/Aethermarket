@@ -1,3 +1,30 @@
+.activeTab,
+.inactiveTab {
+  padding: 15px 16px;
+  border: none;
+  background-color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  text-align: center;
+  justify-content: space-around;
+  width: 120px;
+  align-items: center;
+}
+.inactiveTab {
+  color: black;
+}
+.activeTab {
+  background-color: #fff;
+  border-bottom: 3px #0074d9 solid;
+}
+.tabsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  border-bottom: 1px #eee solid;
+}
 .allListingsContainer {
   display: flex;
   flex-direction: row;
@@ -61,22 +88,9 @@
 .collectionName {
   color: rgba(5, 5, 5, 0.6);
 }
-.inputFilter {
-  padding: 10px 5px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: none;
-  background-color: #eee;
-  outline-width: 0;
-}
-.priceDescription {
+.assetDisplayContainer {
   display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
-}
-.priceName {
-  display: flex;
-  justify-content: flex-end;
-}
-.priceQuantity {
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 90%;
 }

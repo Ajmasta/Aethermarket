@@ -12,6 +12,7 @@ const fetcher = async url => {
         const data = await (await fetch(url+cursor)).json()
             sales.push(...data.result)
             cursor =`&cursor=`+data.cursor
+            console.log(data)
             if (!data.cursor) i +=10
     }
     return sales
@@ -21,6 +22,23 @@ const fetcher = async url => {
   export const useGetData= url => {
     const {data, error} = useSWR(url,fetcher)
     console.log(data)
+    return{
+        data,
+        isLoading: !error && !data,
+        isError:error
+    }
+}
+
+const fetchUserData = async userId => {
+    const listed = await (await fetch(`https://api.x.immutable.com/v1/orders?user=${userId}&status=active`)).json()
+    const sold = await (await fetch(`https://api.x.immutable.com/v1/orders?user=${userId}&status=filled`)).json()
+    const user= await (await fetch(`https://api.x.immutable.com/v1/assets?user=${userId}`)).json()
+
+    return {user,sold,listed}
+}
+export const useGetUserData = userId => {
+    const {data,error} = useSWR(userId, fetchUserData)
+
     return{
         data,
         isLoading: !error && !data,

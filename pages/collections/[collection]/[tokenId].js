@@ -14,7 +14,7 @@ const Nfts = () => {
     console.log(data)
     return (<>
             <NavBar />
-            {isLoading || isError? "": <SingleListing data={data}/> }   
+            {isLoading || isError? "No listing": <SingleListing data={data}/> }   
     </>)
 
 }

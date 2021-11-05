@@ -43,11 +43,14 @@ const createSimilarListings = (array, numberOfItems) =>{
 
        <div className={styles.priceDescription}>
           <div className={styles.nameDescription}>
-           <span className={styles.collectionName}> 
+           <span className={styles.priceName}> 
            Price 
            </span>
            </div>
-       {result.buy.data.quantity/(10**18)} <Image alt="ethereum logo" src={ethLogo} width={15} height={15} /></div>  
+       <span className={styles.priceQuantity}>
+       {result.buy.data.quantity/(10**18)} <Image alt="ethereum logo" src={ethLogo} width={15} height={15} />
+       </span>
+       </div>  
                
             </div>
         </a>

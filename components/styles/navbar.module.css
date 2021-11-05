@@ -85,9 +85,11 @@
   padding: 10px 10px;
   overflow-y: scroll;
   scrollbar-width: 0;
-  border: 1px solid black;
+  box-shadow: 1px 1px 3px black;
   border-top: none;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .resultContainer::-webkit-scrollbar {
