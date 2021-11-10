@@ -7,6 +7,7 @@
 }
 .image {
   max-width: 500px;
+  min-width: 300px;
 }
 
 .bottomContainer {
@@ -22,13 +23,6 @@
   font-size: 21px;
   font-weight: 600;
   justify-content: flex-start;
-}
-.bottomImagesContainer {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
-  flex-wrap: wrap;
 }
 
 .topContainer {
@@ -206,30 +200,46 @@
   font-size: 30px;
   font-weight: 600;
 }
+
+.linkToUser {
+  display: flex;
+}
+
 .similarDescription {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
   background-color: white;
-  padding: 5px 0;
+  padding: 10px 20px;
   border-top: none;
   font-weight: 500;
+  font-size: 14px;
+  height: 80px;
+  border-top: 1px solid #666;
 }
 .similarListingsContainer {
   margin: 0 5px 5px 0;
   background-color: black;
   box-shadow: 1px 1px 3px black;
   border-radius: 10px;
+  transition: all 0.2s ease;
+}
+.similarListingsContainer:hover {
+  box-shadow: 1px 1px 10px;
 }
 .similarImageContainer {
   padding: 10px 10px;
   background-color: white;
 }
 .similarImage {
-  width: 200px;
+  width: 250px;
   background-color: white;
 }
-.linkToUser {
+.bottomImagesContainer {
   display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
 }

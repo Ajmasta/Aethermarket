@@ -50,7 +50,6 @@ export async function getUserBalances() {
   const balances = await (await fetch(`https://api.x.immutable.com/v1/balances/${address}`)).json()
    return balances
 }
-
 //Deposits ETH into Immutable X
 export async function depositEth(amountInEth) {
    await link.deposit({
@@ -95,9 +94,16 @@ export async function getUserAssets(assetCursor) {
    const assetsRequest = await client.getAssets({ user: address, cursor: assetCursor, status: 'imx', collection: COLLECTION_ADDRESS });
    return { assets: assetsRequest.result, cursor: assetsRequest.cursor };
 }
-
+export async function cancelOrder(order){
+   try{
+      link.cancel({orderId:order.order_id})
+   }catch(err){
+      console.log(err)
+   }
+}
 //Opens the Link SDK popup to sell an asset as the specified price
 export async function sellAsset(asset, priceInEth) {
+
    let sellParams = { amount: priceInEth, tokenId: asset.id, tokenAddress: asset.token_address };
    //Throws an error if not successful
    try{
@@ -106,7 +112,16 @@ export async function sellAsset(asset, priceInEth) {
       console.log(err)
    }
 }
+export async function getAndSellAsset(order, priceInEth) {
 
+   let sellParams = { amount: priceInEth, tokenId: order.sell.data.token_id, tokenAddress: order.sell.data.token_address };
+   //Throws an error if not successful
+   try{
+   await link.sell(sellParams);
+   }catch(err){
+      console.log(err)
+   }
+}
 //Transfers an asset to another address
 export async function transferERC721(asset, addressToSendTo) {
    await link.transfer({

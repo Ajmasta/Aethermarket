@@ -73,7 +73,6 @@ const getAllListings = async (url) => {
             :await (await fetch(url)).json()
             dataArray.push(...data.result)
             cursor="&cursor="+data.cursor
-            console.log(dataArray)
             i++
             if (!data.cursor || i>12) roll=false
         }
@@ -135,18 +134,30 @@ export const calculateTime = (timestamp) => {
     return msToTime(timeDiff)
 }
 
- export const getListingInfo = async url => {
- 
-    const data = await(await fetch(url)).json()
-        console.log(data)
-        const name = data.result[0].sell.data.properties.name
-        const tokenAddress = data.result[0].sell.data.token_address
-    let soldResults = await getSoldListings(data)
+ export const getListingInfo = async (url,url2) => {
+    let data = await(await fetch(url)).json()
+
+    let tokenAddress
+    let tokenId
+    let name
+    if (data.result.length===0){ 
+        data = await(await fetch(url2)).json()
+        tokenAddress=data.token_address
+        tokenId =  data.token_id
+        name = data.name
+    }else{
+        tokenId =  data.result[0].sell.data.token_id
+        tokenAddress=data.result[0].sell.data.token_address
+        name=data.result[0].sell.data.properties.name
+    }
+    console.log(data)
+
+    let soldResults = await getSoldListings(tokenAddress,tokenId,name)
     let soldListings = soldResults[0]
     console.log(soldListings)
     let soldCollectionListings = soldResults[1]
 
-    let similarResults = await getSimilarListings(data)
+    let similarResults = await getSimilarListings(tokenAddress,tokenId)
    let similarListings = similarResults[0]
    let similarCollection= similarResults[1]
    console.log(similarCollection)
@@ -156,8 +167,9 @@ export const calculateTime = (timestamp) => {
 
 }
 
-export const useGetListingInfo =  url => {
-    const {data, error} = useSWR(url, getListingInfo)
+export const useGetListingInfo =  (url,url2) => {
+    const {data, error} = useSWR([url,url2], getListingInfo)
+ 
     return{
         data,
         isLoading: !error && !data,
@@ -166,9 +178,8 @@ export const useGetListingInfo =  url => {
 }
 
 
-const getSimilarListings= async (data)=>{
-    const name = data.result[0].sell.data.properties.name
-    const tokenAddress = data.result[0].sell.data.token_address
+const getSimilarListings= async (tokenAddress,tokenId,name)=>{
+ 
     let similarListings = await (await fetch(`https://api.x.immutable.com/v1/orders?status=active&sell_token_name=${name}&sell_token_address=${tokenAddress}`)).json() 
     similarListings.result=similarListings.result.filter(item=> item.sell.data.token_address===tokenAddress)
     let collectionListings = await (await fetch(`https://api.x.immutable.com/v1/orders?status=active&sell_token_address=${tokenAddress}`)).json()
@@ -176,9 +187,8 @@ const getSimilarListings= async (data)=>{
     return [similarListings,collectionListings]
 }
 
-const getSoldListings = async (data) =>{
-    const name = data.result[0].sell.data.properties.name
-    const tokenAddress = data.result[0].sell.data.token_address
+const getSoldListings = async (tokenAddress,tokenId,name) =>{
+   
     let soldListings = await(await fetch(`https://api.x.immutable.com/v1/orders?status=filled&sell_token_name=${name}&sell_token_address=${tokenAddress}`)).json()
     soldListings.result=soldListings.result.filter(item=> item.sell.data.token_address===tokenAddress)
      console.log(soldListings)  

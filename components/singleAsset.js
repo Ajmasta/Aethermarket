@@ -7,7 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { style } from "@mui/system";
 import PersonIcon from '@mui/icons-material/Person';
-import { cancelOrder, fillOrder, getAndSellAsset, sellAsset } from "./functions/ImxFunctions";
+import { fillOrder, sellAsset } from "./functions/ImxFunctions";
 import {
     RecoilRoot,
     atom,
@@ -16,11 +16,10 @@ import {
     useRecoilValue,
   } from 'recoil';
   import { accountAtom, assetsAtom } from "./states/states";
-import link from "next/link";
 
 
-const SingleListing = ({data}) => {
-    const listingData= data.data.result[0]
+const SingleAsset = ({data}) => {
+    const listingData= data.data
     const account= useRecoilValue(accountAtom)
     const [assets,setAssets] = useRecoilState(assetsAtom)
     const user = localStorage.getItem("WALLET_ADDRESS")
@@ -36,63 +35,17 @@ const SingleListing = ({data}) => {
 console.log(data)
     const checkOwnerShip = () =>{
         const filteredAssets = assets.result? assets.result.filter(asset=>
-            (asset.token_address === listingData.sell.data.token_address && asset.token_id === listingData.sell.data.token_id)):[]
-            console.log(assets)
+            (asset.token_address === listingData.token_address && asset.token_id === listingData.token_id)):[]
+
         return filteredAssets.length>0? true:false
 
     }
-    console.log(checkOwnerShip())
-    const getItemPriceHistoryChart =(data) =>
-    {   const dataFiltered=data.filter(data=> data.status==="cancelled"? false:true);
-        if (dataFiltered.length<=1) return "No sale history for this item"
-
-        const chartData = {
-            datasets:[
-                {
-                    label:"Current Price",
-                    data:[{x:0,y:listingData.buy.data.quantity/(10**18)}
-                    ],backgroundColor:  'rgba(0, 255, 0, 1)',pointRadius:7
-                },
-                {
-                    label:"Past 10 prices",
-                    data:[
-                    ],backgroundColor:  'rgba(255, 99, 132, 1)',
-                }, {
-                    label:"Older prices",
-                    hidden:true,
-                    data:[
-                    ],backgroundColor:  'rgba(255, 199, 22, 1)',hidden:true
-                    
-                }
-            
-            ]
-        }
-        const options= {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Past sale history'
-                }
-            }
-        }
-        const priceData = dataFiltered.map((data,i)=>{
-            
-            i<= 10? chartData.datasets[1].data.push({x:i+1,y:data.buy.data.quantity/(10**18)}):
-            chartData.datasets[2].data.push({x:i+1,y:data.buy.data.quantity/(10**18)})
-            return data.buy.data.quantity/(10**18)
-        })
-        return <Scatter className={styles.chart} data={chartData} options={options}></Scatter>
-
-    }
+   
     const getPriceHistoryChart = (data) =>{
         const sold = isSimilarSold? data.soldListings.result:data.soldCollectionListings.result
         const chartData = {
             datasets:[
-                {
-                    label:"This NFT",
-                    data:[
-                    ],backgroundColor:  'rgba(0, 255, 0, 1)',pointRadius:7
-                },
+               
                 {
                     label:"Last 10 sales",
                     data:[
@@ -117,10 +70,8 @@ console.log(data)
         }
         
         const soldPrice = sold.map((result,i)=>{
-            result.sell.data.token_id === listingData.sell.data.token_id? 
-            chartData.datasets[0].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
-            i<= 10? chartData.datasets[1].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
-            chartData.datasets[2].data.push({x:i+1,y:result.buy.data.quantity/(10**18)})
+            i<= 10? chartData.datasets[0].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
+            chartData.datasets[1].data.push({x:i+1,y:result.buy.data.quantity/(10**18)})
             return result.buy.data.quantity/(10**18)
             })
         
@@ -133,11 +84,6 @@ console.log(data)
         const selling = isSimilarSold? data.similarListings.result : data.similarCollection.result
         const chartData = {
             datasets:[
-                {
-                    label:"This NFT",
-                    data:[
-                    ],backgroundColor:  'rgba(0, 255, 0, 1)',pointRadius: 7,
-                },
                 {
                     label:"10 Cheapest listings",
                     data:[
@@ -159,10 +105,8 @@ console.log(data)
             }
         }
         const sellingPrice = selling.map((result,i)=>{
-            result.sell.data.token_id === listingData.sell.data.token_id? 
-            chartData.datasets[0].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
-            i<= 10? chartData.datasets[1].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
-            chartData.datasets[2].data.push({x:i+1,y:result.buy.data.quantity/(10**18)})
+            i<= 10? chartData.datasets[0].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
+            chartData.datasets[1].data.push({x:i+1,y:result.buy.data.quantity/(10**18)})
             return result.buy.data.quantity/(10**18)
             })
         const medianPrice = sellingPrice[Math.abs(sellingPrice.length/2)]
@@ -327,25 +271,15 @@ console.log(data)
             <div className={styles.leftContainer} >
             
                 <div className={styles.photoContainer}>
-                <img className={styles.image} src={listingData.sell.data.properties.image_url} alt="nft icon"/>
+                <img className={styles.image} src={listingData.image_url} alt="nft icon"/>
 
                 </div>
 
                 <div className={styles.statsContainer}>
             
-                <div className={styles.priceContainer}> {listingData.status==="active"? <> {listingData.buy.data.quantity/(10**18)}
-                <Image alt="ethereum logo" src={ethLogo} width={30} height={30} />
-                </>:
-                "" } </div>
-                {listingData.status==="active"? checkOwnerShip()?<><button onClick={()=> getAndSellAsset(listingData,0.05)} className={styles.buyButton}>Sell </button>
-                                                                         <button onClick={()=>cancelOrder(listingData)}>Cancel</button></>:
-                                
-                                                                         <button onClick={()=>fillOrder(listingData)} className={styles.buyButton}>Buy </button>:
-                                                                         checkOwnerShip()? <button onClick={()=> getAndSellAsset(listingData,0.05)} className={styles.buyButton}>Sell </button>:
-                <div> 
-                Last listed price: {listingData.buy.data.quantity/(10**18)}
-                <Image width={20} height={20}  src={ethLogo} alt="ethereum logo" />
-                </div>
+                <div className={styles.priceContainer}>  </div>
+                {checkOwnerShip()?<button onClick={()=> sellAsset(listingData,0.05)} className={styles.buyButton}>Sell </button>:
+                    ""
                 }
                 <Link href={`../users/${listingData.user}`}>
                     <a className={styles.linkToUser}>
@@ -353,16 +287,16 @@ console.log(data)
                     {listingData.user.slice(0,5)+"..."+listingData.user.slice(listingData.user.length-5,listingData.user.length-1)} 
                     </a>
                 </Link>
-                <Link href={`../${listingData.sell.data.token_address}`}>
+                <Link href={`../${listingData.token_address}`}>
                     <a className={styles.linkToUser}>
-                    <img width="25px" src={listingData.sell.data.properties.collection.icon_url} alt="collection icon" /> 
-                    {listingData.sell.data.properties.collection.name} 
+                    <img width="25px" src={listingData.collection.icon_url} alt="collection icon" /> 
+                    {listingData.collection.name} 
                     </a>
                 </Link>      
                 <div className={styles.historyContainer}>
                 <p className={styles.tableTitle}>Price History</p>
-                {createHistoryTable(data.data.result, numberOfItems)}
-                    {getItemPriceHistoryChart(data.data.result)}
+                This item has never been listed for sale
+                    
                     
                 </div>
                     </div>
@@ -412,4 +346,4 @@ console.log(data)
     )
 }
 
-export default SingleListing
+export default SingleAsset

@@ -40,6 +40,7 @@
   padding: 10px 10px;
   background-color: transparent;
   min-height: 292px;
+
   display: flex;
   align-items: center;
 }

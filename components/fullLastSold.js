@@ -21,7 +21,8 @@ const FullLastSold=({collection})=>{
         const timestamp = data[data.length-1].updated_timestamp
         const average = volume/dataPrice.length
         const time=calculateTime(timestamp)
-        return {volume,time, average}
+        const results = data.length
+        return {volume,time, average,results}
     }
     
     
@@ -105,7 +106,7 @@ return (
     <>
     {data?
 <div className={styles.mainContainer}>
-Recent Volume: {getAnalyticsData(data).volume.toFixed(4)} Average: {getAnalyticsData(data).average.toFixed(4)}
+Recent Volume: {getAnalyticsData(data).volume.toFixed(4)} Average: {getAnalyticsData(data).average.toFixed(4)} Sales:{getAnalyticsData(data).results}
 <div className={styles.tabs}>
         <div onClick={()=>setActiveTab("list")} className={activeTab==="list"? styles.activeTab:styles.inactiveTab}>Grid</div>
         <div onClick={()=>setActiveTab("charts")} className={activeTab==="charts"? styles.activeTab:styles.inactiveTab}>Charts</div>

@@ -20,6 +20,10 @@
   background-color: black;
   box-shadow: 1px 1px 3px black;
   border-radius: 10px;
+  transition: all 0.25 ease;
+}
+.similarListingsContainer:hover {
+  box-shadow: 1px 1px 12px;
 }
 .similarImageContainer {
   padding: 10px 10px;
@@ -68,6 +72,12 @@
   border: none;
   background-color: #eee;
   outline-width: 0;
+}
+.filterTab {
+  display: flex;
+  width: 60%;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 .priceDescription {
   display: flex;
