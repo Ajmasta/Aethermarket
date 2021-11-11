@@ -3,14 +3,14 @@ import Image from 'next/image'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import SearchIcon from '@mui/icons-material/Search';
 import Link from 'next/link'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getUserAssets, getUserBalances, logout, sellAsset, setupAndLogin } from "./functions/ImxFunctions";
 import BigNumber from "bignumber.js";
 import ethLogo from "../public/images/ethLogo.png"
 import xLogo from "../public/images/xLogo.svg"
 import RefreshIcon from '@mui/icons-material/Refresh';
 import useSWR from "swr";
-import { useGetData } from "./functions/functions";
+import { useGetCollections, useGetData } from "./functions/functions";
 import {
     RecoilRoot,
     atom,
@@ -18,7 +18,7 @@ import {
     useRecoilState,
     useRecoilValue,
   } from 'recoil';
-import { accountAtom, assetsAtom } from "./states/states";
+import { accountAtom, assetsAtom, collectionsAtom } from "./states/states";
 
 const NavBar= () =>{
 
@@ -29,11 +29,12 @@ const [userBalance,setUserBalance] = useState("")
 const [account,setAccount] = useRecoilState(accountAtom)
 const [assets,setAssets] = useRecoilState(assetsAtom)
 const [searchInput,setSearchInput] = useState("")
-const [collections,setCollections] = useState([])
+const [collections,setCollections] = useRecoilState(collectionsAtom)
 const [researchOpen,setResearchOpen] = useState(false)
 
-const {data,isLoading,isError} = useGetData("https://api.x.immutable.com/v1/collections?page_size=999999999")
-console.log(data)
+const {data,isLoading,isError} = useGetCollections("https://api.x.immutable.com/v1/collections?page_size=999999999")
+useEffect(()=>setCollections(data),[data])
+console.log(collections)
 
 const formatUserBalances = async () => {
     const userBalance = await getUserBalances()
@@ -75,7 +76,11 @@ return (
         {researchOpen && searchInput.length >1?
             <div className={styles.resultContainer} onFocus={()=>setResearchOpen(true)} >
              <div className={styles.searchCollectionSectionTitle}>Collections</div>
-                {collections.length>0?collections.map((collection,i)=><><Link  key={`${i}collec`} href={`/collections/${collection.address}`}>
+                {collections.length>0?collections.map((collection,i)=>
+                collection.upcoming?
+                <p>{collection.name} <span>Upcoming</span></p>
+                :
+                <><Link  key={`${i}collec`} href={`/collections/${collection.address}`}>
                 <a>{collection.name}</a></Link></>):"No results"}
             </div>
         :""}
@@ -88,8 +93,9 @@ return (
             <a className={styles.textElement}>Explore</a>
         </Link>
         <div className={!exploreMenu && !mouseOnTop?styles.hidden:styles.exploreMenu} onMouseEnter={()=>setExploreMenu(true)}onMouseLeave={()=>setExploreMenu(false)} >
-        <Link href="/explore/listings"><a> Recent Sales</a></Link>
-            <p> Recent Listings </p>
+        <Link href="../../explore/sales" ><a className={styles.menuLink}>Recent Sales</a></Link>
+        <Link href="../../explore/listings"><a  className={styles.menuLink}> Recent Listings </a></Link>
+        <Link href="../../explore/collections" ><a className={styles.menuLink}> Collections </a></Link>
         </div>
         </div>
                 <a className={styles.textElement}>Ressources</a>

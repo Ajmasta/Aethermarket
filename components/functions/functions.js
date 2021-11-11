@@ -28,6 +28,30 @@ const fetcher = async url => {
         isError:error
     }
 }
+export const useGetCollections= url => {
+    const {data, error} = useSWR(url,fetchCollections)
+    return{
+        data,
+        isLoading: !error && !data,
+        isError:error
+    }
+}
+const fetchCollections= async url=>{
+    let data = await (await fetch(url)).json()
+    let newData = await checkCollection(data.result)
+    
+    return newData }
+
+
+const checkCollection = async collections => {
+   let newArray = Promise.all(collections.map( async collection =>{ 
+    let object ={...collection}
+    const listings = await (await fetch(`https://api.x.immutable.com/v1/orders?sell_token_address=${collection.address}`)).json()
+    listings.result.length>0? object.upcoming=false:object.upcoming=true
+    return object
+   }))
+   return newArray
+}
 
 const fetchUserData = async userId => {
     const listed = await (await fetch(`https://api.x.immutable.com/v1/orders?user=${userId}&status=active`)).json()
@@ -135,6 +159,7 @@ export const calculateTime = (timestamp) => {
 }
 
  export const getListingInfo = async (url,url2) => {
+     console.log(url,"---------",url2)
     let data = await(await fetch(url)).json()
 
     let tokenAddress
@@ -179,8 +204,10 @@ export const useGetListingInfo =  (url,url2) => {
 
 
 const getSimilarListings= async (tokenAddress,tokenId,name)=>{
- 
-    let similarListings = await (await fetch(`https://api.x.immutable.com/v1/orders?status=active&sell_token_name=${name}&sell_token_address=${tokenAddress}`)).json() 
+ let similarListings={result:[]}
+    try{
+     similarListings = await (await fetch(`https://api.x.immutable.com/v1/orders?status=active&sell_token_name=${name}&sell_token_address=${tokenAddress}`)).json() 
+    }catch(err){console.log(err)}
     similarListings.result=similarListings.result.filter(item=> item.sell.data.token_address===tokenAddress)
     let collectionListings = await (await fetch(`https://api.x.immutable.com/v1/orders?status=active&sell_token_address=${tokenAddress}`)).json()
 
@@ -188,8 +215,10 @@ const getSimilarListings= async (tokenAddress,tokenId,name)=>{
 }
 
 const getSoldListings = async (tokenAddress,tokenId,name) =>{
-   
+   let soldListings={result:[]}
+    try{
     let soldListings = await(await fetch(`https://api.x.immutable.com/v1/orders?status=filled&sell_token_name=${name}&sell_token_address=${tokenAddress}`)).json()
+   }catch(err){console.log(err)}
     soldListings.result=soldListings.result.filter(item=> item.sell.data.token_address===tokenAddress)
      console.log(soldListings)  
     let collectionSoldListings = await (await fetch(`https://api.x.immutable.com/v1/orders?status=filled&sell_token_address=${tokenAddress}`)).json()

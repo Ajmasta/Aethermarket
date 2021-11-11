@@ -7,7 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { style } from "@mui/system";
 import PersonIcon from '@mui/icons-material/Person';
-import { cancelOrder, fillOrder, getAndSellAsset, sellAsset } from "./functions/ImxFunctions";
+import { cancelOrder, fillOrder, getAndSellAsset, getAndtransferERC721, sellAsset, transferERC721 } from "./functions/ImxFunctions";
 import {
     RecoilRoot,
     atom,
@@ -20,6 +20,7 @@ import link from "next/link";
 
 
 const SingleListing = ({data}) => {
+    const [sell,setSell] = useState(false)
     const listingData= data.data.result[0]
     const account= useRecoilValue(accountAtom)
     const [assets,setAssets] = useRecoilState(assetsAtom)
@@ -37,7 +38,6 @@ console.log(data)
     const checkOwnerShip = () =>{
         const filteredAssets = assets.result? assets.result.filter(asset=>
             (asset.token_address === listingData.sell.data.token_address && asset.token_id === listingData.sell.data.token_id)):[]
-            console.log(assets)
         return filteredAssets.length>0? true:false
 
     }
@@ -178,7 +178,7 @@ console.log(data)
                 <img className={styles.similarImage} src={result.sell.data.properties.image_url} alt="nft icon" />
             </div>
             <div className={styles.similarDescription}>
-                    <span>{result.sell.data.properties.name}</span>
+                    <span>{result.sell.data.properties.name.slice(0,15)}</span>
                     <span> {result.buy.data.quantity/(10**18)} <Image alt="ethereum logo" src={ethLogo} width={30} height={30} /> </span>
                 </div>
             </a>
@@ -210,7 +210,7 @@ console.log(data)
         <Link className={styles.tableCell} href={`../${item.sell.data.token_address}/${item.sell.data.token_id}`}>
             <a className={styles.tableCell}>
             <img className={styles.tableImage} src={item.buy.type==="ETH"? item.sell.data.properties.image_url:item.buy.data.properties.image_url} /> 
-            #{item.sell.data.token_id}
+            #{item.sell.data.token_id.slice(0,6)}
             </a>
         </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
@@ -254,7 +254,7 @@ console.log(data)
             <Link className={styles.tableCell} href={`../${item.sell.data.token_address}/${item.sell.data.token_id}`}>
             <a className={styles.tableCell} ><img className={styles.tableImage} 
             src={item.sell.data.properties.image_url} />
-            #{item.sell.data.token_id}</a>
+            #{item.sell.data.token_id.slice(0,6)}</a>
             </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
             <p className={`${styles.tableCell} ${styles.quantityCell}`}>{item.sell.data.quantity}</p>
@@ -337,15 +337,19 @@ console.log(data)
                 <Image alt="ethereum logo" src={ethLogo} width={30} height={30} />
                 </>:
                 "" } </div>
-                {listingData.status==="active"? checkOwnerShip()?<><button onClick={()=> getAndSellAsset(listingData,0.05)} className={styles.buyButton}>Sell </button>
-                                                                         <button onClick={()=>cancelOrder(listingData)}>Cancel</button></>:
+                {listingData.status==="active"? checkOwnerShip()?<>
+               
+                                                                         <button onClick={()=>cancelOrder(listingData)}>Cancel Listing</button></>:
                                 
                                                                          <button onClick={()=>fillOrder(listingData)} className={styles.buyButton}>Buy </button>:
-                                                                         checkOwnerShip()? <button onClick={()=> getAndSellAsset(listingData,0.05)} className={styles.buyButton}>Sell </button>:
-                <div> 
-                Last listed price: {listingData.buy.data.quantity/(10**18)}
-                <Image width={20} height={20}  src={ethLogo} alt="ethereum logo" />
-                </div>
+                                                                         checkOwnerShip()? 
+                                                                         <> <input type="number" min="0" placeholder="Enter listing price in ETH" onChange={(e)=>setSell(e.target.value)} className={styles.sellInput}></input>
+                                                                            <button onClick={()=> getAndSellAsset(listingData,sell)} className={styles.buyButton}>Sell </button> 
+                                                                            </>:
+                                                                            <div> 
+                                                                            Last listed price: {listingData.buy.data.quantity/(10**18)}
+                                                                            <Image width={20} height={20}  src={ethLogo} alt="ethereum logo" />
+                                                                            </div>
                 }
                 <Link href={`../users/${listingData.user}`}>
                     <a className={styles.linkToUser}>

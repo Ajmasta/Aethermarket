@@ -11,7 +11,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 const FullLastData = ({collection})=>{
     const [status, setStatus] = useState("active")
-    const [sortBy,setSortBy] = useState("&order_by=buy_quantity")
+    const [sortBy,setSortBy] = useState("&order_by=buy_quantity&direction=asc")
 const {data, isLoading,isError} = useGetListingsLong(`https://api.x.immutable.com/v1/orders?page_size=999999&sell_token_address=${collection}${sortBy}`)
 console.log(data)
 /*  What is the issue? Too much of a load, and we dont put all the cards. Ability to load by last listings, and by  */

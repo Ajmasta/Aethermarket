@@ -1,3 +1,5 @@
+
+
 import Head from 'next/head'
 import Image from 'next/image'
 import { getLongListData, useGetListingsLong } from '../../components/functions/functions'
@@ -5,17 +7,17 @@ import { getLongListData, useGetListingsLong } from '../../components/functions/
 import NavBar from "../../components/navbar"
 import AllLastData from '../../components/AllLastData'
 import AllLastListed from '../../components/AllLastListed'
+import AllCollections from '../../components/allCollections'
 
-const Explore = () => {
+const ListCollections = () => {
 
-  const {data}= useGetListingsLong(`https://api.x.immutable.com/v1/orders?page_size=99999&status=active&sell_token_type=ERC721`)
 
 
    return (
         <>
         <NavBar />
-        {!data? "loading":<AllLastListed data={data} /> }
-  
+       
+        <AllCollections />
 
 
         </>
@@ -23,4 +25,4 @@ const Explore = () => {
 
 }
 
-export default Explore
+export default ListCollections

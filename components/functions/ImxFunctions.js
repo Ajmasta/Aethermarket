@@ -103,7 +103,7 @@ export async function cancelOrder(order){
 }
 //Opens the Link SDK popup to sell an asset as the specified price
 export async function sellAsset(asset, priceInEth) {
-
+   setupAndLogin()
    let sellParams = { amount: priceInEth, tokenId: asset.id, tokenAddress: asset.token_address };
    //Throws an error if not successful
    try{
@@ -113,6 +113,7 @@ export async function sellAsset(asset, priceInEth) {
    }
 }
 export async function getAndSellAsset(order, priceInEth) {
+   setupAndLogin()
 
    let sellParams = { amount: priceInEth, tokenId: order.sell.data.token_id, tokenAddress: order.sell.data.token_address };
    //Throws an error if not successful
@@ -130,6 +131,19 @@ export async function transferERC721(asset, addressToSendTo) {
       tokenAddress: asset.token_address,
       to: addressToSendTo
    });
+}
+export async function getAndtransferERC721(asset, addressToSendTo) {
+   console.log(asset.sell.data.token_address)
+   try{
+   const transaction = await link.transfer({
+      type: ERC721TokenType.ERC721,
+      tokenId: asset.sell.data.token_id,
+      tokenAddress: asset.sell.data.token_address,
+      to: addressToSendTo
+   });}catch(err){
+      console.log(err)
+   }
+   console.log(transaction)
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -158,6 +172,8 @@ export async function getCheapestSellOrders(ordersCursor, tokenName, metadata) {
 
 //Opens the Link SDK popup to complete an order
    export async function fillOrder(order) {
+   setupAndLogin()
+
       try{
       await link.buy({orderIds: order.order_id});
       }

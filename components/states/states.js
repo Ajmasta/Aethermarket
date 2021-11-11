@@ -14,3 +14,8 @@ export const assetsAtom = atom({
     key:"assetsState",
     default:[]
 })
+
+export const collectionsAtom = atom({
+    key:"collectionsStae",
+    default:[]
+})

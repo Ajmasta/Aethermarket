@@ -18,7 +18,7 @@ const Nfts = () => {
     if(!asset && data) data.data.result? "": setAsset(true)
     return (<>
             <NavBar />
-            {isLoading || isError? "No listing":asset? <SingleAsset data={data} />:<SingleListing data={data}/> }   
+            {isLoading || isError? <div style={{width:"100%",height:"100vh",display:"flex",justifyContent:"center",alignItems:"center"}}>No listing</div> :asset? <SingleAsset data={data} />:<SingleListing data={data}/> }   
     </>)
 
 }

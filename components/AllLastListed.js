@@ -16,7 +16,8 @@ const AllLastListed = ({data}) => {
            <Link  key={i} href={`../collections/${result.sell.data.token_address}/${result.sell.data.token_id}`} >
             <a className={styles.similarListingsContainer}>
             <div className={styles.similarImageContainer}>
-                <img className={styles.similarImage} src={result.sell.data.properties.image_url} alt="nft icon" />
+            {console.log(result)}
+                <img className={styles.similarImage} src={result.sell.data.properties.image_url } alt="nft icon" />
             </div>
             <div className={styles.similarDescription}>
                 <div className={styles.nameDescription}>

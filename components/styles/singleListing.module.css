@@ -204,7 +204,9 @@
 .linkToUser {
   display: flex;
 }
-
+.sellInput {
+  padding: 10px;
+}
 .similarDescription {
   display: flex;
   flex-direction: row;

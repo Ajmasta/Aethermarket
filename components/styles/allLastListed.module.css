@@ -25,7 +25,6 @@
   justify-content: center;
 }
 .listingDescription {
-  min-height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,6 +44,7 @@
   border-top: 1px solid #666;
   border-radius: 5px;
   margin-bottom: 10px;
+  overflow: hidden;
 }
 .similarListingsContainer {
   background-color: transparent;
@@ -52,15 +52,15 @@
   margin: 5px 8px;
   transition: all 0.2s ease;
   border-radius: 10px;
-  min-height: 200px;
 }
 
 .similarImageContainer {
   padding: 10px 10px;
   background-color: transparent;
-  min-height: 320px;
+  height: 320px;
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
 .similarImage {
   width: 220px;
@@ -124,15 +124,13 @@
 .nameDescription {
   display: flex;
   flex-direction: column;
-  max-width: 220px;
+  max-width: 140px;
 }
 .collectionName {
   color: rgba(5, 5, 5, 0.6);
   max-width: 150px;
 }
-.nameDescription {
-  max-width: 140px;
-}
+
 .title {
   color: white;
   font-size: 32px;

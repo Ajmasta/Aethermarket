@@ -62,8 +62,6 @@ console.log(sortBy)
 return (
     <div className={styles.mainContainer} >
   <div className={styles.filterTab}>
-
- 
   <input className={styles.inputFilter} onChange={(e)=>{e.target.value.length>2? filterArray(e.target.value,data):""}}type="text" placeholder="Search name or token ID"></input>
   <select id="filter" name="filter" onChange={(e)=>setSortBy(e.target.value)}>
   <option value="&order_by=buy_quantity&direction=asc" selected={sortBy==="&order_by=buy_quantity&direction=asc"? true:false} >Lowest Price</option>

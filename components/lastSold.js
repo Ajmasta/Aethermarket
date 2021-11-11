@@ -13,6 +13,8 @@ const LastSold = ({data}) => {
     console.log(translateLeft)
     salesContainer.scrollLeft = translateLeft
     },[translateLeft])
+
+
     const createSimilarListings = (array, numberOfItems) =>{
         array = array.slice(0,numberOfItems)
         return (array.map((result,i)=>{

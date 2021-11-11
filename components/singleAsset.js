@@ -19,6 +19,7 @@ import {
 
 
 const SingleAsset = ({data}) => {
+    const [sellPrice,setSellPrice]=useState("")
     const listingData= data.data
     const account= useRecoilValue(accountAtom)
     const [assets,setAssets] = useRecoilState(assetsAtom)
@@ -278,7 +279,9 @@ console.log(data)
                 <div className={styles.statsContainer}>
             
                 <div className={styles.priceContainer}>  </div>
-                {checkOwnerShip()?<button onClick={()=> sellAsset(listingData,0.05)} className={styles.buyButton}>Sell </button>:
+                {checkOwnerShip()?
+                    <> <input type="number" min="0" placeholder="Enter listing price in ETH" onChange={(e)=>setSellPrice(e.target.value)} className={styles.sellInput}></input>
+                <button onClick={()=> sellAsset(listingData,sellPrice)} className={styles.buyButton}>Sell </button> </>:
                     ""
                 }
                 <Link href={`../users/${listingData.user}`}>
