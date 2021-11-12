@@ -245,3 +245,26 @@
   justify-content: center;
   flex-wrap: wrap;
 }
+.traitContainer {
+  display: flex;
+  width: 150px;
+  height: 100px;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+  box-shadow: 1px 1px 12px black;
+}
+.traitName,
+.traitValue,
+.traitRarity {
+  margin: 0;
+}
+.traitsContainer {
+  display: flex;
+  width: 500px;
+
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: space-around;
+}

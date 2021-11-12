@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { calculateTime, getListingInfo, useGetListingInfo } from "./functions/functions"
 import styles from "./styles/singleListing.module.css"
 import { Scatter } from 'react-chartjs-2';
@@ -16,12 +16,14 @@ import {
     useRecoilValue,
   } from 'recoil';
   import { accountAtom, assetsAtom } from "./states/states";
-import link from "next/link";
+  import collections from "../components/functions/collectionRankings.json"
 
 
 const SingleListing = ({data}) => {
     const [sell,setSell] = useState(false)
     const listingData= data.data.result[0]
+    const collection = listingData.sell.data.token_address
+    const rank = collections[collection]?collections[collection]["ranksArray"].indexOf(Number(listingData.sell.data.token_id)):"No ranking info"
     const account= useRecoilValue(accountAtom)
     const [assets,setAssets] = useRecoilState(assetsAtom)
     const user = localStorage.getItem("WALLET_ADDRESS")
@@ -33,7 +35,7 @@ const SingleListing = ({data}) => {
     const isSimilarSold = data.soldListings.result.length > 0? true:false
     const [numberOfItems, setNumberOfItems] = useState(5)
     const [shownTab,setShownTab] = useState("sales")
-
+    const [thisAsset,setThisAsset]=useState()
 console.log(data)
     const checkOwnerShip = () =>{
         const filteredAssets = assets.result? assets.result.filter(asset=>
@@ -42,6 +44,68 @@ console.log(data)
 
     }
     console.log(checkOwnerShip())
+    
+useEffect(()=>getAsset(),[collections])
+
+    const getAsset= async ()=>{
+            const data =await (await 
+                fetch(`https://api.x.immutable.com/v1/assets/${listingData.sell.data.token_address}/${listingData.sell.data.token_id}`)).json()
+
+          setThisAsset(data)
+    }
+
+console.log(thisAsset)
+const createTraitsTabGodsUnchained = () =>{
+
+
+    return (<div className={styles.traitsContainer}>
+        
+        <div className={styles.traitContainer}>
+            <p className={styles.traitName}>{"Set"}</p>
+            <p className={styles.traitValue}>{thisAsset.metadata.set}</p>
+        </div>
+        <div className={styles.traitContainer}>
+            <p className={styles.traitName}>{"Quality"}</p>
+            <p className={styles.traitValue}>{thisAsset.metadata.quality}</p>
+        </div>
+        <div className={styles.traitContainer}>
+            <p className={styles.traitName}>{"Rarity"}</p>
+            <p className={styles.traitValue}>{thisAsset.metadata.rarity}</p>
+        </div>
+        </div>
+    )
+
+}
+    const createTraitsTab= () =>{
+       const listOfTraits = []
+ 
+       for(let object in collections[collection]["listOfTraits"]){
+           let rarity
+        if(thisAsset.metadata[object]){
+          rarity = collections[collection]["listOfTraits"][object].filter(trait=> trait[0]===thisAsset.metadata[object])
+            rarity=rarity[0][1]
+        listOfTraits.push([object,thisAsset.metadata[object],rarity])
+        }
+       }
+       console.log(listOfTraits.map(traits=><p>{traits[2]}</p>))
+       return (<div className={styles.traitsContainer}>
+        {listOfTraits.map((trait,i)=>
+
+            <div key={`${i}Traits`} className={styles.traitContainer}>
+                <p className={styles.traitName}>{trait[0]}</p>
+                <p className={styles.traitValue}>{trait[1]}</p>
+                <p className={styles.traitRarity}>{trait[2]/100}%</p>
+            </div>
+
+
+        )}
+
+</div>)
+     
+    
+    }
+
+
     const getItemPriceHistoryChart =(data) =>
     {   const dataFiltered=data.filter(data=> data.status==="cancelled"? false:true);
         if (dataFiltered.length<=1) return "No sale history for this item"
@@ -200,7 +264,7 @@ console.log(data)
         <div className={styles.tableRow}>
             <p className={styles.tableCell}>Item</p>
             <p className={styles.tableCell}>Price</p>
-            <p className={`${styles.tableCell} ${styles.quantityCell}`}>Qty</p>
+            {collections[collection]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>Ranking</p>:""}
             <p className={styles.tableCell}>To</p>
             <p className={styles.tableCell}>Time</p>
         </div>
@@ -214,7 +278,7 @@ console.log(data)
             </a>
         </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
-            <p className={`${styles.tableCell} ${styles.quantityCell}`}>{item.sell.data.quantity}</p>
+            {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
             <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>
         </div>
@@ -323,9 +387,10 @@ console.log(data)
 
     return (<>
         <div className={styles.mainContainer}>
+       
             <div className={styles.topContainer}>
             <div className={styles.leftContainer} >
-            
+               ID:{listingData.sell.data.token_id} Ranking:{rank}
                 <div className={styles.photoContainer}>
                 <img className={styles.image} src={listingData.sell.data.properties.image_url} alt="nft icon"/>
 
@@ -367,8 +432,10 @@ console.log(data)
                 <p className={styles.tableTitle}>Price History</p>
                 {createHistoryTable(data.data.result, numberOfItems)}
                     {getItemPriceHistoryChart(data.data.result)}
+                    { thisAsset&&collection==="0xacb3c6a43d15b907e8433077b6d38ae40936fe2c"? createTraitsTabGodsUnchained() : collections[collection]&&thisAsset? createTraitsTab():"No traits data available"}
                     
                 </div>
+                
                     </div>
             </div>
                 <div className={styles.infoContainer}>

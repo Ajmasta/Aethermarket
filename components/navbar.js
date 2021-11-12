@@ -100,7 +100,7 @@ return (
         </div>
                 <a className={styles.textElement}>Ressources</a>
                 <a className={styles.textElement}>Explore</a>
-             <a className={styles.textElement}>Ressources</a>
+             
               
         </div>
      

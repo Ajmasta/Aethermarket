@@ -23,6 +23,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  min-height: 250px;
 }
 .collectionName {
   font-size: 28px;
@@ -55,4 +56,41 @@
   justify-content: center;
   margin-bottom: 50px;
   border-bottom: 1px #eee solid;
+}
+.hidden {
+  display: none;
+}
+.filtersTitle {
+  display: flex;
+  flex-direction: column;
+}
+.filterList {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.filterContainer {
+}
+.traitContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.traitName {
+  max-width: 33%;
+}
+.listingsContainer {
+  display: flex;
+}
+.filtersContainer {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.topContainer {
+  min-height: 250px;
+  width: 100%;
 }

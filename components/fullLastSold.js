@@ -5,6 +5,7 @@ import { useState } from "react"
 import { calculateTime, get24hVolume, useGetData } from "./functions/functions"
 import { Scatter } from 'react-chartjs-2';
 import { Line } from 'react-chartjs-2';
+import collections from "../components/functions/collectionRankings.json"
 
 const FullLastSold=({collection})=>{
     const [numberOfItems,setNumberOfItems] = useState(10)
@@ -76,7 +77,7 @@ const FullLastSold=({collection})=>{
         <div className={styles.tableRow}>
             <p className={styles.tableCell}>Item</p>
             <p className={styles.tableCell}>Price</p>
-            <p className={`${styles.tableCell} ${styles.quantityCell}`}>Qty</p>
+            {collections[collection]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>Ranking</p>:""}
             <p className={styles.tableCell}>To</p>
             <p className={styles.tableCell}>Time</p>
         </div>
@@ -89,7 +90,7 @@ const FullLastSold=({collection})=>{
             </a>
         </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
-            <p className={`${styles.tableCell} ${styles.quantityCell}`}>{item.sell.data.quantity}</p>
+            {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
             <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>
         </div>

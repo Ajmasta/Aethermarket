@@ -20,6 +20,7 @@
   background-color: black;
   box-shadow: 1px 1px 3px black;
   border-radius: 10px;
+  position: relative;
   transition: all 0.25 ease;
 }
 .similarListingsContainer:hover {
@@ -90,4 +91,15 @@
   justify-content: flex-end;
 }
 .priceQuantity {
+}
+.hidden {
+  display: none;
+}
+.rankContainer {
+  position: absolute;
+  top: -10px;
+  right: 0;
+  background-color: white;
+  padding: 5px;
+  border-radius: 8px;
 }

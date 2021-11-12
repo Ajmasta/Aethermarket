@@ -1,16 +1,18 @@
 import badGrandma from "./badGrandma.json"
-
+import collections from "./collectionRankings.json"
 export const getCollectionsMeta =async  (collection,id) => {
+    console.log(collections[0])
 const allData = []
-for(let i = 0;i<0 ;i++){
-const data = await (await fetch(`https://api.x.immutable.com/v1/assets/0x4ebfb80f9144713a690ec5a6485d0d4ed65194cd/${i}`)).json()
+for(let i = 1;i<=0; i++){
+const data = await (await fetch(`https://api.x.immutable.com/v1/assets/0xaa84c36e454e632c6880d2563986be75718fbc6f/${i}`)).json()
 allData.push(data)
 console.log(i)
 }
-getTraitsRarity(badGrandma)
 console.log(allData)
-}
+getTraitsRarity(badGrandma)
 
+}
+let  numberOfOccurencesArray
 const getTraitsRarity= (array) => {
   
 const allArray = []
@@ -18,8 +20,17 @@ const filteredArray = array.map(item=>{
     if(item.metadata){
     delete item.metadata.name
     delete item.metadata.description
-    delete item.metadata.image}else{console.log(item)}
-    return item.metadata})
+    delete item.metadata.Description
+    delete item.metadata.image
+    delete item.metadata.external_url
+    delete item.metadata.image_url
+    delete item.metadata.attributes
+    delete item.metadata.edition
+   delete item.metadata.dna
+   delete item.metadata.date
+    return item.metadata}
+    else{}
+     } )
 
 console.log(filteredArray.length)
 let i = 0
@@ -58,10 +69,106 @@ console.log(traitsArray.reduce((a,b)=>{
     
     return a+b[1]},49))
 
+ numberOfOccurencesArray = Array.from(new Set(traitsArray.map(element=>element[1])))
+
+
+
+    
+    createTraitsList(traitsArray)
+}
+
+
+
+
+
+// 3 arrays = > 1 array traits + number, 1 array number, 1 array of element. 
+// first check element array, get number from traits+number, check position in number array
+const checkRankings = (traitsList,numberArray,elementsArray,) =>{
+
+   
+    let metadataArray= elementsArray.map(item =>{
+
+        let ranking = []
+        let filteredArray = []
+       for(const object in item.metadata){
+             if (traitsList[object]) {
+            filteredArray.push(...traitsList[object].filter(element =>element[0]===item.metadata[object]))
+             
+             }     
+       }
+       return filteredArray
+     })
+metadataArray = metadataArray.map(element => element.map(array=>array[1]))
+ //metadataArray = 10000 arrays of 14 length, each index = id of token.
+
+ //check each array for its value
+console.log(metadataArray)
+ 
+let pointsArray = metadataArray.map(array =>{
+    const ranksArray = []
+    array.map(
+        element => {                
+                //ranksArray.push(numberArray.length-1-numberArray.indexOf(element))
+                ranksArray.push(1000/element/10000)
+                 }
+             )
+     const points = ranksArray.length>0 ?ranksArray.reduce((a,b)=>a+b):[]
+    return points
+    }
+)
+let pointsArrayCopy = [...pointsArray]
+const sortedPointsArray = pointsArrayCopy.sort((a,b)=>b-a)
+// points array => array of all points, index = id of nft
+//sortedpoints array => sorted array of all points  index = ranking of NFT
+const sortedPointsSet=Array.from(new Set(sortedPointsArray))
+
+console.log(sortedPointsSet)
+let idRankedArray = pointsArray.map((element,i)=>{
+return  [sortedPointsArray.indexOf(element)+1,i]
+}) 
+idRankedArray.sort((a,b)=>a[0]-b[0])
+idRankedArray = idRankedArray.map(element=>element[1])
+console.log(idRankedArray)
+console.log(pointsArray)
+console.log(traitsList)
+return {idRankedArray,pointsArray}
+}
+
+
+const createTraitsList = (array)=>{
+    let traitsArray = array.map(element=> [...element[0].split("~"),element[1]])
+    let traitsSet = new Set (traitsArray.map(element=>element[0]))
+    traitsSet = Array.from(traitsSet)
+let traitsList = {}
+    traitsArray.forEach(item=>{
+        if (traitsList[item[0]])
+        {
+            traitsList[item[0]].push([item[1],item[2]])
+        }else{
+            
+            traitsList[item[0]] = [[item[1], item[2]]]
+
+        }
+
+    })
+const objectTest = {}
+
+objectTest[traitsSet[3]] = traitsList[traitsSet[3]].map(element=> element[0])
+  
+
+    checkRankings(traitsList,numberOfOccurencesArray,badGrandma)
+
+}
+
+const createRankings = array => {
+
 
 
 }
 
+
+
+// {"Clothes":["Hoodie","Witch","Formal","Casual"],"Head":["Devil Horn"]}, split("~"), JSON.stringify(object)
 
 const badGrandmaArray = [
     [

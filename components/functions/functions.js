@@ -21,12 +21,28 @@ const fetcher = async url => {
 
   export const useGetData= url => {
     const {data, error} = useSWR(url,fetcher)
-    console.log(data)
+    
     return{
         data,
         isLoading: !error && !data,
         isError:error
     }
+}
+
+export const useGetSingleCollection = url => {
+    const {data, error} = useSWR(url,fetchSingleCollection)
+    console.log(data)
+    return{
+        collectionData:data,
+        isLoadingCollection: !error && !data,
+        isErrorCollection:error
+    }
+}
+
+const fetchSingleCollection= async url=>{
+    const data =await (await fetch(url)).json()
+    console.log(data)
+    return data
 }
 export const useGetCollections= url => {
     const {data, error} = useSWR(url,fetchCollections)

@@ -3,7 +3,6 @@ import FullLastData from "../../components/fullLastData.js"
 import NavBar from '../../components/navbar'
 
 
-
 const Collection = ({activeListings}) => {
 
     const router=useRouter()
