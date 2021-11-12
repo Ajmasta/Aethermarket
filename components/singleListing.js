@@ -36,6 +36,7 @@ const SingleListing = ({data}) => {
     const [numberOfItems, setNumberOfItems] = useState(5)
     const [shownTab,setShownTab] = useState("sales")
     const [thisAsset,setThisAsset]=useState()
+    const [shownTabAsset,setShownTabAsset] = useState("price")
 console.log(data)
     const checkOwnerShip = () =>{
         const filteredAssets = assets.result? assets.result.filter(asset=>
@@ -428,18 +429,34 @@ const createTraitsTabGodsUnchained = () =>{
                     {listingData.sell.data.properties.collection.name} 
                     </a>
                 </Link>      
-                <div className={styles.historyContainer}>
-                <p className={styles.tableTitle}>Price History</p>
-                {createHistoryTable(data.data.result, numberOfItems)}
-                    {getItemPriceHistoryChart(data.data.result)}
-                    { thisAsset&&collection==="0xacb3c6a43d15b907e8433077b6d38ae40936fe2c"? createTraitsTabGodsUnchained() : collections[collection]&&thisAsset? createTraitsTab():"No traits data available"}
+                <div className={styles.tabContainerAsset}>
+                        <div className={styles.tabRow}>
+                        <p onClick={()=>setShownTabAsset("price")} className={shownTabAsset==="price"? styles.activeTab:styles.inactiveTab}>
+                            Price History</p>
+                            <p onClick={()=>setShownTabAsset("traits")} className={shownTabAsset==="price"? styles.inactiveTab:styles.activeTab}>
+                            Traits</p>
+                            </div>
+                            <div className={styles.tabContent}>
+                                <div className={shownTabAsset==="traits"? styles.hidden:styles.currentPricesTab} >
+                                <div className={styles.historyContainer}>
+                                    <p className={styles.tableTitle}>Price History</p>
+                                    {createHistoryTable(data.data.result, numberOfItems)}
+                                        {getItemPriceHistoryChart(data.data.result)}
+                                        </div>
+                                </div>
+                                <div className={shownTabAsset==="traits"?styles.pastSalesTab:styles.hidden} >
+                                <p className={styles.tableTitle}>Traits</p>
+                                { thisAsset&&collection==="0xacb3c6a43d15b907e8433077b6d38ae40936fe2c"? createTraitsTabGodsUnchained() : collections[collection]&&thisAsset? createTraitsTab():"No traits data available"}
+
+                                </div>
+               
                     
                 </div>
-                
+                </div>
                     </div>
             </div>
                 <div className={styles.infoContainer}>
-                <p className={styles.infoContainerTitle}> Comparison Analytics</p>
+                <p className={styles.infoContainerTitle}></p>
                     <div className={styles.tabContainer}>
                         <div className={styles.tabRow}>
                         <p onClick={()=>setShownTab("sales")} className={shownTab==="sales"? styles.activeTab:styles.inactiveTab}>

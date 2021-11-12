@@ -136,6 +136,11 @@
   background-color: #fff;
   box-shadow: 0px 1px 5px black;
 }
+.tabContainerAsset {
+  margin-top: 10px;
+  background-color: #fff;
+  box-shadow: 0px 1px 5px black;
+}
 .inactiveTab,
 .activeTab {
   padding: 10px 10px;
