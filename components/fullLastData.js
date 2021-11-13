@@ -14,6 +14,7 @@ import AllRankings from "./allRankings"
 
 const FullLastData = ({collection})=>{
     const collectionRanking = collections[collection]
+    
     const [status, setStatus] = useState("active")
     const [sortBy,setSortBy] = useState("&order_by=buy_quantity&direction=asc")
     const [metadata,setMetadata] = useState("")
@@ -22,8 +23,8 @@ const FullLastData = ({collection})=>{
     const [openFilters,setOpenFilters] = useState([])
     console.log(`https://api.x.immutable.com/v1/orders?page_size=999999&sell_token_address=${collection}${sortBy}${metadata.length>0?metadata:""}`)
 const {data, isLoading,isError} = useGetListingsLong(`https://api.x.immutable.com/v1/orders?page_size=999999&sell_token_address=${collection}${sortBy}${metadata}`)
-console.log(data)
-
+const priceArray = data && data.listings? data.listings.map(result=>result.buy.data.quantity):[]
+priceArray.sort((a,b)=>a-b)
 const {collectionData, isLoadingCollection,isErrorCollection}=useGetSingleCollection(` https://api.x.immutable.com/v1/collections/${collection}`)
 
 
@@ -136,7 +137,7 @@ return(
            <p className={styles.statsText}> Items </p>
            </div>
            <div className={styles.statsBox}>
-           <p className={styles.statsNumber}> {data.listings.length>0? data.listings.sort((a,b)=>a.buy.data.quantity-b.buy.data.quantity)[0].buy.data.quantity/10**18:""} </p>
+           <p className={styles.statsNumber}> {priceArray[0]/10**18} </p>
            <p className={styles.statsText}> Floor Price </p>
            </div>
          </>
@@ -144,8 +145,8 @@ return(
             :""}
         </div>
         <div className={styles.tabs}>
-        <button className={status==="rankings"? styles.activeTab:styles.inactiveTab} onClick={()=>setStatus("rankings")}>
-            <AppsIcon />{" "} Ranking</button>
+        {collections[collection]?<button className={status==="rankings"? styles.activeTab:styles.inactiveTab} onClick={()=>setStatus("rankings")}>
+            <AppsIcon />{" "} Ranking</button>:""}
             <button className={status==="active"? styles.activeTab:styles.inactiveTab} onClick={()=>setStatus("active")}>
             <AppsIcon />{" "} Listings</button>
             <button className={status==="filled"? styles.activeTab:styles.inactiveTab} onClick={()=>setStatus("filled")}>

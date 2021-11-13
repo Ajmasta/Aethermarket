@@ -11,23 +11,24 @@ import queryString from "query-string"
 const FullLastListed=({data,setSortBy,sortBy,collection})=>{
     const [extraFilters,setExtraFilters]=useState("")
     const [input,setInput] = useState("")
-    /*
+    
    if (input.length>0 && isNaN(input)) setInput("")
 const filteredData = data.listings.filter(item=>{
             //if (item.sell.data.properties.name.includes(input)) return true
-            if (item.sell.data.token_id.includes(input)) return true
+            if (item.sell.data.token_id===(input)) return true
     
             return false
         })
-      */
+      
     sortBy==="&order_by=buy_quantity&direction=asc"?data.listings.sort((a,b)=>a.buy.data.quantity-b.buy.data.quantity) :""
+  
     extraFilters==="rankings"? data.listings.sort((a,b)=> collections[collection]["ranksArray"].indexOf(Number(a.sell.data.token_id))-collections[collection]["ranksArray"].indexOf(Number(b.sell.data.token_id))):""
     const [numberOfItems,setNumberOfItems] = useState(15)
     const createSimilarListings = (array, numberOfItems) =>{
         array = array.slice(0,numberOfItems)
         return (array.map((result,i)=>
         
-        
+        <>
         <Link  key={i} href={`./${result.sell.data.token_address}/${result.sell.data.token_id}`} >
             <a className={styles.similarListingsContainer}>
             <div className={styles.similarImageContainer}>
@@ -57,6 +58,12 @@ const filteredData = data.listings.filter(item=>{
                 </div>
             </a>
             </Link>
+            {numberOfItems<array.length?
+            <div onClick={()=>setNumberOfItems(numberOfItems+8)}  
+            className={ `${styles.moreButton}`}>
+            { "Load More"}
+            </div>:""}
+            </>
         )
         )
     
@@ -83,10 +90,7 @@ const filteredData = data.listings.filter(item=>{
         createSimilarListings(filteredData, numberOfItems)}
     
         </div>
-        <div onClick={()=>setNumberOfItems(numberOfItems+8)}  
-            className={ `${styles.moreButton}`}>
-            { "Load More"}
-            </div>
+        
     </div>
     )
 }
