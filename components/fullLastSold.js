@@ -6,9 +6,11 @@ import { calculateTime, get24hVolume, useGetData } from "./functions/functions"
 import { Scatter } from 'react-chartjs-2';
 import { Line } from 'react-chartjs-2';
 import collections from "../components/functions/collectionRankings.json"
+import ethLogo from "../public/images/ethLogo.png"
+import Image from 'next/image'
 
 const FullLastSold=({collection})=>{
-    const [numberOfItems,setNumberOfItems] = useState(10)
+    const [numberOfItems,setNumberOfItems] = useState(20)
     const [activeTab, setActiveTab] = useState("list")
     const [orderBy,setOrderBy] = useState("created_at")
     const [orderingDirection,setOrderingDirection] = useState("asc")
@@ -74,7 +76,7 @@ const FullLastSold=({collection})=>{
     return (
         
         <div className={styles.tableContainer}>
-        <div className={styles.tableRow}>
+        <div className={`${styles.tableRow} ${styles.tableFirstRow}`}>
             <p className={styles.tableCell}>Item</p>
             <p className={styles.tableCell}>Price</p>
             {collections[collection]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>Ranking</p>:""}
@@ -89,8 +91,8 @@ const FullLastSold=({collection})=>{
              {item.sell.data.properties.name}
             </a>
         </Link>
-            <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
-            {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
+            <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)} <Image src={ethLogo} width={15} height={15} alt="eth logo"/></p>
+            {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>#{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
             <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>
         </div>

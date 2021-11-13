@@ -116,16 +116,17 @@
 
 .statsText {
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .statsBox {
   display: flex;
   flex-direction: column;
-  width: 100px;
+  width: 150px;
   justify-content: center;
   align-items: center;
   box-shadow: 1px 1px 3px black;
+  padding: 20px;
 }
 
 .statsContainer {

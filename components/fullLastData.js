@@ -88,7 +88,7 @@ const createFilters =() => {
             <div className={openFilters.includes(i)? styles.filtersList:styles.hidden}>{listOf[i].map(element=><>
             
              <div className={styles.traitContainer} onClick={()=>{
-                }} key={element}>
+                }} key={element+i}>
                 
                 <p className={styles.traitName}>{element[0]} </p>
              <p className={styles.traitPercentage}>{element[1]/100}%</p> <input type="checkbox" onChange={(e)=>{
@@ -140,13 +140,17 @@ return(
            <p className={styles.statsNumber}> {priceArray[0]/10**18} </p>
            <p className={styles.statsText}> Floor Price </p>
            </div>
+           <div className={styles.statsBox}>
+           <p className={styles.statsNumber}> {(data.listings.length/collections[collection]["ranksArray"].length*100).toFixed(2)}%</p>
+           <p className={styles.statsText}> listed </p>
+           </div>
          </>
             
             :""}
         </div>
         <div className={styles.tabs}>
         {collections[collection]?<button className={status==="rankings"? styles.activeTab:styles.inactiveTab} onClick={()=>setStatus("rankings")}>
-            <AppsIcon />{" "} Ranking</button>:""}
+            <AppsIcon />{" "} Rankings</button>:""}
             <button className={status==="active"? styles.activeTab:styles.inactiveTab} onClick={()=>setStatus("active")}>
             <AppsIcon />{" "} Listings</button>
             <button className={status==="filled"? styles.activeTab:styles.inactiveTab} onClick={()=>setStatus("filled")}>

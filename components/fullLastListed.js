@@ -54,7 +54,7 @@ const filteredData = data.listings.filter(item=>{
         </span>
         
         </div> 
-        {collections[collection]? <p className={styles.rankContainer}>Rank:{collections[collection]["ranksArray"].indexOf(Number(result.sell.data.token_id))+1}</p>:""}
+        {collections[collection]? <p key={`{i}rank`} className={styles.rankContainer}>Rank:{collections[collection]["ranksArray"].indexOf(Number(result.sell.data.token_id))+1}</p>:""}
                 </div>
             </a>
             </Link>

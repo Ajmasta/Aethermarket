@@ -12,7 +12,7 @@
   border-top: none;
 }
 .tableRow:nth-child(2n + 1) {
-  background-color: #eee;
+  background-color: #fff;
 }
 .tableTitle {
   text-align: center;
@@ -21,12 +21,26 @@
   padding: 20px 0;
   margin: 10px 0 0 0;
 
-  border-bottom: none;
+  border-bottom: 1px solid black;
 }
 .tableRow {
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
+  padding: 3px 0;
+  transition: all 0.25s ease;
+}
+.tableRow:hover {
+  box-shadow: 1px 1px 8px;
+}
+.tableFirstRow {
+  padding: 30px 0;
+  border-bottom: 1px solid #666;
+  font-weight: 600;
+}
+.tableFirstRow:hover {
+  box-shadow: none;
 }
 .tableCell {
   flex: 2;
@@ -38,10 +52,10 @@
   flex: 1;
 }
 .nameCell {
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .tableImage {
-  width: 150px;
+  width: 100px;
 }
 .tableSeeMore {
   cursor: pointer;
@@ -66,13 +80,9 @@
   width: 50%;
 }
 .activeTab {
-  border-bottom: none;
-  box-shadow: inset 2px 2px 3px black;
+  border-bottom: 3px blue solid;
 }
 .inactiveTab {
-  background-color: rgb(100, 99, 99);
-  color: white;
-  box-shadow: 2px 2px 6px black;
 }
 .chartContainer {
   width: 70%;
