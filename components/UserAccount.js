@@ -13,7 +13,8 @@ const UserAccount = ({userId, data}) => {
     const createCollection = (array) =>{
         array = data.user.result
         console.log(array)
-        return (array.map((result,i)=>
+    
+        return <>{array?(array.map((result,i)=>
            <Link  key={i} href={`../collections/${result.token_address}/${result.token_id}`} >
             <a className={styles.similarListingsContainer}>
             <div className={styles.similarImageContainer}>
@@ -32,10 +33,7 @@ const UserAccount = ({userId, data}) => {
             </a>
             </Link>
            )
-        )
-   
-        
-        
+        ):"This user has no assets!"}</>
 
     }
 

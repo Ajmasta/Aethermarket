@@ -183,23 +183,36 @@
 }
 
 .buyButton {
-  width: 200px;
-  padding: 20px;
+  width: 100%;
+  padding: 10px;
   border: none;
-  background-color: #0074d9;
+  background-color: #17b5cb;
   font-weight: 500;
   font-size: 24px;
   border-radius: 5px;
   margin: 10px 0;
   color: white;
   box-shadow: 1px 1px 3px black;
+  margin-bottom: 20px;
 }
 .buyButton:hover {
-  background-color: midnightblue;
+  background-color: #2b618d;
   color: white;
   cursor: pointer;
 }
-
+.disabledButton {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #7ec2fa;
+  font-weight: 500;
+  font-size: 24px;
+  border-radius: 5px;
+  margin: 10px 0;
+  color: white;
+  box-shadow: 1px 1px 3px black;
+  margin-bottom: 20px;
+}
 .priceContainer {
   padding: 5px 0;
   font-size: 30px;
@@ -211,6 +224,7 @@
 }
 .sellInput {
   padding: 10px;
+  width: 100%;
 }
 .similarDescription {
   display: flex;

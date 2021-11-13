@@ -16,6 +16,17 @@ export const assetsAtom = atom({
 })
 
 export const collectionsAtom = atom({
-    key:"collectionsStae",
+    key:"collectionsState",
     default:[]
 })
+
+export const userBalanceAtom = atom({
+    key:"userBalanceState",
+    default:[]
+})
+export const drawerAtom = atom({
+    key:"drawerAtom",
+    default:false
+})
+
+

@@ -55,9 +55,11 @@
 .containerRight {
   width: 50%;
   height: 100%;
+  min-height: 400px;
   display: flex;
   min-width: 300px;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
 }
 .video {
   position: fixed;
@@ -74,8 +76,9 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
   min-width: 300px;
+  margin-top: 70px;
 }
 
 .artFrame::-webkit-scrollbar {
@@ -85,6 +88,9 @@
   background-color: white;
   box-shadow: 2px 2px 12px white;
   margin-left: 50px;
+  border-radius: 10px;
+}
+.picture {
 }
 .pictureDetails {
   color: black;
@@ -96,4 +102,20 @@
 }
 .pictureCollection {
   font-size: 14px;
+}
+.collectionContainer {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  position: relative;
+  background-color: transparent;
+  margin-right: 10px;
+  padding: 20px 0;
+}
+.imagesContainer {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }

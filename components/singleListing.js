@@ -7,7 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { style } from "@mui/system";
 import PersonIcon from '@mui/icons-material/Person';
-import { cancelOrder, fillOrder, getAndSellAsset, getAndtransferERC721, sellAsset, transferERC721 } from "./functions/ImxFunctions";
+import { cancelOrder, fillOrder, getAndSellAsset, getAndtransferERC721, logout, sellAsset, transferERC721 } from "./functions/ImxFunctions";
 import {
     RecoilRoot,
     atom,
@@ -411,7 +411,7 @@ const createTraitsTabGodsUnchained = () =>{
                                                                          <button onClick={()=>fillOrder(listingData)} className={styles.buyButton}>Buy </button>:
                                                                          checkOwnerShip()? 
                                                                          <> <input type="number" min="0" placeholder="Enter listing price in ETH" onChange={(e)=>setSell(e.target.value)} className={styles.sellInput}></input>
-                                                                            <button onClick={()=> getAndSellAsset(listingData,sell)} className={styles.buyButton}>Sell </button> 
+                                                                            <button onClick={()=>{logout();getAndSellAsset(listingData,sell)}} className={sell.length>0?styles.buyButton:styles.disabledButton} disabled={sell.length>0?false:true}>Sell </button> 
                                                                             </>:
                                                                             <div> 
                                                                             Last listed price: {listingData.buy.data.quantity/(10**18)}

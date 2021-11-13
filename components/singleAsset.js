@@ -5,7 +5,6 @@ import { Scatter } from 'react-chartjs-2';
 import ethLogo from "../public/images/ethLogo.png"
 import Image from 'next/image'
 import Link from 'next/link'
-import { style } from "@mui/system";
 import PersonIcon from '@mui/icons-material/Person';
 import { fillOrder, sellAsset } from "./functions/ImxFunctions";
 import {
@@ -20,12 +19,13 @@ import {
 
 
 const SingleAsset = ({data}) => {
-    const [sellPrice,setSellPrice]=useState("")
+
     const listingData= data.data
     const thisAsset = data.data
     const collection = data.data.token_address
     const account= useRecoilValue(accountAtom)
     const [assets,setAssets] = useRecoilState(assetsAtom)
+    const [sell,setSell]=useState("")
     const user = localStorage.getItem("WALLET_ADDRESS")
     if (data.similarListings.result.length > 0 && data.similarListings.result.length <=99)  
         data.similarListings.result.push(...data.similarCollection.result.slice(0,100-data.similarListings.result.length))
@@ -334,8 +334,9 @@ console.log(data)
             
                 <div className={styles.priceContainer}>  </div>
                 {checkOwnerShip()?
-                    <> <input type="number" min="0" placeholder="Enter listing price in ETH" onChange={(e)=>setSellPrice(e.target.value)} className={styles.sellInput}></input>
-                <button onClick={()=> sellAsset(listingData,sellPrice)} className={styles.buyButton}>Sell </button> </>:
+                    <> <input type="number" min="0" placeholder="Enter listing price in ETH" onChange={(e)=>setSell(e.target.value)} className={styles.sellInput}></input>
+                    <button onClick={()=>{logout();getAndSellAsset(listingData,sell)}} className={sell.length>0?styles.buyButton:styles.disabledButton} disabled={sell.length>0?false:true}>Sell </button> 
+ </>:
                     ""
                 }
                 <Link href={`../users/${listingData.user}`}>

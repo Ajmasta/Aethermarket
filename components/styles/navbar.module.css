@@ -48,20 +48,11 @@
   width: 36px;
 }
 
-.accountContainer {
-  height: 32px;
-
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 150px;
-}
-
 .textContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 450px;
+  width: 33%;
 }
 
 .inputContainer {
@@ -129,7 +120,6 @@
   padding: 0 20px;
 }
 .reference {
-  width: 100%;
   height: 100%;
   overflow: hidden;
 }
@@ -162,12 +152,12 @@
 }
 
 .transparentCover {
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.2);
   flex: 4;
 }
 .drawer {
   flex: 1;
-  background-color: #eee;
+  background-color: #fff;
   color: black;
   display: flex;
   justify-content: flex-start;
@@ -175,12 +165,39 @@
   display: flex;
   flex-direction: column;
 }
+.topDrawerContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+.drawerButtons {
+  justify-content: space-around;
+  display: flex;
+  align-items: center;
+  width: 150px;
+}
+.drawerUser {
+  color: rgb(39, 117, 235);
+}
 .currencyDrawer {
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 90%;
+  margin-top: 20px;
+}
+.transferButton {
+  width: 90%;
+  padding: 10px;
+  border: none;
+  background-color: rgb(44, 125, 231);
+  border-radius: 5px;
+  color: white;
+  font-weight: 700;
 }
 .assetDrawer {
   text-align: center;
@@ -196,7 +213,30 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-bottom: 10px;
 }
 .drawerTitle {
   text-align: center;
+}
+.logoutButton,
+.loginButton {
+  padding: 10px;
+  border: none;
+  font-weight: 600;
+  background-color: #fff;
+
+  border-radius: 5px;
+  cursor: pointer;
+}
+.logoutButton:hover {
+  background-color: black;
+  color: white;
+}
+.refreshIcon {
+  width: 50px;
+}
+.refreshIcon:hover {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
 }

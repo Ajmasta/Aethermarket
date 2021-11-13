@@ -18,20 +18,23 @@ import {
     useRecoilState,
     useRecoilValue,
   } from 'recoil';
-import { accountAtom, assetsAtom, collectionsAtom } from "./states/states";
+import { accountAtom, assetsAtom, collectionsAtom, drawerAtom, userBalanceAtom } from "./states/states";
 
 const NavBar= () =>{
 
 const [exploreMenu,setExploreMenu] = useState(false)
 const [mouseOnTop,setMouseOnTop] = useState(false)
-const[openDrawer,setOpenDrawer] = useState(false)
-const [userBalance,setUserBalance] = useState("")
+const[openDrawer,setOpenDrawer] = useRecoilState(drawerAtom)
+const [userBalance,setUserBalance] = useRecoilState(userBalanceAtom)
 const [account,setAccount] = useRecoilState(accountAtom)
 const [assets,setAssets] = useRecoilState(assetsAtom)
 const [searchInput,setSearchInput] = useState("")
 const [collections,setCollections] = useRecoilState(collectionsAtom)
 const [researchOpen,setResearchOpen] = useState(false)
 
+useEffect(()=>ethereum.on('accountsChanged', function (accounts) {
+  formatUserBalances();
+}),[])
 const {data,isLoading,isError} = useGetCollections("https://api.x.immutable.com/v1/collections?page_size=999999999")
 useEffect(()=>setCollections(data),[data])
 console.log(collections)
@@ -97,37 +100,48 @@ return (
         <Link href="../../explore/listings"><a  className={styles.menuLink}> Recent Listings </a></Link>
         <Link href="../../explore/collections" ><a className={styles.menuLink}> Collections </a></Link>
         </div>
+        
         </div>
-                <a className={styles.textElement}>Ressources</a>
-                <a className={styles.textElement}>Explore</a>
-             
+        <a className={styles.textElement}>About</a>
+        {account?account[0].slice(0,5)+"..."+ account[0].slice(account[0].length-5,account[0].length-1):""}
+            <AccountBalanceWalletIcon className={styles.iconElement} alt="wallet Icon" src="" onClick={()=>{setupAndLogin(); setOpenDrawer(true);formatUserBalances()}}/>     
               
         </div>
      
-        <div className={styles.accountContainer}>
-            <Image onClick={()=>logout()}className={styles.imgElement} alt="profile" src={"/images/profile.png"} width={36} height={36} />
-            <AccountBalanceWalletIcon className={styles.iconElement} alt="wallet Icon" src="" onClick={()=>{setupAndLogin(); setOpenDrawer(true);formatUserBalances()}}/>
-        </div>
+        
+     
+    
       
 
      </div>
      <div className={openDrawer? styles.drawerContainer:styles.hidden}>
          <div className={styles.transparentCover} onClick={()=>setOpenDrawer(false)}></div>
          <div className={styles.drawer}>
-         {account? <button onClick={()=>{logout();setAccount("");setAssets("");setUserBalance("")}}> Logout </button>:
-         <button onClick={()=>{setupAndLogin();formatUserBalances()}}> Login </button>}
-         <h3 className={styles.drawerTitle}> Current Balance</h3>
+         <div className={styles.topDrawerContainer}>
+         
+        <Link href={`/user/${account[0]}`} ><a className={styles.drawerUser}>{account?account[0].slice(0,7)+"...":""}</a></Link>
+         
+        <div className={styles.drawerButtons}>
+        <RefreshIcon className={styles.refreshIcon} onClick={()=>formatUserBalances()} />
+            
+            {account? <button className={styles.logoutButton} onClick={()=>{logout();setAccount("");setAssets("");setUserBalance("")}}> Logout </button>:
+            <button className={styles.logoutButton} onClick={()=>{setupAndLogin();formatUserBalances()}}> Login </button>}
+          </div>
+                </div>    
             <div className={styles.currencyDrawer}> 
-           <RefreshIcon onClick={()=>formatUserBalances()} />
+            <p className={styles.drawerTitle}> Current Balances</p>
+
             <div className={styles.currencyInfo}>  {userBalance.ethBalance} <Image src={ethLogo} width={30} height={30} alt="ethereum logo" /></div>
             <div className={styles.currencyInfo}> {userBalance.imx} <Image src={xLogo} width={30} height={30} alt="IMX logo"/> </div>
               </div>
+              <button className={styles.transferButton}>Transfer Funds to IMX </button>
             <div className={styles.assetDrawer}>
-            <h3 className={styles.drawerTitle}> Current Assets</h3>
+            <p className={styles.drawerTitle}> Current Assets</p>
 
             {assets.result?.slice(0,3).map(asset=> <Link key={asset.id} href={`../../../collections/${asset.token_address}/${asset.token_id}`}>
                                                         <a><img  className={styles.assetImage} src={asset.image_url} /></a></Link> ) }
             </div>
+            <Link href={`/user/${account[0]}`} ><a><button className={styles.transferButton}>Check Complete Collection</button></a></Link>
              
         
          <div>
