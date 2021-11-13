@@ -8,10 +8,18 @@ import Image from 'next/image'
 import { Line } from 'react-chartjs-2';
 import collections from "../components/functions/collectionRankings.json"
 import queryString from "query-string"
-const FullLastListed=({data,setSortBy,sortBy,collection,setMetadata})=>{
-    const [filteredData,setFilteredData] = useState([])
+const FullLastListed=({data,setSortBy,sortBy,collection})=>{
     const [extraFilters,setExtraFilters]=useState("")
-
+    const [input,setInput] = useState("")
+    /*
+   if (input.length>0 && isNaN(input)) setInput("")
+const filteredData = data.listings.filter(item=>{
+            //if (item.sell.data.properties.name.includes(input)) return true
+            if (item.sell.data.token_id.includes(input)) return true
+    
+            return false
+        })
+      */
     sortBy==="&order_by=buy_quantity&direction=asc"?data.listings.sort((a,b)=>a.buy.data.quantity-b.buy.data.quantity) :""
     extraFilters==="rankings"? data.listings.sort((a,b)=> collections[collection]["ranksArray"].indexOf(Number(a.sell.data.token_id))-collections[collection]["ranksArray"].indexOf(Number(b.sell.data.token_id))):""
     const [numberOfItems,setNumberOfItems] = useState(15)
@@ -45,7 +53,7 @@ const FullLastListed=({data,setSortBy,sortBy,collection,setMetadata})=>{
         </span>
         
         </div> 
-        {collections[collection]? <p className={styles.rankContainer}>Rank:{collections[collection]["ranksArray"].indexOf(Number(result.sell.data.token_id))}</p>:""}
+        {collections[collection]? <p className={styles.rankContainer}>Rank:{collections[collection]["ranksArray"].indexOf(Number(result.sell.data.token_id))+1}</p>:""}
                 </div>
             </a>
             </Link>
@@ -53,15 +61,17 @@ const FullLastListed=({data,setSortBy,sortBy,collection,setMetadata})=>{
         )
     
     }
+    console.log(sortBy)
     return (
         <div className={styles.mainContainer} >
     
     <div className={styles.filterTab}>
-    <input className={styles.inputFilter} onChange={(e)=>{e.target.value.length>2? filterArray(e.target.value,data):""}}type="text" placeholder="Search name or token ID"></input>
+    <input className={styles.inputFilter} onChange={(e)=>{setInput(e.target.value)}} type="number" placeholder="Search token ID"></input>
     <select id="filter" value={extraFilters===""?sortBy:extraFilters} name="filter" onChange={(e)=>{if(e.target.value!=="rankings"){
                                                                                                 setExtraFilters("")
                                                                                                 setSortBy(e.target.value)}
-                                                                                                else{setExtraFilters("rankings")}}}>
+                                                                                                else{
+                                                                                                    setExtraFilters("rankings")}}}>
     <option value="&order_by=buy_quantity&direction=asc"  >Lowest Price</option>
     <option value="&order_by=buy_quantity&direction=desc"  >Highest price</option>
     <option value="&order_by=created_at&direction=asc"  >Newly Listed</option>
@@ -69,7 +79,7 @@ const FullLastListed=({data,setSortBy,sortBy,collection,setMetadata})=>{
     </select>
     </div>
         <div className={styles.bottomImagesContainer} >
-        {filteredData.length===0? createSimilarListings(data.listings, numberOfItems):
+        {input.length===0? createSimilarListings(data.listings, numberOfItems):
         createSimilarListings(filteredData, numberOfItems)}
     
         </div>

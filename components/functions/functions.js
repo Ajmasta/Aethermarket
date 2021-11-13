@@ -44,6 +44,24 @@ const fetchSingleCollection= async url=>{
     console.log(data)
     return data
 }
+
+export const useGetRankings = (url,tokenArray) => {
+    const {data, error} = useSWR(url,fetchRanking)
+    console.log(data)
+    return{
+        rankingData:data,
+        isLoadingCollection: !error && !data,
+        isErrorCollection:error
+    }
+
+}
+
+const fetchRanking =async (url,tokenArray)=>{
+    const listData = []
+    console.log(tokenArray)
+  
+        return listData
+}
 export const useGetCollections= url => {
     const {data, error} = useSWR(url,fetchCollections)
     return{
@@ -175,7 +193,7 @@ export const calculateTime = (timestamp) => {
 }
 
  export const getListingInfo = async (url,url2) => {
-     console.log(url,"---------",url2)
+  
     let data = await(await fetch(url)).json()
 
     let tokenAddress

@@ -65,7 +65,7 @@ return (
     <>
     <div className={styles.container}>
         <div className={styles.logoContainer}>
-            <Link href="/" replace  passHref><a><Image className={styles.logo} alt="logo" src={"/images/logo.svg"} width={72} height={72} /></a></Link>
+            <Link href="/" replace  passHref><a><Image className={styles.logo} alt="logo, partially made by Eliricon" src={"/images/logo.svg"} width={72} height={72} /></a></Link>
         </div>
        <div className={styles.inputContainer}>
        <div className={styles.searchIconContainer}>

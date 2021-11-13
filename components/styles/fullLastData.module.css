@@ -59,38 +59,78 @@
 }
 .hidden {
   display: none;
+  max-height: 0;
 }
 .filtersTitle {
   display: flex;
   flex-direction: column;
+  padding: 20px 0;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 1px 1px 3px;
 }
-.filterList {
+.filtersList {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   width: 100%;
+  margin-top: 3px;
+  background-color: rgb(229, 248, 223);
 }
-.filterContainer {
+
+.filtersContainer {
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  height: 660px;
+  overflow-y: scroll;
 }
+
 .traitContainer {
-  width: 100%;
+  min-width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
 .traitName {
-  max-width: 33%;
+  width: 30%;
+}
+.traitPercentage {
+  width: 20%;
 }
 .listingsContainer {
   display: flex;
 }
-.filtersContainer {
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
 .topContainer {
   min-height: 250px;
   width: 100%;
+}
+.statsNumber {
+  margin: 0;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.statsText {
+  margin: 0;
+  font-size: 14px;
+}
+
+.statsBox {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 1px 3px black;
+}
+
+.statsContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
 }

@@ -16,11 +16,14 @@ import {
     useRecoilValue,
   } from 'recoil';
   import { accountAtom, assetsAtom } from "./states/states";
+  import collections from "../components/functions/collectionRankings.json"
 
 
 const SingleAsset = ({data}) => {
     const [sellPrice,setSellPrice]=useState("")
     const listingData= data.data
+    const thisAsset = data.data
+    const collection = data.data.token_address
     const account= useRecoilValue(accountAtom)
     const [assets,setAssets] = useRecoilState(assetsAtom)
     const user = localStorage.getItem("WALLET_ADDRESS")
@@ -32,6 +35,7 @@ const SingleAsset = ({data}) => {
     const isSimilarSold = data.soldListings.result.length > 0? true:false
     const [numberOfItems, setNumberOfItems] = useState(5)
     const [shownTab,setShownTab] = useState("sales")
+    const [shownTabAsset,setShownTabAsset] = useState("price")
 
 console.log(data)
     const checkOwnerShip = () =>{
@@ -41,7 +45,56 @@ console.log(data)
         return filteredAssets.length>0? true:false
 
     }
-   
+    const createTraitsTabGodsUnchained = () =>{
+
+
+        return (<div className={styles.traitsContainer}>
+            
+            <div className={styles.traitContainer}>
+                <p className={styles.traitName}>{"Set"}</p>
+                <p className={styles.traitValue}>{thisAsset.metadata.set}</p>
+            </div>
+            <div className={styles.traitContainer}>
+                <p className={styles.traitName}>{"Quality"}</p>
+                <p className={styles.traitValue}>{thisAsset.metadata.quality}</p>
+            </div>
+            <div className={styles.traitContainer}>
+                <p className={styles.traitName}>{"Rarity"}</p>
+                <p className={styles.traitValue}>{thisAsset.metadata.rarity}</p>
+            </div>
+            </div>
+        )
+    
+    }
+        const createTraitsTab= () =>{
+           const listOfTraits = []
+     
+           for(let object in collections[collection]["listOfTraits"]){
+               let rarity
+            if(thisAsset.metadata[object]){
+              rarity = collections[collection]["listOfTraits"][object].filter(trait=> trait[0]===thisAsset.metadata[object])
+                rarity=rarity[0][1]
+            listOfTraits.push([object,thisAsset.metadata[object],rarity])
+            }
+           }
+           console.log(listOfTraits.map(traits=><p>{traits[2]}</p>))
+           return (<div className={styles.traitsContainer}>
+            {listOfTraits.map((trait,i)=>
+    
+                <div key={`${i}Traits`} className={styles.traitContainer}>
+                    <p className={styles.traitName}>{trait[0]}</p>
+                    <p className={styles.traitValue}>{trait[1]}</p>
+                    <p className={styles.traitRarity}>{trait[2]/100}%</p>
+                </div>
+    
+    
+            )}
+    
+    </div>)
+         
+        
+        }
+    
     const getPriceHistoryChart = (data) =>{
         const sold = isSimilarSold? data.soldListings.result:data.soldCollectionListings.result
         const chartData = {
@@ -145,7 +198,7 @@ console.log(data)
         <div className={styles.tableRow}>
             <p className={styles.tableCell}>Item</p>
             <p className={styles.tableCell}>Price</p>
-            <p className={`${styles.tableCell} ${styles.quantityCell}`}>Qty</p>
+            {collections[collection]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>Ranking</p>:""}
             <p className={styles.tableCell}>To</p>
             <p className={styles.tableCell}>Time</p>
         </div>
@@ -155,11 +208,11 @@ console.log(data)
         <Link className={styles.tableCell} href={`../${item.sell.data.token_address}/${item.sell.data.token_id}`}>
             <a className={styles.tableCell}>
             <img className={styles.tableImage} src={item.buy.type==="ETH"? item.sell.data.properties.image_url:item.buy.data.properties.image_url} /> 
-            #{item.sell.data.token_id}
+            #{item.sell.data.token_id.slice(0,6)}
             </a>
         </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
-            <p className={`${styles.tableCell} ${styles.quantityCell}`}>{item.sell.data.quantity}</p>
+            {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
             <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>
         </div>
@@ -189,7 +242,7 @@ console.log(data)
         <div className={styles.tableRow}>
             <p className={styles.tableCell}>Item</p>
             <p className={styles.tableCell}>Price</p>
-            <p className={`${styles.tableCell} ${styles.quantityCell}`}>Qty</p>
+            {collections[collection]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>Ranking</p>:""}
             <p className={styles.tableCell}>From</p>
         
             <p className={styles.tableCell}>Time</p>
@@ -199,10 +252,11 @@ console.log(data)
             <Link className={styles.tableCell} href={`../${item.sell.data.token_address}/${item.sell.data.token_id}`}>
             <a className={styles.tableCell} ><img className={styles.tableImage} 
             src={item.sell.data.properties.image_url} />
-            #{item.sell.data.token_id}</a>
+            #{item.sell.data.token_id.slice(0,6)}</a>
             </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
-            <p className={`${styles.tableCell} ${styles.quantityCell}`}>{item.sell.data.quantity}</p>
+            {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
+
             <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
     
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>
@@ -296,10 +350,27 @@ console.log(data)
                     {listingData.collection.name} 
                     </a>
                 </Link>      
-                <div className={styles.historyContainer}>
-                <p className={styles.tableTitle}>Price History</p>
-                This item has never been listed for sale
-                    
+                <div className={styles.tabContainerAsset}>
+                        <div className={styles.tabRow}>
+                        <p onClick={()=>setShownTabAsset("price")} className={shownTabAsset==="price"? styles.activeTab:styles.inactiveTab}>
+                            Price History</p>
+                            <p onClick={()=>setShownTabAsset("traits")} className={shownTabAsset==="price"? styles.inactiveTab:styles.activeTab}>
+                            Traits</p>
+                            </div>
+                            <div className={styles.tabContent}>
+                                <div className={shownTabAsset==="traits"? styles.hidden:styles.currentPricesTab} >
+                                <div className={styles.historyContainer}>
+                                    <p className={styles.tableTitle}>Price History</p>
+                                    This item has never been listed for sale.
+                                        </div>
+                                </div>
+                                <div className={shownTabAsset==="traits"?styles.pastSalesTab:styles.hidden} >
+                                <p className={styles.tableTitle}>Traits</p>
+                                { thisAsset&&collection==="0xacb3c6a43d15b907e8433077b6d38ae40936fe2c"? createTraitsTabGodsUnchained() : collections[collection]&&thisAsset? createTraitsTab():"No traits data available"}
+
+                                </div>
+                                </div>
+               
                     
                 </div>
                     </div>

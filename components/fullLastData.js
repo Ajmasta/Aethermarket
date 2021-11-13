@@ -10,17 +10,17 @@ import { calculateTime, useGetBothDataLong, useGetData, useGetListingsLong, useG
 import AppsIcon from '@mui/icons-material/Apps';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import collections from "../components/functions/collectionRankings.json"
+import AllRankings from "./allRankings"
 
 const FullLastData = ({collection})=>{
     const collectionRanking = collections[collection]
-    console.log(collectionRanking)
     const [status, setStatus] = useState("active")
     const [sortBy,setSortBy] = useState("&order_by=buy_quantity&direction=asc")
-    const [metadata,setMetadata] = useState()
+    const [metadata,setMetadata] = useState("")
     const [filtersMetadata,setFiltersMetadata] = useState()
     const [urlMetadata,setUrlMetadata]= useState()
     const [openFilters,setOpenFilters] = useState([])
-
+    console.log(`https://api.x.immutable.com/v1/orders?page_size=999999&sell_token_address=${collection}${sortBy}${metadata.length>0?metadata:""}`)
 const {data, isLoading,isError} = useGetListingsLong(`https://api.x.immutable.com/v1/orders?page_size=999999&sell_token_address=${collection}${sortBy}${metadata}`)
 console.log(data)
 
@@ -47,16 +47,7 @@ const setMetadataForUrl=() =>{
     
 }
 
-const filterArray = (input,data) =>{
-    const filteredData = data.listings.filter(item=>{
-        
-        //if (item.sell.data.properties.name.includes(input)) return true
-        if (item.sell.data.token_id.includes(input)) return true
 
-        return false
-    })
-    setFilteredData(filteredData)
-} 
 
 const createFilters =() => {
     const filters = collections[collection].listOfTraits
@@ -74,7 +65,7 @@ const createFilters =() => {
         {titles.map((title,i)=>(
             <div key={`${i}-filterContainer`} className={styles.filterContainer}>
            
-            <div className={styles.filterTitle} onClick={()=>{if (openFilters.includes(i)){
+            <div className={styles.filtersTitle} onClick={()=>{if (openFilters.includes(i)){
                 let newArray = [...openFilters]
                 newArray.splice(openFilters.indexOf(i),1)
                 
@@ -93,7 +84,7 @@ const createFilters =() => {
             } }>
                 {title}
             </div>
-            <div className={openFilters.includes(i)? styles.filterList:styles.hidden}>{listOf[i].map(element=><>
+            <div className={openFilters.includes(i)? styles.filtersList:styles.hidden}>{listOf[i].map(element=><>
             
              <div className={styles.traitContainer} onClick={()=>{
                 }} key={element}>
@@ -137,6 +128,21 @@ return(
         <img className={styles.profileImage} src={collectionData.collection_image_url}/>
             <p className={styles.collectionName}>{collectionData.name}</p>
         </div>
+        <div className={styles.statsContainer}>
+          {collections[collection] && data? 
+          <>
+           <div className={styles.statsBox}>
+           <p className={styles.statsNumber}> {collections[collection]["ranksArray"].length} </p>
+           <p className={styles.statsText}> Items </p>
+           </div>
+           <div className={styles.statsBox}>
+           <p className={styles.statsNumber}> {data.listings.length>0? data.listings.sort((a,b)=>a.buy.data.quantity-b.buy.data.quantity)[0].buy.data.quantity/10**18:""} </p>
+           <p className={styles.statsText}> Floor Price </p>
+           </div>
+         </>
+            
+            :""}
+        </div>
         <div className={styles.tabs}>
         <button className={status==="rankings"? styles.activeTab:styles.inactiveTab} onClick={()=>setStatus("rankings")}>
             <AppsIcon />{" "} Ranking</button>
@@ -149,13 +155,16 @@ return(
     }
     </div>
     {status==="filled"?
-    isLoading || isError? "loading":<FullLastSold data={data} collection={collection} calculateTime={calculateTime}  />
+    isLoading || isError? "loading":data.listings.length<1?"No sales!":<FullLastSold data={data} collection={collection} calculateTime={calculateTime}  />
      :status==="active"?
      <div className={styles.listingsContainer}>    {collection && collections[collection]? createFilters():""}
-      {isLoading || isError? "loading": data.listings.length<1? "No Listings!" :<FullLastListed data={data} collection={collection} setSortBy={setSortBy} sortBy={sortBy}  />}
+      {isLoading || isError? "": data.listings.length<1? "No Listings!" :<FullLastListed data={data} collection={collection} setSortBy={setSortBy} sortBy={sortBy}  />}
        </div>
        :
-       collectionRanking.ranksArray.map(element=><p key={element}>{element+1}</p>)
+       collections[collection]? 
+       isLoading || isError? "loading":
+       <AllRankings data={data} collection={collection} />
+       :"No Ranking data for this collection"
     }
 </div>
 

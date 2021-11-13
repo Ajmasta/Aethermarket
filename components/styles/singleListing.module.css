@@ -252,7 +252,7 @@
 }
 .traitContainer {
   display: flex;
-  width: 150px;
+  width: 230px;
   height: 100px;
   justify-content: space-around;
   align-items: center;
@@ -264,6 +264,12 @@
 .traitValue,
 .traitRarity {
   margin: 0;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+}
+.traitName {
+  font-weight: 700;
 }
 .traitsContainer {
   display: flex;

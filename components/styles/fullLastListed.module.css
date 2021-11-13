@@ -103,3 +103,15 @@
   padding: 5px;
   border-radius: 8px;
 }
+.soldLabel {
+  background-color: red;
+  color: white;
+  padding: 2px;
+  margin: 0;
+}
+.listedLabel {
+  background-color: rgb(17, 207, 49);
+  color: white;
+  padding: 2px;
+  margin: 0;
+}
