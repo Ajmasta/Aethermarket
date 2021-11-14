@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import CollectionList from '../components/collectionList'
+import CollectionRankings from '../components/collectionsRankings'
 import IntroPanel from '../components/introPanel'
 import LastDisplay from '../components/lastDisplay'
 import LastListed from '../components/lastListed'
@@ -28,6 +29,8 @@ export default function Home({collections}) {
       </Head>
   <NavBar />
   <IntroPanel />
+  <CollectionRankings />
+
   <CollectionList collections={collections.result}/>
   <LastDisplay />
 

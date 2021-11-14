@@ -1,8 +1,8 @@
 import Calls from "../components/10000calls"
-import { getCollectionsMeta, turnArrayIntoStats } from "../components/functions/getCollectionsData"
+import { getCollectionsMeta, getSevenDaysOrder, turnArrayIntoStats } from "../components/functions/getCollectionsData"
 
 const GetCollectionMeta = () => {
-getCollectionsMeta()
+getSevenDaysOrder()
 return <p> test</p>
 
 }

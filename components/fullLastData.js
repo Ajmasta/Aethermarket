@@ -11,6 +11,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import collections from "../components/functions/collectionRankings.json"
 import AllRankings from "./allRankings"
+import orderData from "./functions/orderData.json"
 
 const FullLastData = ({collection})=>{
     const collectionRanking = collections[collection]
@@ -143,6 +144,10 @@ return(
            <div className={styles.statsBox}>
            <p className={styles.statsNumber}> {(data.listings.length/collections[collection]["ranksArray"].length*100).toFixed(2)}%</p>
            <p className={styles.statsText}> listed </p>
+           </div>
+           <div className={styles.statsBox}>
+           <p className={styles.statsNumber}> {orderData?orderData["week"][collectionData.name].toFixed(2):""}</p>
+           <p className={styles.statsText}>  Volume (Week) </p>
            </div>
          </>
             

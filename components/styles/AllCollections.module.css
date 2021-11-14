@@ -12,6 +12,7 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
 .collectionContainer {
   display: flex;
   flex-direction: column;
@@ -28,15 +29,25 @@
   align-items: center;
   justify-content: center;
 }
+.bigCollection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+  min-width: 273px;
+  border-radius: 16px;
+}
+
 .iconContainer {
-  max-width: 273px;
+  max-width: 150px;
+  min-width: 150px;
+  height: 150px;
   overflow: hidden;
+  border-radius: 16px;
 }
 .image {
   width: 100%;
-  min-width: 273px;
-  height: 273px;
-  border-radius: 16px;
+
   transition: all ease 0.5s;
 }
 .image:hover {
@@ -47,12 +58,12 @@
 
   position: absolute;
   color: transparent;
-  top: 20px;
+  bottom: -10px;
   left: 20px;
 }
 
 .name {
-  color: white;
+  color: black;
   font-size: 18px;
   font-weight: 900;
 
@@ -67,7 +78,7 @@
   background-color: white;
 }
 .title {
-  font-size: 35px;
+  font-size: 24px;
   display: flex;
   justify-content: center;
 
@@ -77,6 +88,7 @@
   font-weight: 900;
   color: black;
 }
+
 .activeTab,
 .inactiveTab {
   padding: 15px 16px;

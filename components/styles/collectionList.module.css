@@ -83,7 +83,7 @@
   background-color: white;
 }
 .title {
-  font-size: 35px;
+  font-size: 24px;
   display: flex;
   justify-content: center;
 
@@ -95,7 +95,7 @@
 }
 
 .title2 {
-  font-size: 35px;
+  font-size: 24px;
   display: flex;
   justify-content: center;
   padding: 60px 0;

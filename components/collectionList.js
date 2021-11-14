@@ -3,125 +3,36 @@ import Link from 'next/link'
 import Image from 'next/image'
 import TwitterIcon from '@mui/icons-material/Twitter';
 import WebIcon from '@mui/icons-material/Web';
-const CollectionList = () => {
-    const collections = [
-        
-        {
-            "address": "0x5f32923175e13713242b3ddd632bdee82ab5f509",
-            "name": "Moody Krows",
-            "description": "Moody Krows is the first randomly generated PFP NFTs collection of 10,000 on Immutable, a Layer 2 solution on the Ethereum blockchain.",
-            "icon_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg",
-            "collection_image_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg"
-        
-            
-        },    {
-            "address": "0x7b7a9ec1978e382983a5e6826e66efb5bda12218",
-            "name": "The Painter",
-            "description": "You may call me The Painter. I am an AI trained to create modern works of art using a custom deep learning neural network and thousands of modern masterpieces in my training set. I have created a collection of 8192 original pieces that live exclusively on Immutable X. An homage to the past, built for the future.",
-            "icon_url": "https://painterai.s3.amazonaws.com/prod/icon.png",
-            "collection_image_url": "https://painterai.s3.amazonaws.com/prod/icon.png"
-        
-            
-        }, {
-            "address": "0x4ebfb80f9144713a690ec5a6485d0d4ed65194cd",
-            "name": "Bad Grandma",
-            "description": "Bad Grandma is a collection of 10,000 randomly generated & unique collectibles living on ImmutableX and carefully chosen by some of the greatest grandsons who love their grandmas. https://badgrandmanft.com",
-            "icon_url": "https://badgrandmanft.com/img/imx.png",
-            "collection_image_url": "https://badgrandmanft.com/img/imx.png"
-        
-            
-        },   {
-            "address": "0x5f32923175e13713242b3ddd632bdee82ab5f509",
-            "name": "Moody Krows",
-            "description": "Moody Krows is the first randomly generated PFP NFTs collection of 10,000 on Immutable, a Layer 2 solution on the Ethereum blockchain.",
-            "icon_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg",
-            "collection_image_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg"
-        
-            
-        },    {
-            "address": "0x7b7a9ec1978e382983a5e6826e66efb5bda12218",
-            "name": "The Painter",
-            "description": "You may call me The Painter. I am an AI trained to create modern works of art using a custom deep learning neural network and thousands of modern masterpieces in my training set. I have created a collection of 8192 original pieces that live exclusively on Immutable X. An homage to the past, built for the future.",
-            "icon_url": "https://painterai.s3.amazonaws.com/prod/icon.png",
-            "collection_image_url": "https://painterai.s3.amazonaws.com/prod/icon.png"
-        
-            
-        }, {
-            "address": "0x4ebfb80f9144713a690ec5a6485d0d4ed65194cd",
-            "name": "Bad Grandma",
-            "description": "Bad Grandma is a collection of 10,000 randomly generated & unique collectibles living on ImmutableX and carefully chosen by some of the greatest grandsons who love their grandmas. https://badgrandmanft.com",
-            "icon_url": "https://badgrandmanft.com/img/imx.png",
-            "collection_image_url": "https://badgrandmanft.com/img/imx.png"
-        
-            
-        },   {
-            "address": "0x5f32923175e13713242b3ddd632bdee82ab5f509",
-            "name": "Moody Krows",
-            "description": "Moody Krows is the first randomly generated PFP NFTs collection of 10,000 on Immutable, a Layer 2 solution on the Ethereum blockchain.",
-            "icon_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg",
-            "collection_image_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg"
-        
-            
-        },    {
-            "address": "0x7b7a9ec1978e382983a5e6826e66efb5bda12218",
-            "name": "The Painter",
-            "description": "You may call me The Painter. I am an AI trained to create modern works of art using a custom deep learning neural network and thousands of modern masterpieces in my training set. I have created a collection of 8192 original pieces that live exclusively on Immutable X. An homage to the past, built for the future.",
-            "icon_url": "https://painterai.s3.amazonaws.com/prod/icon.png",
-            "collection_image_url": "https://painterai.s3.amazonaws.com/prod/icon.png"
-        
-            
-        }, {
-            "address": "0x4ebfb80f9144713a690ec5a6485d0d4ed65194cd",
-            "name": "Bad Grandma",
-            "description": "Bad Grandma is a collection of 10,000 randomly generated & unique collectibles living on ImmutableX and carefully chosen by some of the greatest grandsons who love their grandmas. https://badgrandmanft.com",
-            "icon_url": "https://badgrandmanft.com/img/imx.png",
-            "collection_image_url": "https://badgrandmanft.com/img/imx.png"
-        
-            
-        },   {
-            "address": "0x5f32923175e13713242b3ddd632bdee82ab5f509",
-            "name": "Moody Krows",
-            "description": "Moody Krows is the first randomly generated PFP NFTs collection of 10,000 on Immutable, a Layer 2 solution on the Ethereum blockchain.",
-            "icon_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg",
-            "collection_image_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg"
-        
-            
-        },   {
-            "address": "0x5f32923175e13713242b3ddd632bdee82ab5f509",
-            "name": "Moody Krows",
-            "description": "Moody Krows is the first randomly generated PFP NFTs collection of 10,000 on Immutable, a Layer 2 solution on the Ethereum blockchain.",
-            "icon_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg",
-            "collection_image_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg"
-        
-            
-        },    {
-            "address": "0x7b7a9ec1978e382983a5e6826e66efb5bda12218",
-            "name": "The Painter",
-            "description": "You may call me The Painter. I am an AI trained to create modern works of art using a custom deep learning neural network and thousands of modern masterpieces in my training set. I have created a collection of 8192 original pieces that live exclusively on Immutable X. An homage to the past, built for the future.",
-            "icon_url": "https://painterai.s3.amazonaws.com/prod/icon.png",
-            "collection_image_url": "https://painterai.s3.amazonaws.com/prod/icon.png"
-        
-            
-        }, {
-            "address": "0x4ebfb80f9144713a690ec5a6485d0d4ed65194cd",
-            "name": "Bad Grandma",
-            "description": "Bad Grandma is a collection of 10,000 randomly generated & unique collectibles living on ImmutableX and carefully chosen by some of the greatest grandsons who love their grandmas. https://badgrandmanft.com",
-            "icon_url": "https://badgrandmanft.com/img/imx.png",
-            "collection_image_url": "https://badgrandmanft.com/img/imx.png"
-        
-            
-        },   {
-            "address": "0x5f32923175e13713242b3ddd632bdee82ab5f509",
-            "name": "Moody Krows",
-            "description": "Moody Krows is the first randomly generated PFP NFTs collection of 10,000 on Immutable, a Layer 2 solution on the Ethereum blockchain.",
-            "icon_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg",
-            "collection_image_url": "https://storage.googleapis.com/wired-glider-326915.appspot.com/Collection%20icon.jpg"
-        
-            
-        }
-    
-   ]
+import collections2 from "../components/functions/collectionRankings.json"
+import {
+    RecoilRoot,
+    atom,
+    selector,
+    useRecoilState,
+    useRecoilValue,
+  } from 'recoil';
+import { accountAtom, assetsAtom, collectionsAtom, drawerAtom, userBalanceAtom } from "./states/states";
+import { useEffect, useState } from "react";
 
+const CollectionList = () => {
+    
+    const collectionsFetched = useRecoilValue(collectionsAtom)
+    const [collections,setCollections] = useState([])
+    
+    const getCollections = () => {
+        if(collections2&&collectionsFetched){
+            let listOfCollections=[]
+            console.log(collectionsFetched)
+            for(let object in collections2){
+                const collection = collectionsFetched.filter(element=>element.address===object)
+                listOfCollections.push(...collection)
+            }
+            console.log(listOfCollections)
+            setCollections(listOfCollections)
+        }
+    }
+   useEffect(()=>{getCollections()},[collections2,collectionsFetched])
+   
    const upcomingCollections = [
        {    "name": "Dinos IMX",
             "description": "Bad Grandma is a collection of 10,000 randomly generated & unique collectibles living on ImmutableX and carefully chosen by some of the greatest grandsons who love their grandmas. https://badgrandmanft.com",
@@ -145,7 +56,7 @@ return (collections.map((collection,i)=>{
         <Link  href={`/collections/${collection.address}`} key={`widget${i}`}>
         <a className={`${styles.collectionContainer} `}>
             <div className={styles.iconContainer}>
-                <img className={styles.image} src={collection.icon_url} />
+                <img className={styles.image} src={collection.collection_image_url} />
             </div>
             <div className={styles.descriptionContainer}>
             <span className={styles.name}>{collection.name} </span>

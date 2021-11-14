@@ -191,7 +191,22 @@ export const calculateTime = (timestamp) => {
 
     return msToTime(timeDiff)
 }
+export const calculateWeek = (timestamp) => {
+    const date = new Date()
+    const dateT= new Date(timestamp)
+    const timeDiff = (date.getTime()-dateT.getTime())
+   
+    return timeDiff <604800000 ? true:false
 
+}
+export const calculateDay = (timestamp) => {
+    const date = new Date()
+    const dateT= new Date(timestamp)
+    const timeDiff = (date.getTime()-dateT.getTime())
+   
+    return timeDiff <86400000 ? true:false
+
+}
  export const getListingInfo = async (url,url2) => {
   
     let data = await(await fetch(url)).json()

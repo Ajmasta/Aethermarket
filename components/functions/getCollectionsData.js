@@ -1,5 +1,6 @@
 import badGrandma from "./badGrandma.json"
 import collections from "./collectionRankings.json"
+import { calculateDay, calculateTime,calculateWeek } from "./functions"
 export const addAOneOrNot = async () => 
 {
     for(let object in collections){
@@ -10,8 +11,49 @@ export const addAOneOrNot = async () =>
 
 
 }
+export const getSevenDaysOrder = async () => {
+    const data = await (await fetch("https://api.x.immutable.com/v1/orders?status=filled&buy_token_type=ETH") ).json()
+    let cursor= "&cursor=" + data.cursor
+    for (let i=0;i<=0;i++){
+        const newData = await (await fetch("https://api.x.immutable.com/v1/orders?status=filled&buy_token_type=ETH"+cursor)).json()
+        cursor= "&cursor=" + newData.cursor
+        data.result.push(...newData.result)
+        console.log(i)
+    }
+    console.log(data)
+    console.log(calculateTime(data.result[data.result.length-1].updated_timestamp))
+    parseOrders(data.result)
+    return data
+}
+const parseOrders = (orders)=> {
+    const dayOrders = orders.filter(element=>calculateDay(element.updated_timestamp))
+    const weekOrders=orders.filter(element=>calculateWeek(element.updated_timestamp))
+
+   const orderedArrayDay = dayOrders.map(element=>{return ({"price":element.buy.data.quantity,"collection":element.sell.data.token_address,"timeStamp":element.updated_timestamp,"collectionName":element.sell.data.properties.collection.name})})
+   const orderedArrayWeek = weekOrders.map(element=>{return ({"price":element.buy.data.quantity,"collection":element.sell.data.token_address,"timeStamp":element.updated_timestamp,"collectionName":element.sell.data.properties.collection.name})})
 
 
+   let objectDay={}
+   orderedArrayDay.map(element=>{
+    if (objectDay[element.collectionName]){
+        objectDay[element.collectionName] += Number(element.price)/10**18
+    }else{
+        objectDay[element.collectionName] = Number(element.price)/10**18
+
+    }
+})
+let objectWeek={}
+orderedArrayWeek.map(element=>{
+    if (objectWeek[element.collectionName]){
+        objectWeek[element.collectionName] += Number(element.price)/10**18
+    }else{
+        objectWeek[element.collectionName] = Number(element.price)/10**18
+
+    }
+
+})
+   console.log(objectDay,objectWeek)
+}
 
 export const getCollectionsMeta =async  (collection,id) => {
     console.log(collections[0])

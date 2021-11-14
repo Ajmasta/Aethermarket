@@ -48,10 +48,14 @@
 }
 .similarListingsContainer {
   background-color: transparent;
-  box-shadow: 2px 2px 12px black;
   margin: 5px 8px;
+  box-shadow: 1px 1px 2px black;
+
   transition: all 0.2s ease;
   border-radius: 10px;
+}
+.similarListingsContainer:hover {
+  box-shadow: 2px 2px 12px black;
 }
 
 .similarImageContainer {

@@ -30,6 +30,7 @@ const [account,setAccount] = useRecoilState(accountAtom)
 const [assets,setAssets] = useRecoilState(assetsAtom)
 const [searchInput,setSearchInput] = useState("")
 const [collections,setCollections] = useRecoilState(collectionsAtom)
+const [collectionsNavBar,setCollectionsNavBar] = useState()
 const [researchOpen,setResearchOpen] = useState(false)
 
 useEffect(()=>ethereum.on('accountsChanged', function (accounts) {
@@ -59,7 +60,7 @@ const filterCollections = async (filter) => {
     let collections2 = data.filter(collection => collection.name.toUpperCase().includes(filter.toUpperCase()))
      collections2 = collections2.filter(collection =>!blacklist.includes(collection.address))
     console.log(collections2)
-   setCollections(collections2)
+   setCollectionsNavBar(collections2)
     
 }
 
@@ -79,7 +80,7 @@ return (
         {researchOpen && searchInput.length >1?
             <div className={styles.resultContainer} onFocus={()=>setResearchOpen(true)} >
              <div className={styles.searchCollectionSectionTitle}>Collections</div>
-                {collections.length>0?collections.map((collection,i)=>
+                {collectionsNavBar.length>0?collectionsNavBar.map((collection,i)=>
                 collection.upcoming?
                 <p>{collection.name} <span>Upcoming</span></p>
                 :
