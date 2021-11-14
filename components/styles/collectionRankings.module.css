@@ -7,13 +7,14 @@
   width: 300px;
   margin-left: 10px;
 }
-.collectionName:hover {
+.rowContainer:hover {
   font-weight: 600;
 }
 .volume {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-left: -40px;
 }
 .tableContainer {
   background: #fff;
@@ -60,4 +61,7 @@
   font-size: 24px;
   margin-top: 50px;
   margin-bottom: 20px;
+}
+.rank {
+  margin-right: -30px;
 }
