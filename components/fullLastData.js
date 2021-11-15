@@ -146,8 +146,8 @@ return(
            <p className={styles.statsText}> listed </p>
            </div>
            <div className={styles.statsBox}>
-           <p className={styles.statsNumber}> {orderData?orderData["week"][collectionData.name].toFixed(2):""}</p>
-           <p className={styles.statsText}>  Volume (Week) </p>
+           <p className={styles.statsNumber}> {orderData? (orderData["all"][collectionData.name]/1000).toFixed(2):""}K</p>
+           <p className={styles.statsText}>  Volume </p>
            </div>
          </>
             
@@ -165,7 +165,7 @@ return(
     }
     </div>
     {status==="filled"?
-    isLoading || isError? "loading":data.listings.length<1?"No sales!":<FullLastSold data={data} collection={collection} calculateTime={calculateTime}  />
+    isLoading || isError? "loading":data.listings.length<1?"No sales!":<FullLastSold name={collectionData.name} data={data} collection={collection} calculateTime={calculateTime}  />
      :status==="active"?
      <div className={styles.listingsContainer}>    {collection && collections[collection]? createFilters():""}
       {isLoading || isError? "": data.listings.length<1? "No Listings!" :<FullLastListed data={data} collection={collection} setSortBy={setSortBy} sortBy={sortBy}  />}

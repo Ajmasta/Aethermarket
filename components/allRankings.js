@@ -6,12 +6,17 @@ import styles from "./styles/fullLastListed.module.css"
 import { addAOneOrNot } from "./functions/getCollectionsData"
 const AllRankings = ({collection}) => {
     const [array,setArray] = useState([])
-    const [page,setPage] = useState(0)
+    const [page,setPage] = useState(1)
+    const [filter,setFilter] = useState("")
     const [loading,setLoading]= useState(false)
-    let tokenArray = collections? collections[collection]["ranksArray"].slice(page,page+20):[]
-    useEffect(()=>getData(),[page])
+    let tokenArray = collections? collections[collection]["ranksArray"].slice((page-1)*20,page*20):[]
+
+    useEffect(()=>getData(),[page,filter])
+
     const getData = async ()=>
     {
+
+        if(filter===""){
         const newArray = await Promise.all(tokenArray.map(async token=>{
 
             const data = await (await fetch(`https://api.x.immutable.com/v1/assets/${collection}/${token}`)).json()
@@ -24,9 +29,61 @@ const AllRankings = ({collection}) => {
             return  data
         }))
         console.log(newArray)
-    setArray(newArray)
+        setArray(newArray)
+    
     }
+        else{
+            console.log("ok")
+            const data = await (await fetch(`https://api.x.immutable.com/v1/assets/${collection}/${filter}`)).json()
+            const order = await (await fetch(`https://api.x.immutable.com/v1/orders?sell_token_id=${filter}&sell_token_address=${collection}`)).json()
+            if (order.result.length>0) {
+                data.status=order.result[0].status
+                data.price=order.result[0].buy.data.quantity/10**18
+                }
+                 setArray([data])
+        }
+   
+    }
+    const createPageList = ()=>{
+            const maxPage = Math.ceil((collections[collection]["ranksArray"].length)/20)
+                console.log(maxPage,page)
+        return(
 
+            <div className={styles.pageListContainer}> 
+            {page===1?
+            <>
+            <p className={styles.pageActive} > {page} </p>
+         <p className={styles.page} onClick={()=>{setPage(page+1); setLoading(true); setTimeout(()=>setLoading(false),200)}}> {page+1} </p>
+            <p className={styles.page} onClick={()=>{setPage(page+2); setLoading(true); setTimeout(()=>setLoading(false),200)}}> {page+2} </p>
+            <p className={styles.page} onClick={()=>{setPage(page+3); setLoading(true); setTimeout(()=>setLoading(false),200)}}> {page+3} </p>
+            <p className={styles.pageDots}>...</p>
+            <p className={styles.page} onClick={()=>{setPage(maxPage); setLoading(true); setTimeout(()=>setLoading(false),200)}}> {maxPage} </p>
+
+            </>: !(page >= maxPage)?
+                <>
+            <p className={styles.page} onClick={()=>{setPage(page-1); setLoading(true); setTimeout(()=>setLoading(false),200)}}> {page-1} </p>
+            <p className={styles.pageActive} > {page} </p>
+            <p className={styles.page} onClick={()=>{setPage(page+2); setLoading(true); setTimeout(()=>setLoading(false),200)}}> {page+1} </p>
+            
+            <p className={styles.page} onClick={()=>{setPage(page+3); setLoading(true); setTimeout(()=>setLoading(false),200)}}> {page+2} </p>
+            <p className={styles.pageDots}>...</p>
+            <p className={styles.page} onClick={()=>{setPage(maxPage); setLoading(true); setTimeout(()=>setLoading(false),200)}}> {maxPage} </p>
+
+                </>
+
+            :
+            <>
+            <p className={styles.page} onClick={()=>{setPage(1); setLoading(true); setTimeout(()=>setLoading(false),200)}}> 1 </p>
+            <p className={styles.page} onClick={()=>{setPage(2); setLoading(true); setTimeout(()=>setLoading(false),200)}}> 2 </p>
+            <p className={styles.page} onClick={()=>{setPage(3); setLoading(true); setTimeout(()=>setLoading(false),200)}}> 3 </p>
+            <p className={styles.page} onClick={()=>{setPage(4); setLoading(true); setTimeout(()=>setLoading(false),200)}}> 4 </p>
+            <p className={styles.pageDots}>...</p>
+            <p className={styles.pageActive} > {page} </p>
+                    </>
+                    }                  
+            </div>
+        )
+    }
     const createSimilarListings = (array) =>{
         return (array.map((result,i)=>
         
@@ -65,15 +122,20 @@ const AllRankings = ({collection}) => {
     }
 
     console.log(array)
-        return (<> 
+        return (<div className={styles.mainContainer}> 
+
+        <input type="number" className={styles.inputFilter} onChange={(e)=>setFilter(e.target.value)}placeholder="Search by ID"/>
+
         <div className={styles.bottomImagesContainer} >
-        <button onClick={()=>{setPage(page+20); setLoading(true);setTimeout(()=>setLoading(false),1000)}}>Hit</button>
+
 
         {!loading?createSimilarListings(array):"Loading"}
+
+
         </div>
         
-        
-        </>)
+        {collections && filter===""? createPageList():""}
+        </div>)
 }
 
 

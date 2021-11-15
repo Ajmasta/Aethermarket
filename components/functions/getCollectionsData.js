@@ -1,6 +1,6 @@
-import badGrandma from "./badGrandma.json"
 import collections from "./collectionRankings.json"
 import { calculateDay, calculateTime,calculateWeek } from "./functions"
+import badGrandma from "./badGrandma.json"
 export const addAOneOrNot = async () => 
 {
     for(let object in collections){
@@ -27,7 +27,7 @@ export const getSevenDaysOrder = async () => {
 }
 
 
-export const getAllTimeOrder = async() =>{
+/*export const getAllTimeOrder = async() =>{
     const data = await (await fetch("https://api.x.immutable.com/v1/orders?status=filled&buy_token_type=ETH") ).json()
     let cursor= "&cursor=" + data.cursor
     let newData = {}
@@ -46,7 +46,7 @@ export const getAllTimeOrder = async() =>{
 
 
 
-}
+}*/
 const parseOrders = (orders)=> {
     const dayOrders = orders.filter(element=>calculateDay(element.updated_timestamp))
     const weekOrders=orders.filter(element=>calculateWeek(element.updated_timestamp))
@@ -92,8 +92,8 @@ export const getCollectionsMeta =async  (collection,id) => {
 const allData = []
 
 for(let i = 0;i<=0; i++){ //always start i at 0 to not get decale
-const data = await (await fetch(`https://api.x.immutable.com/v1/assets/0xdc0fb8b27daadcd897cc2a2facf6416f430b08a7/${i}`)).json()
-allData.push(data)
+const data = await (await fetch(`https://api.x.immutable.com/v1/assets/0xaa84c36e454e632c6880d2563986be75718fbc6f/${i}`)).json()
+data.metadata? allData.push(data):""
 
 console.log(i)
 }
@@ -106,6 +106,9 @@ let  numberOfOccurencesArray
 const getTraitsRarity= (array) => {
   
 const allArray = []
+let userArray = array.map(item=>item.user)
+userArray= Array.from(new Set(userArray))
+console.log("Number of unique Users", userArray.length)
 const filteredArray = array.map(item=>{
     if(item.metadata){
     delete item.metadata.name

@@ -58,6 +58,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 .nameDescription {
   display: flex;
@@ -71,8 +72,8 @@
   padding: 10px 5px;
   margin-bottom: 10px;
   border-radius: 5px;
-  border: none;
-  background-color: #eee;
+  border: 1px solid black;
+
   outline-width: 0;
 }
 .filterTab {
@@ -114,4 +115,24 @@
   color: white;
   padding: 2px;
   margin: 0;
+}
+.pageListContainer {
+  display: flex;
+  width: 200px;
+  justify-content: space-around;
+}
+
+.page {
+  padding: 5px;
+}
+.pageActive {
+  color: #0074d9;
+  font-weight: 900;
+  padding: 5px;
+}
+
+.pageContainer {
+}
+.pageDots {
+  padding: 5px;
 }

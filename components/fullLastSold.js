@@ -8,8 +8,9 @@ import { Line } from 'react-chartjs-2';
 import collections from "../components/functions/collectionRankings.json"
 import ethLogo from "../public/images/ethLogo.png"
 import Image from 'next/image'
+import orderData from "./functions/orderData.json"
 
-const FullLastSold=({collection})=>{
+const FullLastSold=({collection, name})=>{
     const [numberOfItems,setNumberOfItems] = useState(20)
     const [activeTab, setActiveTab] = useState("list")
     const [orderBy,setOrderBy] = useState("created_at")
@@ -17,6 +18,8 @@ const FullLastSold=({collection})=>{
  console.log(collection)
     const {data, isLoading,isError} = useGetData(`https://api.x.immutable.com/v1/orders?status=filled&sell_token_type=ERC721&sell_token_address=${collection}`)
   console.log(data)
+
+ 
     if (!data) return ""
     const getAnalyticsData = (data) => {
         const dataPrice = data.map(item=>(item.buy.data.quantity/10**18))
@@ -93,7 +96,7 @@ const FullLastSold=({collection})=>{
         </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)} <Image src={ethLogo} width={15} height={15} alt="eth logo"/></p>
             {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>#{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
-            <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
+            <Link href={`/user/${item.user}`}><a className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</a></Link>
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>
         </div>
         )}
@@ -109,10 +112,31 @@ return (
     <>
     {data?
 <div className={styles.mainContainer}>
-Recent Volume: {getAnalyticsData(data).volume.toFixed(4)} Average: {getAnalyticsData(data).average.toFixed(4)} Sales:{getAnalyticsData(data).results}
+
+{orderData? 
+<div className={styles.statsContainer}>
+
+    <div className={styles.statsBox}>
+        <p className={styles.stats}> {orderData["day"][name].toFixed(2)}</p>
+
+        <p className={styles.statsName}> Today's Volume</p>
+    </div>
+
+
+    <div className={styles.statsBox}>
+        <p className={styles.stats}> {orderData["week"][name].toFixed(2)}</p>
+
+        <p className={styles.statsName}> Week's Volume</p>
+    </div>
+
+</div>
+
+    :
+    ""
+}
 <div className={styles.tabs}>
         <div onClick={()=>setActiveTab("list")} className={activeTab==="list"? styles.activeTab:styles.inactiveTab}>Grid</div>
-        <div onClick={()=>setActiveTab("charts")} className={activeTab==="charts"? styles.activeTab:styles.inactiveTab}>Charts</div>
+        <div onClick={()=>setActiveTab("charts")} className={activeTab==="charts"? styles.activeTab:styles.inactiveTab}>Chart</div>
     </div>
     {activeTab==="list"?createSalesTable(data,numberOfItems):
     <>

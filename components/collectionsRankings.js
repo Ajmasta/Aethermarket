@@ -67,7 +67,7 @@ return (
             <p onClick={()=>{setActiveTab(""); setTimeout(()=>setActiveTab("week"),200)}} 
             className={activeTab==="week"?`${styles.tab} ${styles.activeTab}`:styles.tab}>Week</p>
                <p onClick={()=>{setActiveTab(""); setTimeout(()=>setActiveTab("all"),200)}} 
-            className={activeTab==="all"?`${styles.tab} ${styles.activeTab}`:styles.tab}>All</p>
+            className={activeTab==="all"?`${styles.tab} ${styles.activeTab}`:styles.tab}>All Time</p>
             </div>
 
 

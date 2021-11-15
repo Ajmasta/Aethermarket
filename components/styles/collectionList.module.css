@@ -15,6 +15,7 @@
   background-color: transparent;
   margin-right: 10px;
   padding: 20px 0;
+ 
 }
 .imagesContainer {
   display: flex;
@@ -60,11 +61,11 @@
 }
 .descriptionContainer {
   display: flex;
-
-  position: absolute;
   color: transparent;
-  bottom: -10px;
-  left: 20px;
+  width:150px;
+  justify-content:center;
+  text-align:center
+  
 }
 
 .name {
@@ -72,7 +73,6 @@
   font-size: 18px;
   font-weight: 900;
 
-  text-shadow: 1px 1px 13px black;
 }
 
 .container {
