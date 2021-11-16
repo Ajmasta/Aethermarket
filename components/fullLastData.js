@@ -63,7 +63,9 @@ const createFilters =() => {
          
     }
 
-    return (<div className={styles.filtersContainer}>
+    return (
+    
+    <div className={styles.filtersContainer}>
         {titles.map((title,i)=>(
             <div key={`${i}-filterContainer`} className={styles.filterContainer}>
            
@@ -121,7 +123,7 @@ const createFilters =() => {
 
 return(
     
-    <div className={styles.container}>
+    <div className={styles.container} >
     <div className={styles.topContainer}>
     {isLoadingCollection || isErrorCollection? "loading":
              <>

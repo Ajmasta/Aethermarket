@@ -82,10 +82,13 @@ return (
              <div className={styles.searchCollectionSectionTitle}>Collections</div>
                 {collectionsNavBar.length>0?collectionsNavBar.map((collection,i)=>
                 collection.upcoming?
-                <p>{collection.name} <span>Upcoming</span></p>
+                <div className={styles.searchResult}>
+                <img src={collection.collection_image_url} className={styles.searchImage} alt="collection logo" />
+                <p > {collection.name} <span className={styles.upcomingLabel}>Upcoming</span></p>
+                </div>
                 :
-                <><Link  key={`${i}collec`} href={`/collections/${collection.address}`}>
-                <a>{collection.name}</a></Link></>):"No results"}
+                <><Link   key={`${i}collec`} href={`/collections/${collection.address}`}>
+                <a className={styles.searchResult}><img src={collection.collection_image_url} className={styles.searchImage} alt="collection logo" />{collection.name}</a></Link></>):"No results"}
             </div>
         :""}
      

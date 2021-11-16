@@ -1,6 +1,9 @@
 import collections from "./collectionRankings.json"
-import { calculateDay, calculateTime,calculateWeek } from "./functions"
-import badGrandma from "./badGrandma.json"
+import { calculateDay, calculatePreviousDay, calculatePreviousWeek, calculateTime,calculateWeek } from "./functions"
+
+let badGrandma=[]
+
+
 export const addAOneOrNot = async () => 
 {
     for(let object in collections){
@@ -14,20 +17,20 @@ export const addAOneOrNot = async () =>
 export const getSevenDaysOrder = async () => {
     const data = await (await fetch("https://api.x.immutable.com/v1/orders?status=filled&buy_token_type=ETH") ).json()
     let cursor= "&cursor=" + data.cursor
-    for (let i=0;i<=0;i++){
+    for (let i=0;i<=1600;i++){
         const newData = await (await fetch("https://api.x.immutable.com/v1/orders?status=filled&buy_token_type=ETH"+cursor)).json()
         cursor= "&cursor=" + newData.cursor
         data.result.push(...newData.result)
         console.log(i)
     }
     console.log(data)
-    console.log(calculateTime(data.result[data.result.length-1].updated_timestamp))
+    console.log(calculateTime(data.result[data.result.length-1].timestamp))
     parseOrders(data.result)
     return data
 }
 
 
-/*export const getAllTimeOrder = async() =>{
+export const getAllTimeOrder = async() =>{
     const data = await (await fetch("https://api.x.immutable.com/v1/orders?status=filled&buy_token_type=ETH") ).json()
     let cursor= "&cursor=" + data.cursor
     let newData = {}
@@ -46,14 +49,19 @@ export const getSevenDaysOrder = async () => {
 
 
 
-}*/
+}
 const parseOrders = (orders)=> {
-    const dayOrders = orders.filter(element=>calculateDay(element.updated_timestamp))
-    const weekOrders=orders.filter(element=>calculateWeek(element.updated_timestamp))
+    const dayOrders = orders.filter(element=>calculateDay(element.timestamp))
+    const pastDayOrders = orders.filter(element=>calculatePreviousDay(element.timestamp))
+    const weekOrders=orders.filter(element=>calculateWeek(element.timestamp))
+    const pastWeekOrders=orders.filter(element=>calculatePreviousWeek(element.timestamp))
     const allOrders = orders
    const orderedArrayDay = dayOrders.map(element=>{return ({"price":element.buy.data.quantity,"collection":element.sell.data.token_address,"timeStamp":element.updated_timestamp,"collectionName":element.sell.data.properties.collection.name})})
+   const orderedArrayPreviousDay = pastDayOrders.map(element=>{return ({"price":element.buy.data.quantity,"collection":element.sell.data.token_address,"timeStamp":element.updated_timestamp,"collectionName":element.sell.data.properties.collection.name})})
    const orderedArrayWeek = weekOrders.map(element=>{return ({"price":element.buy.data.quantity,"collection":element.sell.data.token_address,"timeStamp":element.updated_timestamp,"collectionName":element.sell.data.properties.collection.name})})
-    const orderedAllOrders = allOrders.map(element=>{return ({"price":element.buy.data.quantity,"collection":element.sell.data.token_address,"timeStamp":element.updated_timestamp,"collectionName":element.sell.data.properties.collection.name})})
+   const orderedArrayPreviousWeek = pastWeekOrders.map(element=>{return ({"price":element.buy.data.quantity,"collection":element.sell.data.token_address,"timeStamp":element.updated_timestamp,"collectionName":element.sell.data.properties.collection.name})})
+    
+   const orderedAllOrders = allOrders.map(element=>{return ({"price":element.buy.data.quantity,"collection":element.sell.data.token_address,"timeStamp":element.updated_timestamp,"collectionName":element.sell.data.properties.collection.name})})
 
    let objectDay={}
    orderedArrayDay.map(element=>{
@@ -84,31 +92,92 @@ orderedAllOrders.map(element=>{
     }
 
 })
-   console.log(objectDay,objectWeek,objectAll)
+
+let objectPreviousDay= {}
+orderedArrayPreviousDay.map(element=>{
+    if (objectPreviousDay[element.collectionName]){
+        objectPreviousDay[element.collectionName] += Number(element.price)/10**18
+    }else{
+        objectPreviousDay[element.collectionName] = Number(element.price)/10**18
+
+    }
+})
+let objectPreviousWeek={}
+orderedArrayPreviousWeek.map(element=>{
+    if (objectPreviousWeek[element.collectionName]){
+        objectPreviousWeek[element.collectionName] += Number(element.price)/10**18
+    }else{
+        objectPreviousWeek[element.collectionName] = Number(element.price)/10**18
+
+    }
+})
+
+
+console.log(objectPreviousDay,objectPreviousWeek)
+let changeDay ={}
+for(let element in objectPreviousDay){
+    console.log()
+let change = (objectDay[element]*100/objectPreviousDay[element]) -100
+
+changeDay[element] = change
+
+}
+let changeWeek={}
+for(let element in objectPreviousWeek){
+    let change = (objectWeek[element]*100/objectPreviousWeek[element]) -100
+    
+    changeWeek[element] = change
+    
+    }
+
+
+let result = {day:objectDay,week:objectWeek,all:objectAll,changeDay,changeWeek}
+   console.log(result)
 }
 
 export const getCollectionsMeta =async  (collection,id) => {
     console.log(collections[0])
 const allData = []
 
-for(let i = 0;i<=0; i++){ //always start i at 0 to not get decale
-const data = await (await fetch(`https://api.x.immutable.com/v1/assets/0xaa84c36e454e632c6880d2563986be75718fbc6f/${i}`)).json()
-data.metadata? allData.push(data):""
+for(let i = 0;i<=10000; i++){ //always start i at 0 to not get decale
+const data = await (await fetch(`https://api.x.immutable.com/v1/assets/0x1a7f16c514e6f57f7092e19ff6d1c5d75e5f093d/${i}`)).json()
+data.metadata? allData.push(data):i===0?allData.push(data):""
 
 console.log(i)
 }
 
 console.log(allData)
-getTraitsRarity(badGrandma)
 
+
+}
+let usersArray
+export const getCollectionsMetaByList = async () =>{
+    let collection = "0x3205c066d0560546a9aaf922e8e2caf88a1ff71c"
+    let data = await (await fetch(`https://api.x.immutable.com/v1/assets?collection=${collection}`)).json()
+    let cursor = data.cursor
+    let results = []
+    let i= 0
+    while(cursor !==""){ //always start i at 0 to not get decale
+        results.push(...data.result)
+        data = await (await fetch(`https://api.x.immutable.com/v1/assets?cursor=${cursor}&collection=${collection}`)).json()
+    cursor=data.cursor
+
+     
+    i++
+    console.log(i)
+    }
+    results = results.sort((a,b)=>a.token_id-b.token_id)
+    console.log(results)
+    badGrandma=results
+    getTraitsRarity(badGrandma)
+   
 }
 let  numberOfOccurencesArray
 const getTraitsRarity= (array) => {
   
 const allArray = []
-let userArray = array.map(item=>item.user)
-userArray= Array.from(new Set(userArray))
-console.log("Number of unique Users", userArray.length)
+ usersArray = array.map(item=>item.user)
+usersArray= Array.from(new Set(usersArray))
 const filteredArray = array.map(item=>{
     if(item.metadata){
     delete item.metadata.name
@@ -128,7 +197,6 @@ const filteredArray = array.map(item=>{
     else{}
      } )
 
-console.log(filteredArray.length)
 let i = 0
     filteredArray.forEach(item=>{
         
@@ -137,11 +205,9 @@ let i = 0
             i++
         }
     } ) 
-    console.log(i,"I")
     getArrayOccurences(allArray)
 }
 const getArrayOccurences = (array) => {
-console.log(array)
 const occDic = {}
 array.forEach(item=>{
     if (occDic[item[0]] !==undefined) {
@@ -158,12 +224,6 @@ for (let  item in occDic){
 }
 
 traitsArray.sort((a,b) => a[1] - b[1]);
-console.log(traitsArray)
-
-console.log(traitsArray.reduce((a,b)=>{
-    
-    
-    return a+b[1]},49))
 
  numberOfOccurencesArray = Array.from(new Set(traitsArray.map(element=>element[1])))
 
@@ -192,41 +252,40 @@ const checkRankings = (traitsList,numberArray,elementsArray,) =>{
              
              }     
        }
-       return filteredArray
+      filteredArray =filteredArray.map(element=>element[1])
+       return {metadata:filteredArray,token_id:item.token_id}
      })
-metadataArray = metadataArray.map(element => element.map(array=>array[1]))
+
+
  //metadataArray = 10000 arrays of 14 length, each index = id of token.
 
  //check each array for its value
-console.log(metadataArray)
  
-let pointsArray = metadataArray.map(array =>{
-    const ranksArray = []
-    array.map(
-        element => {                
+let pointsArray = metadataArray.map((object,i) =>{
+    let ranksArray = []
+    object.metadata.map(
+        (element,y) => {                
                 //ranksArray.push(numberArray.length-1-numberArray.indexOf(element))
                 ranksArray.push(1000/element/10000)
+                
                  }
              )
      const points = ranksArray.length>0 ?ranksArray.reduce((a,b)=>a+b):[]
-    return points
+    
+    return {metadata:points,token_id:object.token_id}
     }
 )
 let pointsArrayCopy = [...pointsArray]
-const sortedPointsArray = pointsArrayCopy.sort((a,b)=>b-a)
+const sortedPointsArray = pointsArrayCopy.sort((a,b)=>b.metadata-a.metadata)
+
 // points array => array of all points, index = id of nft
 //sortedpoints array => sorted array of all points  index = ranking of NFT
-const sortedPointsSet=Array.from(new Set(sortedPointsArray))
 
-console.log(sortedPointsSet)
-let idRankedArray = pointsArray.map((element,i)=>{
-return  [sortedPointsArray.indexOf(element)+1,i]
-}) 
-idRankedArray.sort((a,b)=>a[0]-b[0])
-idRankedArray = idRankedArray.map(element=>element[1])
+let idRankedArray = sortedPointsArray.map(element=>Number(element.token_id))
 console.log(idRankedArray)
-console.log(pointsArray)
 console.log(traitsList)
+let result = {name:elementsArray[0].collection.name,ranksArray:idRankedArray,listOfTraits:traitsList,users:usersArray.length}
+console.log(result)
 return {idRankedArray,pointsArray}
 }
 

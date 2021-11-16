@@ -8,10 +8,13 @@ import Image from 'next/image'
 import { Line } from 'react-chartjs-2';
 import collections from "../components/functions/collectionRankings.json"
 import queryString from "query-string"
+import { useInView } from 'react-intersection-observer';
+
 const FullLastListed=({data,setSortBy,sortBy,collection})=>{
     const [extraFilters,setExtraFilters]=useState("")
     const [input,setInput] = useState("")
-    
+    const { ref, inView, entry } = useInView();
+
    if (input.length>0 && isNaN(input)) setInput("")
 const filteredData = data.listings.filter(item=>{
             //if (item.sell.data.properties.name.includes(input)) return true
@@ -23,7 +26,11 @@ const filteredData = data.listings.filter(item=>{
     sortBy==="&order_by=buy_quantity&direction=asc"?data.listings.sort((a,b)=>a.buy.data.quantity-b.buy.data.quantity) :""
   
     extraFilters==="rankings"? data.listings.sort((a,b)=> collections[collection]["ranksArray"].indexOf(Number(a.sell.data.token_id))-collections[collection]["ranksArray"].indexOf(Number(b.sell.data.token_id))):""
-    const [numberOfItems,setNumberOfItems] = useState(15)
+    const [numberOfItems,setNumberOfItems] = useState(10)
+    useEffect(()=>setNumberOfItems(numberOfItems+10),[inView])
+
+
+        
     const createSimilarListings = (array, numberOfItems) =>{
         array = array.slice(0,numberOfItems)
         return (array.map((result,i)=>
@@ -58,11 +65,9 @@ const filteredData = data.listings.filter(item=>{
                 </div>
             </a>
             </Link>
-            {numberOfItems<array.length?
-            <div onClick={()=>setNumberOfItems(numberOfItems+8)}  
-            className={ `${styles.moreButton}`}>
-            { "Load More"}
-            </div>:""}
+            <div ref={ref}>
+           
+            </div>
             </>
         )
         )
@@ -70,7 +75,7 @@ const filteredData = data.listings.filter(item=>{
     }
     console.log(sortBy)
     return (
-        <div className={styles.mainContainer} >
+        <div className={styles.mainContainer}  >
     
     <div className={styles.filterTab}>
     <input className={styles.inputFilter} onChange={(e)=>{setInput(e.target.value)}} type="number" placeholder="Search token ID"></input>

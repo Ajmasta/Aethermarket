@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import collections from "../components/functions/collectionRankings.json"
 import { useGetRankings } from "./functions/functions"
 import Link from 'next/link'
-import styles from "./styles/fullLastListed.module.css"
+import styles from "./styles/allRankings.module.css"
 import { addAOneOrNot } from "./functions/getCollectionsData"
 const AllRankings = ({collection}) => {
     const [array,setArray] = useState([])

@@ -39,6 +39,7 @@
   display: flex;
   align-items: center;
   width: 100%;
+  max-width: 1800px;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -58,12 +59,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
+  max-width: 1500px;
 }
 .nameDescription {
   display: flex;
   flex-direction: column;
-  max-width: 200px;
+  max-width: 150px;
 }
 .collectionName {
   color: rgba(5, 5, 5, 0.6);

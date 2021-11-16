@@ -35,6 +35,21 @@
 
   display: flex;
 }
+.searchResult {
+  width: 40%;
+  display: flex;
+  align-items: center;
+}
+.upcomingLabel {
+  background-color: red;
+  color: white;
+  padding: 5px;
+}
+.searchImage {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
 .textElement {
   padding: 0 20px;
   font-weight: 600;

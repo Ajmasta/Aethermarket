@@ -6,8 +6,10 @@
   background-color: transparent;
   padding-top: 100px;
   color: white;
-
+  background-color: black;
   flex-wrap: wrap;
+  overflow: hidden;
+  position: relative;
 }
 .containerLeft {
   max-width: 40%;
@@ -17,6 +19,7 @@
   height: 100%;
   min-width: 300px;
   min-height: 400px;
+  z-index: 1;
 }
 .titleTextContainer {
   display: flex;
@@ -60,11 +63,13 @@
   min-width: 300px;
   align-items: flex-start;
   justify-content: center;
+  z-index: 2;
 }
 .video {
-  position: fixed;
+  position: absolute;
   top: 0;
-  z-index: -2;
+  bottom: 0;
+  z-index: 0;
 }
 .artFrame {
   height: 100%;

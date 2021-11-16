@@ -1,9 +1,9 @@
 import Calls from "../components/10000calls"
-import { getAllTimeOrder, getCollectionsMeta, getSevenDaysOrder, turnArrayIntoStats } from "../components/functions/getCollectionsData"
+import { getAllTimeOrder, getCollectionsMeta, getCollectionsMetaByList, getSevenDaysOrder, turnArrayIntoStats } from "../components/functions/getCollectionsData"
 
 const GetCollectionMeta = () => {
 
-    getCollectionsMeta()
+    getSevenDaysOrder() 
 return <p> test</p>
 
 }

@@ -25,7 +25,7 @@ const CollectionList = () => {
             console.log(collectionsFetched)
             for(let object in collections2){
                 const collection = collectionsFetched.filter(element=>element.address===object)
-                listOfCollections.push(...collection)
+                if(Number(collections2[object].users)>300) listOfCollections.push(...collection)
             }
             console.log(listOfCollections)
             setCollections(listOfCollections)
@@ -56,7 +56,7 @@ return (collections.map((collection,i)=>{
         <Link  href={`/collections/${collection.address}`} key={`widget${i}`}>
         <a className={`${styles.collectionContainer} `}>
             <div className={styles.iconContainer}>
-                <img className={styles.image} src={collection.collection_image_url} />
+                <img className={styles.image} src={collection.collection_image_url?collection.collection_image_url:collection.icon_url} />
             </div>
             <div className={styles.descriptionContainer}>
             <span className={styles.name}>{collection.name} </span>
@@ -75,7 +75,7 @@ const createUpcomigCollectionWidget =  (collections) => {
                 <div className={styles.upcomingImageContainer}>
                 <img className={styles.upcomingImage} src={collection.icon_url} alt="collection sample" />
                 <div className={styles.upcomingIconContainer}>
-                <img className={styles.upcomingIcon} src={collection.collection_image_url} alt="collection icon"/>
+                <img className={styles.upcomingIcon} src={collection.collection_image_url?collection.collection_image_url:collection.icon_url} alt="collection icon"/>
                 </div>
                 </div>
                 <div className={styles.upcomingDescriptionContainer}>
@@ -97,9 +97,7 @@ const createUpcomigCollectionWidget =  (collections) => {
           <div className={styles.container}>
                 <div className={styles.title}>Our Curated Collections</div>
                     <div className={styles.imagesContainer}>
-                        <div className={styles.bigCollection}>
-                        <Image src={"/images/299.png"} height={566} width={566} className={styles.bigImage}/>
-                        </div>
+                      
                         <div className={styles.collectionsContainer}>
                     
                         {createCollectionWidget(collections)}

@@ -1,7 +1,7 @@
 import styles from "./styles/fullLastSold.module.css"
 import Link from 'next/link'
 import useSWR from 'swr'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { calculateTime, get24hVolume, useGetData } from "./functions/functions"
 import { Scatter } from 'react-chartjs-2';
 import { Line } from 'react-chartjs-2';
@@ -9,16 +9,20 @@ import collections from "../components/functions/collectionRankings.json"
 import ethLogo from "../public/images/ethLogo.png"
 import Image from 'next/image'
 import orderData from "./functions/orderData.json"
+import { useInView } from 'react-intersection-observer';
 
 const FullLastSold=({collection, name})=>{
-    const [numberOfItems,setNumberOfItems] = useState(20)
+    const [numberOfItems,setNumberOfItems] = useState(5)
     const [activeTab, setActiveTab] = useState("list")
     const [orderBy,setOrderBy] = useState("created_at")
     const [orderingDirection,setOrderingDirection] = useState("asc")
  console.log(collection)
     const {data, isLoading,isError} = useGetData(`https://api.x.immutable.com/v1/orders?status=filled&sell_token_type=ERC721&sell_token_address=${collection}`)
   console.log(data)
+  const { ref, inView, entry } = useInView();
 
+  
+  useEffect(()=>setNumberOfItems(numberOfItems+5),[inView])
  
     if (!data) return ""
     const getAnalyticsData = (data) => {
@@ -34,6 +38,7 @@ const FullLastSold=({collection, name})=>{
     
     const getPriceHistoryChart = (data) =>{
         console.log(data)
+        if (data.length===0) return <div style={{width:"100%",textAlign:"center"}}>No sales yet! </div>
         const chartData = {
             datasets:[
     
@@ -74,7 +79,8 @@ const FullLastSold=({collection, name})=>{
         const arrayLength = sold.length
         sold.sort((result, result2)=> result.updated_timestamp < result2.updated_timestamp ? 1:-1)
         sold = sold.slice(0,numberOfItems)
- 
+        
+        if (sold.length===0) return "No sales yet!"
     
     return (
         
@@ -100,9 +106,8 @@ const FullLastSold=({collection, name})=>{
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>
         </div>
         )}
-        <div onClick={()=>setNumberOfItems(numberOfItems+20)} 
-        className={numberOfItems < arrayLength? `${styles.tableRow} ${styles.tableSeeMore}`:styles.tableRow}>
-        {numberOfItems < arrayLength? "See More Results":""}
+        <div ref={ref}> 
+        
         </div>
     </div>
     
@@ -113,7 +118,7 @@ return (
     {data?
 <div className={styles.mainContainer}>
 
-{orderData? 
+{orderData && orderData["day"][name]? 
 <div className={styles.statsContainer}>
 
     <div className={styles.statsBox}>

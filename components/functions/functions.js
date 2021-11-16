@@ -199,12 +199,27 @@ export const calculateWeek = (timestamp) => {
     return timeDiff <604800000 ? true:false
 
 }
+export const calculatePreviousWeek= timestamp =>{
+    const date = new Date()
+    const dateT= new Date(timestamp)
+    const timeDiff = (date.getTime()-dateT.getTime())
+   
+    return timeDiff => 604800000 ? timeDiff<= 604800000*2? true:false:false
+}
 export const calculateDay = (timestamp) => {
     const date = new Date()
     const dateT= new Date(timestamp)
     const timeDiff = (date.getTime()-dateT.getTime())
    
     return timeDiff <86400000 ? true:false
+
+}
+export const calculatePreviousDay = (timestamp) => {
+    const date = new Date()
+    const dateT= new Date(timestamp)
+    const timeDiff = (date.getTime()-dateT.getTime())
+   
+    return timeDiff >=86400000 ? timeDiff <=86400000 *2 ? true:false:false
 
 }
  export const getListingInfo = async (url,url2) => {
