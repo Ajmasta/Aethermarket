@@ -35,6 +35,8 @@ const [researchOpen,setResearchOpen] = useState(false)
 
 useEffect(()=>ethereum.on('accountsChanged', function (accounts) {
   formatUserBalances();
+  logout()
+  setupAndLogin()
 }),[])
 const {data,isLoading,isError} = useGetCollections("https://api.x.immutable.com/v1/collections?page_size=999999999")
 useEffect(()=>setCollections(data),[data])

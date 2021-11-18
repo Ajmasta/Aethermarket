@@ -22,8 +22,7 @@ const FullLastData = ({collection})=>{
     const [filtersMetadata,setFiltersMetadata] = useState()
     const [urlMetadata,setUrlMetadata]= useState()
     const [openFilters,setOpenFilters] = useState([])
-    console.log(`https://api.x.immutable.com/v1/orders?page_size=999999&sell_token_address=${collection}${sortBy}${metadata.length>0?metadata:""}`)
-const {data, isLoading,isError} = useGetListingsLong(`https://api.x.immutable.com/v1/orders?page_size=999999&sell_token_address=${collection}${sortBy}${metadata}`)
+const {data, isLoading,isError} = useGetListingsLong(`https://api.x.immutable.com/v1/orders?page_size=999999&include_fees=true&sell_token_address=${collection}${sortBy}${metadata}`)
 const priceArray = data && data.listings? data.listings.map(result=>result.buy.data.quantity):[]
 priceArray.sort((a,b)=>a-b)
 const {collectionData, isLoadingCollection,isErrorCollection}=useGetSingleCollection(` https://api.x.immutable.com/v1/collections/${collection}`)
@@ -53,6 +52,7 @@ const setMetadataForUrl=() =>{
 
 const createFilters =() => {
     const filters = collections[collection].listOfTraits
+    const numberItems = collections[collection]?.ranksArray?collections[collection].ranksArray.length:""
     console.log(filters)
    let titles =[]
    let listOf=[]
@@ -94,7 +94,8 @@ const createFilters =() => {
                 }} key={element+i}>
                 
                 <p className={styles.traitName}>{element[0]} </p>
-             <p className={styles.traitPercentage}>{element[1]/100}%</p> <input type="checkbox" onChange={(e)=>{
+             {numberItems!==""?<p className={styles.traitPercentage}>{(element[1]/numberItems*100).toFixed(2)}%</p>:""}
+             <input type="checkbox" onChange={(e)=>{
                     let object = {...filtersMetadata}
                     console.log(e.target.checked,element)
                     if (e.target.checked){
@@ -135,18 +136,23 @@ return(
         <div className={styles.statsContainer}>
           {collections[collection] && data? 
           <>
+          {collections[collection]["ranksArray"]?
            <div className={styles.statsBox}>
+           
+           
            <p className={styles.statsNumber}> {collections[collection]["ranksArray"].length} </p>
            <p className={styles.statsText}> Items </p>
-           </div>
+           </div>:""
+          }
            <div className={styles.statsBox}>
            <p className={styles.statsNumber}> {priceArray[0]/10**18} </p>
            <p className={styles.statsText}> Floor Price </p>
            </div>
+           {collections[collection]["ranksArray"]?
            <div className={styles.statsBox}>
            <p className={styles.statsNumber}> {(data.listings.length/collections[collection]["ranksArray"].length*100).toFixed(2)}%</p>
            <p className={styles.statsText}> listed </p>
-           </div>
+           </div>:""}
            <div className={styles.statsBox}>
            <p className={styles.statsNumber}> {orderData? (orderData["all"][collectionData.name]/1000).toFixed(2):""}K</p>
            <p className={styles.statsText}>  Volume </p>
@@ -156,7 +162,8 @@ return(
             :""}
         </div>
         <div className={styles.tabs}>
-        {collections[collection]?<button className={status==="rankings"? styles.activeTab:styles.inactiveTab} onClick={()=>setStatus("rankings")}>
+        {collections[collection]?.ranksArray?
+        <button className={status==="rankings"? styles.activeTab:styles.inactiveTab} onClick={()=>setStatus("rankings")}>
             <AppsIcon />{" "} Rankings</button>:""}
             <button className={status==="active"? styles.activeTab:styles.inactiveTab} onClick={()=>setStatus("active")}>
             <AppsIcon />{" "} Listings</button>

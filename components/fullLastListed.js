@@ -61,7 +61,7 @@ const filteredData = data.listings.filter(item=>{
         </span>
         
         </div> 
-        {collections[collection]? <p key={`{i}rank`} className={styles.rankContainer}>Rank:{collections[collection]["ranksArray"].indexOf(Number(result.sell.data.token_id))+1}</p>:""}
+        {collections[collection]?.ranksArray? <p key={`{i}rank`} className={styles.rankContainer}>Rank:{collections[collection]["ranksArray"].indexOf(Number(result.sell.data.token_id))+1}</p>:""}
                 </div>
             </a>
             </Link>
@@ -87,7 +87,7 @@ const filteredData = data.listings.filter(item=>{
     <option value="&order_by=buy_quantity&direction=asc"  >Lowest Price</option>
     <option value="&order_by=buy_quantity&direction=desc"  >Highest price</option>
     <option value="&order_by=created_at&direction=asc"  >Newly Listed</option>
-    <option value="rankings">Rankings</option>
+   {collections&&collections[collection]?.ranksArray? <option value="rankings">Rankings</option>:""}
     </select>
     </div>
         <div className={styles.bottomImagesContainer} >

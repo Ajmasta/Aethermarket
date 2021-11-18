@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import useSWRInfinite from 'swr/infinite'
 import { useState } from "react"
-
+import orderData from "./orderData.json"
 
 
 const fetcher = async url => {
@@ -82,6 +82,7 @@ const checkCollection = async collections => {
     let object ={...collection}
     const listings = await (await fetch(`https://api.x.immutable.com/v1/orders?sell_token_address=${collection.address}`)).json()
     listings.result.length>0? object.upcoming=false:object.upcoming=true
+    object.volume=orderData.all[collection.name]?{all:orderData.all[collection.name],day:orderData.day[collection.name],week:orderData.week[collection.name]}:""
     return object
    }))
    return newArray
@@ -132,7 +133,7 @@ const getAllListings = async (url) => {
             dataArray.push(...data.result)
             cursor="&cursor="+data.cursor
             i++
-            if (!data.cursor || i>12) roll=false
+            if (!data.cursor || i>4) roll=false
         }
         console.log(dataArray)
 return dataArray
@@ -180,8 +181,8 @@ function msToTime(duration) {
        days = Math.floor((duration / (1000 * 60 * 60*24)) % 365);
   
   const answerString = days>1? days + "days ago" :days===1? days + " day ago":
-   hours >1 ? hours + " hours ago" :hours===1? hours + " hour ago": minutes > 1? minutes + " minutes ago":minutes===1? minutes + "minute ago":
-    seconds >1 ? seconds + " seconds ago" : seconds + "second ago"
+   hours >1 ? hours + " hours ago" :hours===1? hours + " hour ago": minutes > 1? minutes + " minutes ago":minutes===1? minutes + " minute ago":
+    seconds >1 ? seconds + " seconds ago" : seconds + " second ago"
     return answerString
   }
 export const calculateTime = (timestamp) => {

@@ -3,6 +3,7 @@
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 .collectionsContainer {
   flex: 2;
@@ -11,8 +12,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  max-width: 1500px;
 }
-
 .collectionContainer {
   display: flex;
   flex-direction: column;
@@ -37,10 +38,21 @@
   min-width: 273px;
   border-radius: 16px;
 }
-
+@media (max-width: 600px) {
+  .bigImage {
+    max-width: 273px !important;
+  }
+  .bigCollection {
+    max-width: 273px;
+    margin-left: 0;
+    margin-bottom: 5px;
+  }
+}
+.bigImage {
+  border-radius: 16px;
+}
 .iconContainer {
   max-width: 150px;
-  min-width: 150px;
   height: 150px;
   overflow: hidden;
   border-radius: 16px;
@@ -55,19 +67,19 @@
 }
 .descriptionContainer {
   display: flex;
-
-  position: absolute;
+  flex-direction: column;
   color: transparent;
-  bottom: -10px;
-  left: 20px;
+  width: 150px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
 }
 
 .name {
   color: black;
   font-size: 18px;
   font-weight: 900;
-
-  text-shadow: 1px 1px 13px black;
 }
 
 .container {
@@ -78,15 +90,102 @@
   background-color: white;
 }
 .title {
-  font-size: 24px;
+  font-size: 18px;
   display: flex;
   justify-content: center;
 
-  padding: 60px 0;
+  padding: 0px 0;
   width: 100%;
   background-color: transparent;
   font-weight: 900;
   color: black;
+}
+
+.title2 {
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+  width: 100%;
+  margin-right: 50px;
+  background-color: white;
+  font-weight: 900;
+  color: black;
+}
+.upcomingCollection {
+  background-color: white;
+  width: 100%;
+  height: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.upcomingImageContainer {
+  position: relative;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+}
+.upcomingIconContainer {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  bottom: -40px;
+  background-color: white;
+  border-radius: 50%;
+
+  border: 3px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.upcomingIcon {
+  width: 100%;
+  border-radius: 50%;
+}
+.upcomingImage {
+  width: 100%;
+  border-radius: 0px;
+}
+.upcomingDescriptionContainer {
+  margin-top: 40px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 20px;
+  height: 200px;
+}
+.upcomingName {
+  text-align: center;
+  margin-bottom: 0;
+  font-weight: 700;
+}
+.logoContainer {
+  width: 300px;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+.upcomingCollectionContainer {
+  border: 3px black solid;
+  background-color: #99d98c;
+  border-radius: 10px;
+  transition: ease 0.25s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.upcomingCollectionContainer:hover {
+  box-shadow: 2px 2px 12px black;
+}
+.upcomingCollectionsContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 70%;
+}
+.discordIcon {
+  width: 24px;
 }
 
 .activeTab,
@@ -115,4 +214,13 @@
   justify-content: center;
   margin-bottom: 50px;
   border-bottom: 1px #eee solid;
+}
+.volume {
+  color: black;
+  position: absolute;
+  top: -25px;
+  right: 0;
+  border-radius: 5px;
+  background-color: white;
+  padding: 3px;
 }

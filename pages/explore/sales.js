@@ -13,7 +13,7 @@ const lastDate = listingData.result[listingData.result.length-1].updated_timesta
    return (
         <>
         <NavBar />
-        Volume: {getVolume(listingData.result)} in the past {calculateTime(lastDate)}
+      
         {!listingData? "loading":<AllLastSold data={listingData} /> }
         
 
@@ -28,7 +28,7 @@ export default Explore
 export async function getStaticProps() {
 
   
-    const listingData= await getLongListData(`https://api.x.immutable.com/v1/orders?page_size=99999&status=filled&buy_token_type=ERC721`)
+    const listingData= await getLongListData(`https://api.x.immutable.com/v1/orders?page_size=99999&status=filled&sell_token_type=ERC721`)
     
 
   

@@ -39,7 +39,7 @@ const CollectionRankings = () => {
             <>
     <div className={styles.tableContainer}>
             {array.slice(0,15).map((element,i)=>{
-            let changeValue = activeTab==="day"? orderData["changeDay"][element[0]].toFixed(2):orderData["changeWeek"][element[0]].toFixed(2)
+            let changeValue = activeTab==="day"? orderData["changeDay"][element[0]]?.toFixed(2):orderData["changeWeek"][element[0]].toFixed(2)
             
             return (
                 
@@ -50,7 +50,7 @@ const CollectionRankings = () => {
                 <img src={element[2]!==""?element[2]:element[4]} alt="icon" className={styles.image} />
                 </div>
                 <p className={styles.collectionName}>{element[0]}</p>
-               {activeTab!=="all"?<p className={changeValue>0?styles.volumeChangeP:styles.volumeChangeN}>{changeValue}%</p>:""}
+               {activeTab!=="all"?<p className={changeValue>0?styles.volumeChangeP:styles.volumeChangeN}>{changeValue&&changeValue!==0?changeValue+"%":""}</p>:""}
               <p className={styles.volume}>{element[1]?element[1].toFixed(2):''}  
               <Image src={ethLogo} layout="fixed" width={15} height={15} alt="ethLogo" /> 
                 </p>

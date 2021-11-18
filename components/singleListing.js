@@ -23,7 +23,7 @@ const SingleListing = ({data}) => {
     const [sell,setSell] = useState(false)
     const listingData= data.data.result[0]
     const collection = listingData.sell.data.token_address
-    const rank = collections[collection]?collections[collection]["ranksArray"].indexOf(Number(listingData.sell.data.token_id)):"No ranking info"
+    const rank = collections[collection]["ranksArray"]?collections[collection]["ranksArray"].indexOf(Number(listingData.sell.data.token_id)):undefined
     const account= useRecoilValue(accountAtom)
     const [assets,setAssets] = useRecoilState(assetsAtom)
     const user = localStorage.getItem("WALLET_ADDRESS")
@@ -243,9 +243,25 @@ const createTraitsTabGodsUnchained = () =>{
                 <img className={styles.similarImage} src={result.sell.data.properties.image_url} alt="nft icon" />
             </div>
             <div className={styles.similarDescription}>
-                    <span>{result.sell.data.properties.name.slice(0,15)}</span>
-                    <span> {result.buy.data.quantity/(10**18)} <Image alt="ethereum logo" src={ethLogo} width={30} height={30} /> </span>
+                <div className={styles.nameDescription}>
+               <span className={styles.collectionName}> 
+                {result.sell.data.properties.collection.name} 
+               </span>
+                {result.sell.data.properties.name} 
+                
                 </div>
+    
+           <div className={styles.priceDescription}>
+              <div className={styles.nameDescription}>
+              <span className={styles.priceName}> 
+           Price 
+           </span>
+           </div>
+                <span className={styles.priceQuantity}>
+                {result.buy.data.quantity/(10**18)} <Image alt="ethereum logo" src={ethLogo} width={15} height={15} />
+                </span>
+       </div>
+       </div>  
             </a>
             </Link>
         )
@@ -279,7 +295,7 @@ const createTraitsTabGodsUnchained = () =>{
             </a>
         </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
-            {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
+            {collections[item.sell.data.token_address]["ranksArray"]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
             <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>
         </div>
@@ -322,7 +338,7 @@ const createTraitsTabGodsUnchained = () =>{
             #{item.sell.data.token_id.slice(0,6)}</a>
             </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
-            {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
+            {collections[item.sell.data.token_address]["ranksArray"]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
 
             <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
     
@@ -392,7 +408,10 @@ const createTraitsTabGodsUnchained = () =>{
        
             <div className={styles.topContainer}>
             <div className={styles.leftContainer} >
-               ID:{listingData.sell.data.token_id} Ranking:{rank}
+            <div className={styles.rankIdContainer}>
+            <p className={styles.elementID}>   {listingData.sell.data.properties.name}</p> 
+            {rank?<p className={styles.elementRank}>  Rank: {" "}{rank+1} </p>:""}
+            </div>
                 <div className={styles.photoContainer}>
                 <img className={styles.image} src={listingData.sell.data.properties.image_url} alt="nft icon"/>
 
@@ -418,7 +437,7 @@ const createTraitsTabGodsUnchained = () =>{
                                                                             <Image width={20} height={20}  src={ethLogo} alt="ethereum logo" />
                                                                             </div>
                 }
-                <Link href={`../users/${listingData.user}`}>
+                <Link href={`/user/${listingData.user}`}>
                     <a className={styles.linkToUser}>
                     <PersonIcon /> 
                     {listingData.user.slice(0,5)+"..."+listingData.user.slice(listingData.user.length-5,listingData.user.length-1)} 

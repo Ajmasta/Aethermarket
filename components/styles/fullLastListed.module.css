@@ -61,7 +61,6 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 1500px;
 }
 .nameDescription {
   display: flex;
@@ -101,9 +100,10 @@
 }
 .rankContainer {
   position: absolute;
-  top: -10px;
+  top: -13px;
   right: 0;
   background-color: white;
+  color: black;
   padding: 5px;
   border-radius: 8px;
 }

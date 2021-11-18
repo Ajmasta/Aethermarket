@@ -12,17 +12,17 @@ import orderData from "./functions/orderData.json"
 import { useInView } from 'react-intersection-observer';
 
 const FullLastSold=({collection, name})=>{
-    const [numberOfItems,setNumberOfItems] = useState(5)
+    const [numberOfItems,setNumberOfItems] = useState(10)
     const [activeTab, setActiveTab] = useState("list")
     const [orderBy,setOrderBy] = useState("created_at")
     const [orderingDirection,setOrderingDirection] = useState("asc")
  console.log(collection)
-    const {data, isLoading,isError} = useGetData(`https://api.x.immutable.com/v1/orders?status=filled&sell_token_type=ERC721&sell_token_address=${collection}`)
+    const {data, isLoading,isError} = useGetData(`https://api.x.immutable.com/v1/orders?status=filled&include_fees=true&sell_token_type=ERC721&sell_token_address=${collection}`)
   console.log(data)
   const { ref, inView, entry } = useInView();
 
   
-  useEffect(()=>setNumberOfItems(numberOfItems+5),[inView])
+  useEffect(()=>setNumberOfItems(numberOfItems+10),[inView])
  
     if (!data) return ""
     const getAnalyticsData = (data) => {
@@ -100,8 +100,8 @@ const FullLastSold=({collection, name})=>{
              {item.sell.data.properties.name}
             </a>
         </Link>
-            <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)} <Image src={ethLogo} width={15} height={15} alt="eth logo"/></p>
-            {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>#{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
+            <div className={styles.tableCell}>{item.buy.data.quantity/(10**18)} <Image src={ethLogo} width={15} height={15} alt="eth logo"/></div>
+            {collections[item.sell.data.token_address]&&collections[item.sell.data.token_address]["ranksArray"]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>#{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
             <Link href={`/user/${item.user}`}><a className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</a></Link>
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>
         </div>

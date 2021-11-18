@@ -35,7 +35,7 @@ const CollectionList = () => {
    
    const upcomingCollections = [
        {    "name": "Dinos IMX",
-            "description": "Bad Grandma is a collection of 10,000 randomly generated & unique collectibles living on ImmutableX and carefully chosen by some of the greatest grandsons who love their grandmas. https://badgrandmanft.com",
+            "description": "IMX Dinos is the first Dino community on IMX! No gas fees, Carbon Neutral, we're taking it back to the Jurassic Period!",
             "icon_url": "/images/dinosImage.png",
             "collection_image_url": "/images/dinosIcon.jpg"},  
              {    "name": "Dinos IMX",

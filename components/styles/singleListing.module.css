@@ -272,7 +272,11 @@
   align-items: center;
   flex-direction: column;
   margin-bottom: 20px;
-  box-shadow: 1px 1px 12px black;
+  box-shadow: 1px 1px 4px black;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: black;
+  border: 1px black solid;
 }
 .traitName,
 .traitValue,
@@ -284,12 +288,57 @@
 }
 .traitName {
   font-weight: 700;
+  color: black;
 }
 .traitsContainer {
   display: flex;
   width: 500px;
-
+  margin-top: 20px;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: space-around;
+}
+.rankIdContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.elementID {
+  font-size: 24px;
+  margin: 0;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.elementRank {
+  position: absolute;
+  top: 23px;
+  background-color: #17b5cb;
+  color: white;
+  right: -3px;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 6px black;
+}
+.collectionName {
+  color: rgba(5, 5, 5, 0.6);
+  max-width: 150px;
+}
+.nameDescription {
+  max-width: 130px;
+}
+.priceDescription {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+.priceName {
+  display: flex;
+  justify-content: flex-end;
+}
+.nameDescription {
+  display: flex;
+  flex-direction: column;
+  max-width: 220px;
 }

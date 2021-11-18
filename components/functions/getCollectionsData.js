@@ -36,11 +36,17 @@ export const getAllTimeOrder = async() =>{
     let newData = {}
     newData.cursor="start"
     let i =0
+    
     while (newData.cursor!==""){
+    try{
         newData = await (await fetch("https://api.x.immutable.com/v1/orders?status=filled&buy_token_type=ETH"+cursor)).json()
         cursor= "&cursor=" + newData.cursor
         data.result.push(...newData.result)
         console.log(i++)
+        if (i===5000) console.log(data.result)
+    }catch(err){
+        console.log(err)
+    }
     }
     console.log(data.result[data.result[0]])
     console.log(calculateTime(data.result[data.result.length-1].updated_timestamp))
@@ -152,7 +158,7 @@ console.log(allData)
 }
 let usersArray
 export const getCollectionsMetaByList = async () =>{
-    let collection = "0x3205c066d0560546a9aaf922e8e2caf88a1ff71c"
+    let collection = "0xb941a7373e1dd60ad75e3460f849f28dd4bd6a07"
     let data = await (await fetch(`https://api.x.immutable.com/v1/assets?collection=${collection}`)).json()
     let cursor = data.cursor
     let results = []
@@ -162,7 +168,7 @@ export const getCollectionsMetaByList = async () =>{
         data = await (await fetch(`https://api.x.immutable.com/v1/assets?cursor=${cursor}&collection=${collection}`)).json()
     cursor=data.cursor
 
-     
+     if (i>10000) cursor=""
     i++
     console.log(i)
     }
