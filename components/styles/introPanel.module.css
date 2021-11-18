@@ -124,3 +124,24 @@
   align-items: center;
   justify-content: center;
 }
+
+@media (max-width: 700px) {
+  .mainTitle {
+    font-size: 26px;
+    font-weight: 600;
+  }
+  .mainTitleSmall {
+    font-size: 20px;
+    font-weight: 400;
+  }
+  .subtitle {
+    font-size: 12px;
+    width: 50%;
+  }
+  .buttonContainer {
+    display: flex;
+  }
+  .button {
+    width: 130px;
+  }
+}

@@ -137,12 +137,17 @@ return(
           {collections[collection] && data? 
           <>
           {collections[collection]["ranksArray"]?
+          <>
            <div className={styles.statsBox}>
-           
-           
            <p className={styles.statsNumber}> {collections[collection]["ranksArray"].length} </p>
            <p className={styles.statsText}> Items </p>
-           </div>:""
+           </div>
+           <div className={styles.statsBox}>
+           <p className={styles.statsNumber}> {collections? collections[collection]["users"]:""}</p>
+           <p className={styles.statsText}>  Owners </p>
+           </div>
+           </>
+           :""
           }
            <div className={styles.statsBox}>
            <p className={styles.statsNumber}> {priceArray[0]/10**18} </p>
@@ -157,6 +162,7 @@ return(
            <p className={styles.statsNumber}> {orderData? (orderData["all"][collectionData.name]/1000).toFixed(2):""}K</p>
            <p className={styles.statsText}>  Volume </p>
            </div>
+      
          </>
             
             :""}

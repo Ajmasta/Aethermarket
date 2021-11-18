@@ -157,8 +157,12 @@ console.log(allData)
 
 }
 let usersArray
+let collectionsArray=["0x343fd244ab5a1d1129a6edf21ba37c64aa725ff0","0x0d7cab29755a2bec1b877c859e25770d6fce6331"]
+let allResults={}
+//at the end, after pushing in the object, move the array by one
 export const getCollectionsMetaByList = async () =>{
-    let collection = "0xb941a7373e1dd60ad75e3460f849f28dd4bd6a07"
+    //collectionArray[0]
+    let collection = collectionsArray[0]
     let data = await (await fetch(`https://api.x.immutable.com/v1/assets?collection=${collection}`)).json()
     let cursor = data.cursor
     let results = []
@@ -290,8 +294,11 @@ const sortedPointsArray = pointsArrayCopy.sort((a,b)=>b.metadata-a.metadata)
 let idRankedArray = sortedPointsArray.map(element=>Number(element.token_id))
 console.log(idRankedArray)
 console.log(traitsList)
-let result = {name:elementsArray[0].collection.name,ranksArray:idRankedArray,listOfTraits:traitsList,users:usersArray.length}
-console.log(result)
+let result = {}
+allResults[elementsArray[0].token_address] = {name:elementsArray[0].collection.name,ranksArray:idRankedArray,listOfTraits:traitsList,users:usersArray.length}
+console.log(allResults)
+collectionsArray.splice(0,1)
+if (collectionsArray.length>0) getCollectionsMetaByList(collectionsArray[0])
 return {idRankedArray,pointsArray}
 }
 

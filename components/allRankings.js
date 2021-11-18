@@ -33,14 +33,14 @@ const AllRankings = ({collection}) => {
     
     }
         else{
-            console.log("ok")
+            
             const data = await (await fetch(`https://api.x.immutable.com/v1/assets/${collection}/${filter}`)).json()
             const order = await (await fetch(`https://api.x.immutable.com/v1/orders?sell_token_id=${filter}&sell_token_address=${collection}`)).json()
             if (order.result.length>0) {
                 data.status=order.result[0].status
                 data.price=order.result[0].buy.data.quantity/10**18
                 }
-                 setArray([data])
+                 if(data.name)setArray([data])
         }
    
     }

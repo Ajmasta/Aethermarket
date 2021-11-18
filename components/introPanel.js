@@ -47,26 +47,19 @@ const formatUserBalances = async () => {
                     <p className={styles.mainTitle}>Collect, support & create amazing NFTs
                     <span className={styles.mainTitleSmall}> <br/>  on the best marketplace for collectors and artists on IMX.</span> </p>
                   <div>  
-                  {panel === "intro"?
-    <>
+                 
+    <div className={styles.buttonContainer}>
         <a href="#collectionContainer"><button className={styles.button}>Start Browsing</button></a>
         <button className={styles.button} onClick={()=>{
             setupAndLogin();
             formatUserBalances(); 
+            setOpenDrawer(true)
             if(account) router.push(`/user/${account[0]}`)
             
             }}>Start Listing</button>
-    </>
-        :panel === "collector"?
-        <>
-            <div className={styles.collectorContainer}>Start Browsing</div>
-        </>:
-        <> 
-        <div className={styles.artistContainer}>Start Creating</div>
-
-        </>
-
-    }
+    </div>
+        
+        
                   </div>
             </div>
     </div>
