@@ -4,7 +4,7 @@ import { getAllCards, getAllNumberOfCards } from "../components/functions/godsUn
 
 const GetCollectionMeta = () => {
 
-    getCollectionsMetaByList() 
+    getSevenDaysOrder() 
 return <p> test</p>
 
 }

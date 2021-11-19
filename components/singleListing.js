@@ -437,10 +437,13 @@ const createTraitsTabGodsUnchained = () =>{
                                                                             <Image width={20} height={20}  src={ethLogo} alt="ethereum logo" />
                                                                             </div>
                 }
-                <Link href={`/user/${listingData.user}`}>
+                <Link href={`/user/${thisAsset?thisAsset.user:listingData.user}`}>
                     <a className={styles.linkToUser}>
                     <PersonIcon /> 
-                    {listingData.user.slice(0,5)+"..."+listingData.user.slice(listingData.user.length-5,listingData.user.length-1)} 
+                    {thisAsset? thisAsset.user.slice(0,5)+"..."+thisAsset.user.slice(thisAsset.user.length-5,thisAsset.user.length-1)
+                    :
+                    listingData.user.slice(0,5)+"..."+listingData.user.slice(listingData.user.length-5,listingData.user.length-1)
+                    } 
                     </a>
                 </Link>
                 <Link href={`../${listingData.sell.data.token_address}`}>

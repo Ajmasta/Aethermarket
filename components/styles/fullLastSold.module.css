@@ -79,36 +79,39 @@
   display: flex;
   justify-content: center;
   width: 50%;
-  margin-top:20px;
+  margin-top: 20px;
 }
 .activeTab {
   border-bottom: 3px blue solid;
 }
 .inactiveTab {
-  cursor:pointer
+  cursor: pointer;
 }
 .chartContainer {
   width: 70%;
-  max-width:900px;
+  max-width: 900px;
   margin-bottom: 100px;
 }
-.statsContainer{
-  display:flex;
-  width:350px;
-  justify-content:space-around
+.statsContainer {
+  display: flex;
+  width: 350px;
+  justify-content: space-around;
 }
-.statsBox{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  box-shadow:1px 1px 3px;
-  padding:20px;
+.statsBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 1px 3px;
+  padding: 20px;
 }
-.stats{
-  margin:0;
-  font-weight:600;
+.stats {
+  margin: 0;
+  font-weight: 600;
+  height: 18px;
+  display: flex;
+  align-items: center;
 }
-.statsName{
-  margin:0
+.statsName {
+  margin: 0;
 }

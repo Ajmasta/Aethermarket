@@ -109,8 +109,19 @@ return (
         
         </div>
         <a className={styles.textElement}>About</a>
-        {account?account[0].slice(0,5)+"..."+ account[0].slice(account[0].length-5,account[0].length-1):""}
-            <AccountBalanceWalletIcon className={styles.iconElement} alt="wallet Icon" src="" onClick={()=>{setupAndLogin(); setOpenDrawer(true);formatUserBalances()}}/>     
+        {account? 
+        <Link href={`/user/${account}`}>
+          <a className={styles.textElement} >
+              {account[0].slice(0,5)+"..."+ account[0].slice(account[0].length-5,account[0].length-1)}
+          </a>
+        </Link>:
+        <p onClick={()=>{setupAndLogin(); setOpenDrawer(true);formatUserBalances()}} className={styles.textElement}>
+           Connect your Wallet
+        </p>
+    
+    }
+            <AccountBalanceWalletIcon className={styles.iconElement} alt="wallet Icon" 
+            src="" onClick={()=>{setupAndLogin(); setOpenDrawer(true);formatUserBalances()}}/>     
               
         </div>
      
@@ -130,7 +141,10 @@ return (
         <div className={styles.drawerButtons}>
         <RefreshIcon className={styles.refreshIcon} onClick={()=>formatUserBalances()} />
             
-            {account? <button className={styles.logoutButton} onClick={()=>{logout();setAccount("");setAssets("");setUserBalance("")}}> Logout </button>:
+            {account?
+             <button className={styles.logoutButton} onClick={()=>{logout();setAccount("");setAssets("");setUserBalance("")}}>
+               Logout 
+             </button>:
             <button className={styles.logoutButton} onClick={()=>{setupAndLogin();formatUserBalances()}}> Login </button>}
           </div>
                 </div>    

@@ -53,10 +53,10 @@ const formatUserBalances = async () => {
         <button className={styles.button} onClick={()=>{
             setupAndLogin();
             formatUserBalances(); 
-            setOpenDrawer(true)
+            
             if(account) router.push(`/user/${account[0]}`)
             
-            }}>Start Listing</button>
+            }}>{account?"Start Listing":"Connect your Wallet"}</button>
     </div>
         
         

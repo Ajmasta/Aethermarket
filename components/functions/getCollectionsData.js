@@ -138,6 +138,7 @@ for(let element in objectPreviousWeek){
 
 
 let result = {day:objectDay,week:objectWeek,all:objectAll,changeDay,changeWeek}
+
    console.log(result)
 }
 

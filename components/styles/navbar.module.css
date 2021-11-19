@@ -52,7 +52,8 @@
 }
 .textElement {
   padding: 0 20px;
-  font-weight: 600;
+  font-weight: 500;
+  cursor: pointer;
 }
 .imgElement {
   height: 32px;

@@ -89,7 +89,7 @@ const FullLastSold=({collection, name})=>{
             <p className={styles.tableCell}>Item</p>
             <p className={styles.tableCell}>Price</p>
             {collections[collection]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>Ranking</p>:""}
-            <p className={styles.tableCell}>To</p>
+            <p className={styles.tableCell}>From</p>
             <p className={styles.tableCell}>Time</p>
         </div>
         {sold.map((item,i)=>
@@ -122,14 +122,14 @@ return (
 <div className={styles.statsContainer}>
 
     <div className={styles.statsBox}>
-        <p className={styles.stats}> {orderData["day"][name].toFixed(2)}</p>
+        <div className={styles.stats}> {orderData["day"][name].toFixed(2)}<Image src={ethLogo} width={15} height={15} alt="eth logo"/></div>
 
         <p className={styles.statsName}> Today's Volume</p>
     </div>
 
 
     <div className={styles.statsBox}>
-        <p className={styles.stats}> {orderData["week"][name].toFixed(2)}</p>
+        <div className={styles.stats}> {orderData["week"][name].toFixed(2)}<Image src={ethLogo} width={18} height={18} alt="eth logo"/></div>
 
         <p className={styles.statsName}> Week's Volume</p>
     </div>
