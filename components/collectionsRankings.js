@@ -51,9 +51,9 @@ const CollectionRankings = () => {
                 </div>
                 <p className={styles.collectionName}>{element[0]}</p>
                {activeTab!=="all"?<p className={changeValue>0?styles.volumeChangeP:changeValue<0?styles.volumeChangeN:styles.volumeChange}>{changeValue>0||changeValue<0?changeValue+"%":"-"}</p>:""}
-              <p className={styles.volume}>{element[1]?element[1].toFixed(2):''}  
+              <div className={styles.volume}>{element[1]?element[1].toFixed(2):''}  
               <Image src={ethLogo} layout="fixed" width={15} height={15} alt="ethLogo" /> 
-                </p>
+                </div>
 
 
 

@@ -19,9 +19,11 @@ import {
     useRecoilValue,
   } from 'recoil';
 import { accountAtom, assetsAtom, collectionsAtom, drawerAtom, userBalanceAtom } from "./states/states";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const NavBar= () =>{
-
+  const matches = useMediaQuery('(min-width:1000px)');
+console.log(matches)
 const [exploreMenu,setExploreMenu] = useState(false)
 const [mouseOnTop,setMouseOnTop] = useState(false)
 const[openDrawer,setOpenDrawer] = useRecoilState(drawerAtom)
@@ -33,11 +35,15 @@ const [collections,setCollections] = useRecoilState(collectionsAtom)
 const [collectionsNavBar,setCollectionsNavBar] = useState()
 const [researchOpen,setResearchOpen] = useState(false)
 
-useEffect(()=>ethereum.on('accountsChanged', function (accounts) {
+useEffect(()=>{
+if(matches){
+ethereum.on('accountsChanged', function (accounts) {
   formatUserBalances();
-  logout()
-  setupAndLogin()
-}),[])
+  logout();
+  setupAndLogin();
+console.log("ethStarted")
+})}
+},[matches])
 const {data,isLoading,isError} = useGetCollections("https://api.x.immutable.com/v1/collections?page_size=999999999")
 useEffect(()=>setCollections(data),[data])
 console.log(collections)
@@ -102,9 +108,9 @@ return (
             <a className={styles.textElement}>Explore</a>
         </Link>
         <div className={!exploreMenu && !mouseOnTop?styles.hidden:styles.exploreMenu} onMouseEnter={()=>setExploreMenu(true)}onMouseLeave={()=>setExploreMenu(false)} >
-        <Link href="../../explore/sales" ><a className={styles.menuLink}>Recent Sales</a></Link>
-        <Link href="../../explore/listings"><a  className={styles.menuLink}> Recent Listings </a></Link>
-        <Link href="../../explore/collections" ><a className={styles.menuLink}> Collections </a></Link>
+        <Link href="/explore/sales" ><a className={styles.menuLink}>Recent Sales</a></Link>
+        <Link href="/explore/listings"><a  className={styles.menuLink}> Recent Listings </a></Link>
+        <Link href="/explore/collections" ><a className={styles.menuLink}> Collections </a></Link>
         </div>
         
         </div>

@@ -23,7 +23,7 @@ const SingleListing = ({data}) => {
     const [sell,setSell] = useState(false)
     const listingData= data.data.result[0]
     const collection = listingData.sell.data.token_address
-    const rank = collections[collection]["ranksArray"]?collections[collection]["ranksArray"].indexOf(Number(listingData.sell.data.token_id)):undefined
+    const rank =  collections[collection]&& collections[collection]["ranksArray"]?collections[collection]["ranksArray"].indexOf(Number(listingData.sell.data.token_id)):undefined
     const account= useRecoilValue(accountAtom)
     const [assets,setAssets] = useRecoilState(assetsAtom)
     const user = localStorage.getItem("WALLET_ADDRESS")
@@ -295,7 +295,7 @@ const createTraitsTabGodsUnchained = () =>{
             </a>
         </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
-            {collections[item.sell.data.token_address]["ranksArray"]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
+            {collections[item.sell.data.token_address]&&collections[item.sell.data.token_address]["ranksArray"]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
             <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>
         </div>
@@ -338,7 +338,7 @@ const createTraitsTabGodsUnchained = () =>{
             #{item.sell.data.token_id.slice(0,6)}</a>
             </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
-            {collections[item.sell.data.token_address]["ranksArray"]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
+            {collections[item.sell.data.token_address]&&collections[item.sell.data.token_address]["ranksArray"]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
 
             <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
     
