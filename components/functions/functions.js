@@ -181,8 +181,8 @@ function msToTime(duration) {
        days = Math.floor((duration / (1000 * 60 * 60*24)) % 365);
   
   const answerString = days>1? days + " days ago" :days===1? days + " day ago":
-   hours >1 ? hours + " hours ago" :hours===1? hours + " hour ago": minutes > 1? minutes + " minutes ago":minutes===1? minutes + " minute ago":
-    seconds >1 ? seconds + " seconds ago" : seconds + " second ago"
+   hours >1 ? hours + "h ago" :hours===1? hours + "h ago": minutes > 1? minutes + "mn ago":minutes===1? minutes + "mn ago":
+    seconds >1 ? seconds + "s ago" : seconds + "s ago"
     return answerString
   }
 export const calculateTime = (timestamp) => {

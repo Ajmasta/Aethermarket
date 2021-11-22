@@ -153,9 +153,9 @@ return (
             <a className={styles.textElement}>Explore</a>
         </Link>
         <div className={!exploreMenu && !mouseOnTop?styles.hidden:styles.exploreMenu} onMouseEnter={()=>setExploreMenu(true)}onMouseLeave={()=>setExploreMenu(false)} >
+        <Link href="/explore/collections" ><a className={styles.menuLink}> Collections </a></Link>
         <Link href="/explore/sales" ><a className={styles.menuLink}>Recent Sales</a></Link>
         <Link href="/explore/listings"><a  className={styles.menuLink}> Recent Listings </a></Link>
-        <Link href="/explore/collections" ><a className={styles.menuLink}> Collections </a></Link>
         </div>
         
         </div>

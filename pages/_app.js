@@ -6,10 +6,18 @@ import {
   useRecoilState,
   useRecoilValue,
 } from 'recoil';
+import Head from 'next/head'
+
 function MyApp({ Component, pageProps }) {
-  return (<RecoilRoot>
+  return (
+  <>
+
+  
+  
+  <RecoilRoot>
   <Component {...pageProps} />
-  </RecoilRoot>)
+  </RecoilRoot>
+  </>)
 }
 
 export default MyApp

@@ -466,7 +466,8 @@ const createTraitsTabGodsUnchained = () =>{
                                                                          <> <input type="number" min="0" placeholder="Enter listing price in ETH" onChange={(e)=>setSell(e.target.value)} className={styles.sellInput}></input>
                                                                             <button onClick={()=>{logout();formatUserBalances(); getAndSellAsset(listingData,sell);}} className={sell.length>0?styles.buyButton:styles.disabledButton} disabled={sell.length>0?false:true}>Sell </button> 
                                                                             </>:
-                                                                            <div> 
+                                                                            <div className={styles.notListedContainer}> 
+                                                                           <p className={styles.notListedText}>Not currently listed </p>
                                                                             Last listed price: {listingData.buy.data.quantity/(10**18)}
                                                                             <Image width={20} height={20}  src={ethLogo} alt="ethereum logo" />
                                                                             </div>
