@@ -85,18 +85,22 @@ const createTraitsTabGodsUnchained = () =>{
            let rarity
         if(thisAsset.metadata[object]){
           rarity = collections[collection]["listOfTraits"][object].filter(trait=> trait[0]===thisAsset.metadata[object])
-            rarity=rarity[0][1]
+            if (rarity.length>0){ 
+                rarity=rarity[0][1]
+            }else{
+                rarity=""
+            }
+
         listOfTraits.push([object,thisAsset.metadata[object],rarity])
         }
        }
-       console.log(listOfTraits.map(traits=><p>{traits[2]}</p>))
        return (<div className={styles.traitsContainer}>
         {listOfTraits.map((trait,i)=>
 
             <div key={`${i}Traits`} className={styles.traitContainer}>
                 <p className={styles.traitName}>{trait[0]}</p>
                 <p className={styles.traitValue}>{trait[1]}</p>
-                <p className={styles.traitRarity}>{trait[2]/100}%</p>
+                <p className={styles.traitRarity}>{(trait[2]/collections[collection].ranksArray.length*100).toFixed(2)}%</p>
             </div>
 
 

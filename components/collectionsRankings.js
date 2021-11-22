@@ -8,7 +8,7 @@ import {
 import { accountAtom, assetsAtom, collectionsAtom, drawerAtom, userBalanceAtom } from "./states/states";
 import styles from "./styles/collectionRankings.module.css"
 import Link from 'next/link'
-
+import collectionRankings from "./functions/collectionRankings.json"
 import orderData from "./functions/orderData.json"
 import { useState } from 'react';
 import ethLogo from "../public/images/ethLogo.png"
@@ -21,7 +21,8 @@ const CollectionRankings = () => {
             for(let element in object){
                 if (collections&&collections.length>0){
                 const collection = collections? collections.filter(collection=> collection.name===element):""
-                array.push([element,object[element],collection[0].collection_image_url,collection[0].address,collection[0].icon_url])
+                const collectionIconUrl =  collectionRankings[collection[0].address]?.collectionIcon ?  collectionRankings[collection[0].address].collectionIcon:"" 
+                array.push([element,object[element],collection[0].collection_image_url,collection[0].address,collection[0].icon_url,collectionIconUrl])
             console.log(collection[0].collection_image_url)
             }}
             array.sort((a,b)=>b[1]-a[1])
@@ -47,7 +48,7 @@ const CollectionRankings = () => {
                 <a  className={styles.rowContainer} >
               <div className={styles.rankContainer}>
                     <p className={styles.rank}>{i+1}.</p>
-                <img src={element[2]!==""?element[2]:element[4]} alt="icon" className={styles.image} />
+                <img src={element[5]!==""?element[5]:element[2]!==""?element[2]:element[4]} alt="icon" className={styles.image} />
                 </div>
                 <p className={styles.collectionName}>{element[0]}</p>
                {activeTab!=="all"?<p className={changeValue>0?styles.volumeChangeP:changeValue<0?styles.volumeChangeN:styles.volumeChange}>{changeValue>0||changeValue<0?changeValue+"%":"-"}</p>:""}
@@ -86,8 +87,8 @@ return (
 
 {activeTab ==="day"? 
 createRankingsTable(dayArray):activeTab==="week"?
-createRankingsTable(weekArray):
-createRankingsTable(allArray)}
+createRankingsTable(weekArray):activeTab==="all"?
+createRankingsTable(allArray):""}
 
 </div>
 

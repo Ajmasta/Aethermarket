@@ -1,12 +1,13 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { calculateTime, getListingInfo, useGetListingInfo } from "./functions/functions"
 import styles from "./styles/singleListing.module.css"
 import { Scatter } from 'react-chartjs-2';
 import ethLogo from "../public/images/ethLogo.png"
 import Image from 'next/image'
 import Link from 'next/link'
+import { style } from "@mui/system";
 import PersonIcon from '@mui/icons-material/Person';
-import { fillOrder, sellAsset } from "./functions/ImxFunctions";
+import { cancelOrder, fillOrder, getAndSellAsset, getAndtransferERC721, getUserBalances, logout, sellAsset, setupAndLogin, transferERC721 } from "./functions/ImxFunctions";
 import {
     RecoilRoot,
     atom,
@@ -14,18 +15,17 @@ import {
     useRecoilState,
     useRecoilValue,
   } from 'recoil';
-  import { accountAtom, assetsAtom } from "./states/states";
+  import { accountAtom, assetsAtom, userBalanceAtom } from "./states/states";
   import collections from "../components/functions/collectionRankings.json"
+  import BigNumber from "bignumber.js";
 
-
-const SingleAsset = ({data}) => {
-
+const SingleListing = ({data}) => {
     const listingData= data.data
-    const thisAsset = data.data
-    const collection = data.data.token_address
-    const account= useRecoilValue(accountAtom)
+const thisAsset = data.data
+const collection = data.data.token_address
+    const [sell,setSell] = useState(false)
+    const rank =  collections[collection]&& collections[collection]["ranksArray"]?collections[collection]["ranksArray"].indexOf(Number(listingData.token_id)):undefined
     const [assets,setAssets] = useRecoilState(assetsAtom)
-    const [sell,setSell]=useState("")
     const user = localStorage.getItem("WALLET_ADDRESS")
     if (data.similarListings.result.length > 0 && data.similarListings.result.length <=99)  
         data.similarListings.result.push(...data.similarCollection.result.slice(0,100-data.similarListings.result.length))
@@ -36,70 +36,127 @@ const SingleAsset = ({data}) => {
     const [numberOfItems, setNumberOfItems] = useState(5)
     const [shownTab,setShownTab] = useState("sales")
     const [shownTabAsset,setShownTabAsset] = useState("price")
-
+    const [errorMessage,setErrorMessage] = useState("")
+    const [userBalance,setUserBalance] = useRecoilState(userBalanceAtom)
+    const [account,setAccount] =useRecoilState(accountAtom)
 console.log(data)
     const checkOwnerShip = () =>{
         const filteredAssets = assets.result? assets.result.filter(asset=>
             (asset.token_address === listingData.token_address && asset.token_id === listingData.token_id)):[]
-
         return filteredAssets.length>0? true:false
 
     }
-    const createTraitsTabGodsUnchained = () =>{
+    console.log(checkOwnerShip())
+    console.log(account)
 
 
-        return (<div className={styles.traitsContainer}>
-            
-            <div className={styles.traitContainer}>
-                <p className={styles.traitName}>{"Set"}</p>
-                <p className={styles.traitValue}>{thisAsset.metadata.set}</p>
+console.log(thisAsset)
+const createTraitsTabGodsUnchained = () =>{
+
+    return (<div className={styles.traitsContainer}>
+        
+        <div className={styles.traitContainer}>
+            <p className={styles.traitName}>{"Set"}</p>
+            <p className={styles.traitValue}>{thisAsset.metadata.set}</p>
+        </div>
+        <div className={styles.traitContainer}>
+            <p className={styles.traitName}>{"Quality"}</p>
+            <p className={styles.traitValue}>{thisAsset.metadata.quality}</p>
+        </div>
+        <div className={styles.traitContainer}>
+            <p className={styles.traitName}>{"Rarity"}</p>
+            <p className={styles.traitValue}>{thisAsset.metadata.rarity}</p>
+        </div>
+        </div>
+    )
+
+}
+    const createTraitsTab= () =>{
+       const listOfTraits = []
+ 
+       for(let object in collections[collection]["listOfTraits"]){
+           let rarity
+        if(thisAsset.metadata[object]){
+          rarity = collections[collection]["listOfTraits"][object].filter(trait=> trait[0]===thisAsset.metadata[object])
+          if (rarity.length>0){ 
+            rarity=rarity[0][1]
+        }else{
+            rarity=""
+        }
+
+        listOfTraits.push([object,thisAsset.metadata[object],rarity])
+        }
+       }
+     
+       return (<div className={styles.traitsContainer}>
+        {listOfTraits.map((trait,i)=>
+
+            <div key={`${i}Traits`} className={styles.traitContainer}>
+                <p className={styles.traitName}>{trait[0]}</p>
+                <p className={styles.traitValue}>{trait[1]}</p>
+                <p className={styles.traitRarity}>{(trait[2]/collections[collection].ranksArray.length*100).toFixed(2)}%</p>
             </div>
-            <div className={styles.traitContainer}>
-                <p className={styles.traitName}>{"Quality"}</p>
-                <p className={styles.traitValue}>{thisAsset.metadata.quality}</p>
-            </div>
-            <div className={styles.traitContainer}>
-                <p className={styles.traitName}>{"Rarity"}</p>
-                <p className={styles.traitValue}>{thisAsset.metadata.rarity}</p>
-            </div>
-            </div>
-        )
+
+
+        )}
+
+</div>)
+     
     
     }
-        const createTraitsTab= () =>{
-           const listOfTraits = []
-     
-           for(let object in collections[collection]["listOfTraits"]){
-               let rarity
-            if(thisAsset.metadata[object]){
-              rarity = collections[collection]["listOfTraits"][object].filter(trait=> trait[0]===thisAsset.metadata[object])
-                rarity=rarity[0][1]
-            listOfTraits.push([object,thisAsset.metadata[object],rarity])
-            }
-           }
-           console.log(listOfTraits.map(traits=><p>{traits[2]}</p>))
-           return (<div className={styles.traitsContainer}>
-            {listOfTraits.map((trait,i)=>
-    
-                <div key={`${i}Traits`} className={styles.traitContainer}>
-                    <p className={styles.traitName}>{trait[0]}</p>
-                    <p className={styles.traitValue}>{trait[1]}</p>
-                    <p className={styles.traitRarity}>{trait[2]/100}%</p>
-                </div>
-    
-    
-            )}
-    
-    </div>)
-         
-        
+
+
+    const getItemPriceHistoryChart =(data) =>
+    {   const dataFiltered=data.filter(data=> data.status==="cancelled"? false:true);
+        if (dataFiltered.length<=1) return "No sale history for this item"
+
+        const chartData = {
+            datasets:[
+                {
+                    label:"Current Price",
+                    data:[{x:0,y:listingData.buy.data.quantity/(10**18)}
+                    ],backgroundColor:  'rgba(0, 255, 0, 1)',pointRadius:7
+                },
+                {
+                    label:"Past 10 prices",
+                    data:[
+                    ],backgroundColor:  'rgba(255, 99, 132, 1)',
+                }, {
+                    label:"Older prices",
+                    hidden:true,
+                    data:[
+                    ],backgroundColor:  'rgba(255, 199, 22, 1)',hidden:true
+                    
+                }
+            
+            ]
         }
-    
+        const options= {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Past sale history'
+                }
+            }
+        }
+        const priceData = dataFiltered.map((data,i)=>{
+            
+            i<= 10? chartData.datasets[1].data.push({x:i+1,y:data.buy.data.quantity/(10**18)}):
+            chartData.datasets[2].data.push({x:i+1,y:data.buy.data.quantity/(10**18)})
+            return data.buy.data.quantity/(10**18)
+        })
+        return <Scatter className={styles.chart} data={chartData} options={options}></Scatter>
+
+    }
     const getPriceHistoryChart = (data) =>{
         const sold = isSimilarSold? data.soldListings.result:data.soldCollectionListings.result
         const chartData = {
             datasets:[
-               
+                {
+                    label:"This NFT",
+                    data:[
+                    ],backgroundColor:  'rgba(0, 255, 0, 1)',pointRadius:7
+                },
                 {
                     label:"Last 10 sales",
                     data:[
@@ -124,8 +181,10 @@ console.log(data)
         }
         
         const soldPrice = sold.map((result,i)=>{
-            i<= 10? chartData.datasets[0].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
-            chartData.datasets[1].data.push({x:i+1,y:result.buy.data.quantity/(10**18)})
+            result.sell.data.token_id === listingData.token_id? 
+            chartData.datasets[0].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
+            i<= 10? chartData.datasets[1].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
+            chartData.datasets[2].data.push({x:i+1,y:result.buy.data.quantity/(10**18)})
             return result.buy.data.quantity/(10**18)
             })
         
@@ -138,6 +197,11 @@ console.log(data)
         const selling = isSimilarSold? data.similarListings.result : data.similarCollection.result
         const chartData = {
             datasets:[
+                {
+                    label:"This NFT",
+                    data:[
+                    ],backgroundColor:  'rgba(0, 255, 0, 1)',pointRadius: 7,
+                },
                 {
                     label:"10 Cheapest listings",
                     data:[
@@ -159,8 +223,10 @@ console.log(data)
             }
         }
         const sellingPrice = selling.map((result,i)=>{
-            i<= 10? chartData.datasets[0].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
-            chartData.datasets[1].data.push({x:i+1,y:result.buy.data.quantity/(10**18)})
+            result.sell.data.token_id === listingData.token_id? 
+            chartData.datasets[0].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
+            i<= 10? chartData.datasets[1].data.push({x:i+1,y:result.buy.data.quantity/(10**18)}):
+            chartData.datasets[2].data.push({x:i+1,y:result.buy.data.quantity/(10**18)})
             return result.buy.data.quantity/(10**18)
             })
         const medianPrice = sellingPrice[Math.abs(sellingPrice.length/2)]
@@ -176,9 +242,25 @@ console.log(data)
                 <img className={styles.similarImage} src={result.sell.data.properties.image_url} alt="nft icon" />
             </div>
             <div className={styles.similarDescription}>
-                    <span>{result.sell.data.properties.name}</span>
-                    <span> {result.buy.data.quantity/(10**18)} <Image alt="ethereum logo" src={ethLogo} width={30} height={30} /> </span>
+                <div className={styles.nameDescription}>
+               <span className={styles.collectionName}> 
+                {result.sell.data.properties.collection.name} 
+               </span>
+                {result.sell.data.properties.name} 
+                
                 </div>
+    
+           <div className={styles.priceDescription}>
+              <div className={styles.nameDescription}>
+              <span className={styles.priceName}> 
+           Price 
+           </span>
+           </div>
+                <span className={styles.priceQuantity}>
+                {result.buy.data.quantity/(10**18)} <Image alt="ethereum logo" src={ethLogo} width={15} height={15} />
+                </span>
+       </div>
+       </div>  
             </a>
             </Link>
         )
@@ -212,7 +294,7 @@ console.log(data)
             </a>
         </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
-            {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
+            {collections[item.sell.data.token_address]&&collections[item.sell.data.token_address]["ranksArray"]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
             <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>
         </div>
@@ -255,7 +337,7 @@ console.log(data)
             #{item.sell.data.token_id.slice(0,6)}</a>
             </Link>
             <p className={styles.tableCell}>{item.buy.data.quantity/(10**18)}</p>
-            {collections[item.sell.data.token_address]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
+            {collections[item.sell.data.token_address]&&collections[item.sell.data.token_address]["ranksArray"]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
 
             <p className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</p>
     
@@ -319,12 +401,49 @@ console.log(data)
     data.similarCollection.result.sort((a,b) =>Number(a.buy.data.quantity/(10**18)) > Number(b.buy.data.quantity/(10**18)) ? 1:-1)
     const reducedSimilarCollection = data.similarCollection.result.slice(0,6)
 
-
+    const setError = (error) =>{
+        setErrorMessage(error)
+        setTimeout(()=>setErrorMessage(""),3000)
+    
+    }
+    
+    const buyFunction = (order) => {
+        if (account==="") formatUserBalances();
+        if(account[0]!==localStorage.getItem("WALLET_ADDRESS")) {
+            logout()
+            setupAndLogin()
+            return""
+        }
+    if(userBalance.imx<order.buy.data.quantity){
+        
+        setError(<><p className={styles.mainError}>Not enough funds!</p><p className={styles.secondaryError}>Transfer funds to IMX by clicking on the wallet in the top-right.</p></>)
+        return ""
+    }
+    fillOrder(order)
+    }
+    console.log(errorMessage)
+    const formatUserBalances = async () => {
+        const userBalance = await getUserBalances()
+        const account = await ethereum.request({ method: 'eth_requestAccounts' });
+        setAccount(account)
+      let ethBalance = await ethereum.request({ method: 'eth_getBalance', params:[...account,"latest"] });
+      ethBalance = new BigNumber(ethBalance)
+        
+      setUserBalance({imx:userBalance.imx,ethBalance:(ethBalance.toFixed()/10**18)})
+       
+        
+    }
     return (<>
         <div className={styles.mainContainer}>
+                {errorMessage!==""?<div className={styles.errorContainer}>
+                    {errorMessage}
+                </div>:""}
             <div className={styles.topContainer}>
             <div className={styles.leftContainer} >
-            
+            <div className={styles.rankIdContainer}>
+            <p className={styles.elementID}>   {listingData.name}</p> 
+            {rank?<p className={styles.elementRank}>  Rank: {" "}{rank+1} </p>:""}
+            </div>
                 <div className={styles.photoContainer}>
                 <img className={styles.image} src={listingData.image_url} alt="nft icon"/>
 
@@ -332,17 +451,32 @@ console.log(data)
 
                 <div className={styles.statsContainer}>
             
-                <div className={styles.priceContainer}>  </div>
-                {checkOwnerShip()?
-                    <> <input type="number" min="0" placeholder="Enter listing price in ETH" onChange={(e)=>setSell(e.target.value)} className={styles.sellInput}></input>
-                    <button onClick={()=>{logout();getAndSellAsset(listingData,sell)}} className={sell.length>0?styles.buyButton:styles.disabledButton} disabled={sell.length>0?false:true}>Sell </button> 
- </>:
-                    ""
+                <div className={styles.priceContainer}> {listingData.status==="active"? <> {listingData.buy.data.quantity/(10**18)}
+                <Image alt="ethereum logo" src={ethLogo} width={30} height={30} />
+                </>:
+                "" } </div>
+                {listingData.status==="active"? checkOwnerShip()?<>
+               
+                                                                         <button onClick={()=>cancelOrder(listingData)}>Cancel Listing</button></>:
+                                
+                                                                         <button onClick={()=>buyFunction(listingData)} className={styles.buyButton}>Buy </button>:
+                                                                         checkOwnerShip()? 
+                                                                         <> <input type="number" min="0" placeholder="Enter listing price in ETH" onChange={(e)=>setSell(e.target.value)} className={styles.sellInput}></input>
+                                                                            <button onClick={()=>{logout();formatUserBalances(); getAndSellAsset(listingData,sell);}} className={sell.length>0?styles.buyButton:styles.disabledButton} disabled={sell.length>0?false:true}>Sell </button> 
+                                                                            </>:
+                                                                            <div className={styles.notListedContainer}> 
+                                                                           <p className={styles.notListedText}>This item was never listed </p>
+                                                                          
+                                                                            <Image width={20} height={20}  src={ethLogo} alt="ethereum logo" />
+                                                                            </div>
                 }
-                <Link href={`../users/${listingData.user}`}>
+                <Link href={`/user/${thisAsset?thisAsset.user:listingData.user}`}>
                     <a className={styles.linkToUser}>
                     <PersonIcon /> 
-                    {listingData.user.slice(0,5)+"..."+listingData.user.slice(listingData.user.length-5,listingData.user.length-1)} 
+                    {thisAsset? thisAsset.user.slice(0,5)+"..."+thisAsset.user.slice(thisAsset.user.length-5,thisAsset.user.length-1)
+                    :
+                    listingData.user.slice(0,5)+"..."+listingData.user.slice(listingData.user.length-5,listingData.user.length-1)
+                    } 
                     </a>
                 </Link>
                 <Link href={`../${listingData.token_address}`}>
@@ -361,8 +495,9 @@ console.log(data)
                             <div className={styles.tabContent}>
                                 <div className={shownTabAsset==="traits"? styles.hidden:styles.currentPricesTab} >
                                 <div className={styles.historyContainer}>
-                                    <p className={styles.tableTitle}>Price History</p>
-                                    This item has never been listed for sale.
+                                    <p className={styles.tableTitle}>Traits</p>
+                    
+
                                         </div>
                                 </div>
                                 <div className={shownTabAsset==="traits"?styles.pastSalesTab:styles.hidden} >
@@ -370,14 +505,14 @@ console.log(data)
                                 { thisAsset&&collection==="0xacb3c6a43d15b907e8433077b6d38ae40936fe2c"? createTraitsTabGodsUnchained() : collections[collection]&&thisAsset? createTraitsTab():"No traits data available"}
 
                                 </div>
-                                </div>
                
                     
+                </div>
                 </div>
                     </div>
             </div>
                 <div className={styles.infoContainer}>
-                <p className={styles.infoContainerTitle}> Comparison Analytics</p>
+                <p className={styles.infoContainerTitle}></p>
                     <div className={styles.tabContainer}>
                         <div className={styles.tabRow}>
                         <p onClick={()=>setShownTab("sales")} className={shownTab==="sales"? styles.activeTab:styles.inactiveTab}>
@@ -421,4 +556,4 @@ console.log(data)
     )
 }
 
-export default SingleAsset
+export default SingleListing

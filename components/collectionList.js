@@ -42,7 +42,7 @@ const CollectionList = () => {
         "website":"",
         "discord":"https://t.co/LE795eI7le?amp=1"},  
              {    "name": "Highrise Creature Club",
-            "description": "The creative world where everyone belongs. Highrise Creature Club with 10,000 unique NFT Creatures",
+            "description": "The creative world where everyone belongs. Highrise Creature Club a collection of 10,000 unique NFT Creatures",
             "icon_url": "/images/highRise.png",
             "collection_image_url":"/images/highriseIcon.jpg",
             "twitter":"https://mobile.twitter.com/HighriseApp",

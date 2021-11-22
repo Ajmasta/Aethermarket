@@ -73,7 +73,7 @@ const formatUserBalances = async () => {
     
         <Link href="/collections/0x7b7a9ec1978e382983a5e6826e66efb5bda12218/594"  >
             <a className={styles.pictureFrame}>
-                <Image className={styles.picture} src={"/images/594.jpg"} width={400} height={400} alt="NFT picture"/>
+                <img className={styles.picture} src={"/images/594.jpg"} width={400} height={400} alt="NFT picture" priority={true}/>
                 <div className={styles.pictureDetails}>
 
                     <p className={styles.pictureCollection}> The Painter </p>
