@@ -65,7 +65,10 @@ return (collections.map((collection,i)=>{
         <Link  href={`/collections/${collection.address}`} key={`widget${i}`}>
         <a className={`${styles.collectionContainer} `}>
             <div className={styles.iconContainer}>
-                <img className={styles.image} src={collection.collection_image_url?collection.collection_image_url:collection.icon_url} />
+                <img className={styles.image} src={
+                    collections2[collection.address].collectionIcon? collections2[collection.address].collectionIcon
+                    :collection.collection_image_url?collection.collection_image_url
+                    :collection.icon_url} />
             </div>
             <div className={styles.descriptionContainer}>
             <span className={styles.name}>{collection.name} </span>
