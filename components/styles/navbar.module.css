@@ -18,7 +18,7 @@
 }
 .logoContainer {
   padding: 5px 0;
-  padding-right: 80px;
+  padding-right: 0px;
 }
 .searchBar {
   max-width: 768px;
@@ -215,6 +215,7 @@
   border-radius: 5px;
   color: white;
   font-weight: 700;
+  cursor: pointer;
 }
 .assetDrawer {
   text-align: center;
@@ -256,4 +257,32 @@
   background-color: black;
   color: white;
   border-radius: 5px;
+}
+.inputTransfer {
+  padding: 10px;
+  margin: 10px;
+}
+.transferContainer {
+  display: flex;
+  align-items: center;
+}
+.depositButton {
+  height: 50%;
+
+  border: none;
+  background-color: rgb(44, 125, 231);
+  border-radius: 5px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.depositButton:hover {
+  background-color: white;
+  color: rgb(44, 125, 231);
+  border: 1px solid rgb(44, 125, 231);
+}
+.betaLabel {
+  background-color: #7ec2fa;
+  color: white;
+  padding: 5px 10px;
 }

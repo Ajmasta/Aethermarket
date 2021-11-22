@@ -57,6 +57,19 @@
 .tableImage {
   width: 100px;
 }
+@media (max-width: 600px) {
+  .tableImage {
+    width: 50px;
+  }
+
+  .tableContainer {
+    display: flex;
+    width: 100%;
+  }
+  .tableCell {
+    text-align: center;
+  }
+}
 .tableSeeMore {
   cursor: pointer;
   font-size: 16px;

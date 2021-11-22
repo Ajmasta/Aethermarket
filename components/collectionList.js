@@ -36,16 +36,16 @@ const CollectionList = () => {
    const upcomingCollections = [
        {    "name": "Dinos IMX",
             "description": "IMX Dinos is the first Dino community on IMX! No gas fees, Carbon Neutral, we're taking it back to the Jurassic Period!",
-            "icon_url": "/images/dinosImage.png",
+            "icon_url": "/images/dinosIcon.gif",
             "collection_image_url": "/images/dinosIcon.jpg"},  
-             {    "name": "Dinos IMX",
-            "description": "Bad Grandma is a collection of 10,000 randomly generated & unique collectibles living on ImmutableX and carefully chosen by some of the greatest grandsons who love their grandmas. https://badgrandmanft.com",
-            "icon_url": "/images/dinosImage.png",
-            "collection_image_url": "/images/dinosIcon.jpg"},  
-             {    "name": "Dinos IMX",
-            "description": "Bad Grandma is a collection of 10,000 randomly generated & unique collectibles living on ImmutableX and carefully chosen by some of the greatest grandsons who love their grandmas. https://badgrandmanft.com",
-            "icon_url": "/images/dinosImage.png",
-            "collection_image_url": "/images/dinosIcon.jpg"}
+             {    "name": "Highrise Creature Club",
+            "description": "The creative world where everyone belongs. Highrise Creature Club with 10,000 unique NFT Creatures",
+            "icon_url": "/images/highRise.png",
+            "collection_image_url":"/images/highRiseIcon.jpg" },  
+             {    "name": "Immutable Kongz",
+            "description": "6666 Genetically modified Unique Beasts on a mission to conquer Planet IMX with style and utility",
+            "icon_url": "/images/kongz.png",
+            "collection_image_url": "/images/kongzicon.png"}
    ]
 const createCollectionWidget =  () => {
 
@@ -94,9 +94,14 @@ const createUpcomigCollectionWidget =  (collections) => {
     }
     return(
         <div className={styles.mainContainer}  id="collectionContainer">
+            <div className={styles.upcomingCollection}>        
+        <div className={styles.title2}>Top Upcoming Collections</div>                       
+            <div className={styles.upcomingCollectionsContainer} >
+            {createUpcomigCollectionWidget(upcomingCollections)}
+            </div>      
+                                    </div>
           <div className={styles.container}>
                 <div className={styles.title}>Our Curated Collections</div>
-                    <div className={styles.imagesContainer}>
                       
                         <div className={styles.collectionsContainer}>
                     
@@ -106,17 +111,12 @@ const createUpcomigCollectionWidget =  (collections) => {
           
           
           
-          <div className={styles.upcomingCollection}>        
-        <div className={styles.title2}>Top Upcoming Collections</div>                       
-            <div className={styles.upcomingCollectionsContainer} >
-            {createUpcomigCollectionWidget(upcomingCollections)}
-            </div>      
-                                    </div>
+      
             
             </div>
       
 
-        </div>
+      
 
     )
 }

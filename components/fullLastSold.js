@@ -10,8 +10,11 @@ import ethLogo from "../public/images/ethLogo.png"
 import Image from 'next/image'
 import orderData from "./functions/orderData.json"
 import { useInView } from 'react-intersection-observer';
+import { useMediaQuery } from "@mui/material"
 
 const FullLastSold=({collection, name})=>{
+
+    const mobile = useMediaQuery("(max-width:600px)")
     const [numberOfItems,setNumberOfItems] = useState(10)
     const [activeTab, setActiveTab] = useState("list")
     const [orderBy,setOrderBy] = useState("created_at")
@@ -100,7 +103,7 @@ const FullLastSold=({collection, name})=>{
              {item.sell.data.properties.name}
             </a>
         </Link>
-            <div className={styles.tableCell}>{item.buy.data.quantity/(10**18)} <Image src={ethLogo} width={15} height={15} alt="eth logo"/></div>
+            <div className={styles.tableCell}>{mobile?(item.buy.data.quantity/(10**18)).toFixed(2) :item.buy.data.quantity/(10**18)} <Image src={ethLogo} width={15} height={15} alt="eth logo"/></div>
             {collections[item.sell.data.token_address]&&collections[item.sell.data.token_address]["ranksArray"]?<p className={`${styles.tableCell} ${styles.quantityCell}`}>#{collections[collection]["ranksArray"].indexOf(Number(item.sell.data.token_id))}</p>:""}
             <Link href={`/user/${item.user}`}><a className={styles.tableCell}>{item.user.slice(0,5)+"..." + item.user.slice(item.user.length-5,item.user.length-1)}</a></Link>
             <p className={styles.tableCell}>{calculateTime(item.updated_timestamp)}</p>

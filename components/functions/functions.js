@@ -205,7 +205,7 @@ export const calculatePreviousWeek= timestamp =>{
     const dateT= new Date(timestamp)
     const timeDiff = (date.getTime()-dateT.getTime())
    
-    return timeDiff => 604800000 ? timeDiff<= 604800000*2? true:false:false
+    return timeDiff >= 604800000 ? timeDiff<= 604800000*2? true:false:false
 }
 export const calculateDay = (timestamp) => {
     const date = new Date()

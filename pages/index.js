@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import About from '../components/about'
 import CollectionList from '../components/collectionList'
 import CollectionRankings from '../components/collectionsRankings'
 import IntroPanel from '../components/introPanel'
@@ -33,8 +34,7 @@ export default function Home({collections}) {
 
   <CollectionList collections={collections.result}/>
   <LastDisplay />
-
-
+    <About />
 
     </div>
   )

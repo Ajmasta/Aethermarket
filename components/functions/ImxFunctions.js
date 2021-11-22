@@ -31,11 +31,15 @@ export async function setupAndLogin() {
        return ""
    }
    else{
+      try{
     const { address, starkPublicKey } = await link.setup({});
     getClient()
    localStorage.setItem(WALLET_ADDRESS, address);
    localStorage.setItem(STARK_PUBLIC_KEY, starkPublicKey);
-   }
+      }catch(err){
+         console.log(err)
+      }
+}
 }
 
 //Remove the local storage wallet address
@@ -52,10 +56,13 @@ export async function getUserBalances() {
 }
 //Deposits ETH into Immutable X
 export async function depositEth(amountInEth) {
-   await link.deposit({
+   console.log(amountInEth)
+   try{ await link.deposit({
       type: ETHTokenType.ETH,
       amount: amountInEth
-   });
+   });}catch(err){
+      console.log(err)
+   }
 }
 
 //Starts the withdrawal process from Immutable X

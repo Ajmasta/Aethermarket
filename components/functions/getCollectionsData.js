@@ -158,7 +158,7 @@ console.log(allData)
 
 }
 let usersArray
-let collectionsArray=["0x343fd244ab5a1d1129a6edf21ba37c64aa725ff0","0x0d7cab29755a2bec1b877c859e25770d6fce6331"]
+let collectionsArray=["0x82b1ce6e5d0f870c453cec0ce1b1f177e8fe50f8"]
 let allResults={}
 //at the end, after pushing in the object, move the array by one
 export const getCollectionsMetaByList = async () =>{

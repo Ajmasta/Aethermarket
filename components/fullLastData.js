@@ -3,7 +3,7 @@
 import styles from "./styles/fullLastData.module.css"
 import Link from 'next/link'
 import useSWR from 'swr'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import FullLastSold from "./fullLastSold"
 import FullLastListed from "./fullLastListed"
 import { calculateTime, useGetBothDataLong, useGetData, useGetListingsLong, useGetSingleCollection } from "./functions/functions"
@@ -22,13 +22,18 @@ const FullLastData = ({collection})=>{
     const [filtersMetadata,setFiltersMetadata] = useState()
     const [urlMetadata,setUrlMetadata]= useState()
     const [openFilters,setOpenFilters] = useState([])
+    const [floorPrice,setFloorPrice]= useState()
 const {data, isLoading,isError} = useGetListingsLong(`https://api.x.immutable.com/v1/orders?page_size=999999&include_fees=true&sell_token_address=${collection}${sortBy}${metadata}`)
-const priceArray = data && data.listings? data.listings.map(result=>result.buy.data.quantity):[]
-priceArray.sort((a,b)=>a-b)
+
 const {collectionData, isLoadingCollection,isErrorCollection}=useGetSingleCollection(` https://api.x.immutable.com/v1/collections/${collection}`)
 
-
-
+const getFloorPrice = async () => {
+    const floor = await (await fetch(`https://api.x.immutable.com/v1/orders?&status=active&page_size=1&include_fees=true&sell_token_address=${collection}&order_by=buy_quantity&direction=asc`)).json()
+    console.log(floor)
+    console.log(`https://api.x.immutable.com/v1/orders?&status=active&page_size=1&include_fees=true&sell_token_address=${collection}&order_by=buy_quantity&direction=asc`)
+    if(collection) setFloorPrice(floor.result[0].buy.data.quantity)
+}
+useEffect(()=>getFloorPrice(),[collection])
 const setMetadataForUrl=() =>{
 
     const filteredObject = {...filtersMetadata}
@@ -150,7 +155,7 @@ return(
            :""
           }
            <div className={styles.statsBox}>
-           <p className={styles.statsNumber}> {priceArray[0]/10**18} </p>
+           <p className={styles.statsNumber}> {floorPrice/10**18} </p>
            <p className={styles.statsText}> Floor Price </p>
            </div>
            {collections[collection]["ranksArray"]?
@@ -182,7 +187,8 @@ return(
     {status==="filled"?
     isLoading || isError? "loading":data.listings.length<1?"No sales!":<FullLastSold name={collectionData.name} data={data} collection={collection} calculateTime={calculateTime}  />
      :status==="active"?
-     <div className={styles.listingsContainer}>    {collection && collections[collection]? createFilters():""}
+     <div className={styles.listingsContainer}>   
+      {collection && collections[collection]? createFilters():""}
       {isLoading || isError? "": data.listings.length<1? "No Listings!" :<FullLastListed data={data} collection={collection} setSortBy={setSortBy} sortBy={sortBy}  />}
        </div>
        :

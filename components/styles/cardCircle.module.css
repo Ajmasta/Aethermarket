@@ -1,0 +1,27 @@
+.mainContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  border-radius: 9%;
+  overflow: hidden;
+  height: 50%;
+}
+.imageContainer:hover {
+  transform: scale(1.1);
+
+  overflow: hidden;
+}
+.imageContainer {
+  transition: all 1s ease;
+  margin: 0px;
+  height: 100px;
+}
+
+@keyframes moveLeft {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(100px);
+  }
+}

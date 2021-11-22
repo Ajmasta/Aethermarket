@@ -20,7 +20,12 @@ a {
 * {
   box-sizing: border-box;
 }
-
+.panel0 {
+  background-color: rgb(247, 57, 57) !important;
+}
+.panel2 {
+  background-color: rgb(185, 54, 202) !important;
+}
 .panel7 {
   background-color: rgb(15, 127, 179) !important;
 }

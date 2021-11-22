@@ -14,7 +14,8 @@ import {
 import { accountAtom, assetsAtom, collectionsAtom, userBalanceAtom } from "./states/states";
 import BigNumber from "bignumber.js";
 import { useRouter } from 'next/router'
-
+import Link from 'next/link'
+import painterIcon from "../public/images/thepaintericon.png"
 const IntroPanel = () => {
     const router = useRouter()
 const[openDrawer,setOpenDrawer] = useRecoilState(drawerAtom)
@@ -41,12 +42,11 @@ const formatUserBalances = async () => {
 
     return (
 <div className={styles.container}>
-<video className={styles.video}src="/images/space.mp4" autoPlay muted loop/>
     <div className={styles.containerLeft} >
             <div className={styles.titleTextContainer}>
-                    <p className={styles.mainTitle}>Collect, support & create amazing NFTs
-                    <span className={styles.mainTitleSmall}> <br/>  on the best marketplace for collectors and artists on IMX.</span> </p>
-                  <div>  
+                    <p className={styles.mainTitle}>Collect, exchange and create amazing NFTs
+                    <span className={styles.mainTitleSmall}> <br/>  on the best decentralized IMX marketplace that gives back to the community.</span> </p>
+                
                  
     <div className={styles.buttonContainer}>
         <a href="#collectionContainer"><button className={styles.button}>Start Browsing</button></a>
@@ -57,7 +57,7 @@ const formatUserBalances = async () => {
             if(account) router.push(`/user/${account[0]}`)
             
             }}>{account?"Start Listing":"Connect your Wallet"}</button>
-    </div>
+    
         
         
                   </div>
@@ -66,17 +66,21 @@ const formatUserBalances = async () => {
    
 
     <div className={styles.containerRight}>
+   
         <div className={styles.artFrame}>
     
-    
-            <div className={styles.pictureFrame}>
-                <Image className={styles.picture} src={"/images/image1.jpg"} width={400} height={400} alt="NFT picture"/>
+        <Link href="/collections/0x7b7a9ec1978e382983a5e6826e66efb5bda12218/594"  >
+            <a className={styles.pictureFrame}>
+                <Image className={styles.picture} src={"/images/594.jpg"} width={400} height={400} alt="NFT picture"/>
                 <div className={styles.pictureDetails}>
-                    <p className={styles.pictureName}>Bored in the District </p>
-                    <p className={styles.pictureCollection}> TikTok Moments </p>
-                </div>
-            </div>
+
+                    <p className={styles.pictureCollection}> The Painter </p>
+        
         </div>
+        </a>
+                </Link>
+        </div>
+       
     </div>
 </div>
     )

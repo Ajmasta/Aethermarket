@@ -1,0 +1,53 @@
+.mainContainer {
+  background-color: black;
+
+  color: white;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.contentContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 32px;
+  align-self: center;
+}
+.textContainer {
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+}
+.text {
+  width: 70%;
+}
+.imageContainer {
+  flex: 1;
+  display: flex;
+  min-width: 300px;
+  justify-content: center;
+}
+.button {
+  padding: 20px;
+  width: 200px;
+  font-size: 18px;
+  margin-right: 20px;
+  margin-bottom: 50px;
+  box-shadow: 1px 1px 6px white;
+  cursor: pointer;
+}
+.button:nth-child(2n) {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+}
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}

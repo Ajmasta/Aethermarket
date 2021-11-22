@@ -4,7 +4,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import SearchIcon from '@mui/icons-material/Search';
 import Link from 'next/link'
 import { useEffect, useState } from "react";
-import { getUserAssets, getUserBalances, logout, sellAsset, setupAndLogin } from "./functions/ImxFunctions";
+import { depositEth, getUserAssets, getUserBalances, logout, sellAsset, setupAndLogin } from "./functions/ImxFunctions";
 import BigNumber from "bignumber.js";
 import ethLogo from "../public/images/ethLogo.png"
 import xLogo from "../public/images/xLogo.svg"
@@ -23,6 +23,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 const NavBar= () =>{
   const matches = useMediaQuery('(min-width:1000px)');
+  const mobile = useMediaQuery('(max-width:600px)')
 console.log(matches)
 const [exploreMenu,setExploreMenu] = useState(false)
 const [mouseOnTop,setMouseOnTop] = useState(false)
@@ -34,13 +35,14 @@ const [searchInput,setSearchInput] = useState("")
 const [collections,setCollections] = useRecoilState(collectionsAtom)
 const [collectionsNavBar,setCollectionsNavBar] = useState()
 const [researchOpen,setResearchOpen] = useState(false)
-
+const [amountDeposit,setAmountDeposit] = useState(0)
+const [transfer,setTransfer] = useState(false)
 useEffect(()=>{
 if(matches){
 ethereum.on('accountsChanged', function (accounts) {
-  formatUserBalances();
   logout();
-  setupAndLogin();
+  formatUserBalances();
+  setupAndLogin()
 console.log("ethStarted")
 })}
 },[matches])
@@ -50,6 +52,7 @@ console.log(collections)
 
 const formatUserBalances = async () => {
     const userBalance = await getUserBalances()
+    console.log(userBalance)
     const account = await ethereum.request({ method: 'eth_requestAccounts' });
     setAccount(account)
   let ethBalance = await ethereum.request({ method: 'eth_getBalance', params:[...account,"latest"] });
@@ -74,11 +77,42 @@ const filterCollections = async (filter) => {
 
 let timeout
 return (
+  <>
+  {mobile ?
+    <div className={styles.container}>
+    <div className={styles.logoContainer}>
+        <Link href="/" replace  passHref><a><Image className={styles.logo} alt="logo, partially made by Eliricon" src={"/images/logo.svg"} width={36} height={36} /></a></Link>
+    </div>
+   <div className={styles.inputContainer}>
+   <div className={styles.searchIconContainer}>
+    <SearchIcon className={styles.searchIcon} />
+    </div>
+    <input type="text" className={styles.searchBar} onFocus={()=>setResearchOpen(true)} onBlur={()=>setTimeout(()=>setResearchOpen(false),300)} 
+    onChange={e=>{setSearchInput(e.target.value); filterCollections(e.target.value)}} placeholder="Search for a collection, an item or an artist" />
+    {researchOpen && searchInput.length >1?
+        <div className={styles.resultContainer} onFocus={()=>setResearchOpen(true)} >
+         <div className={styles.searchCollectionSectionTitle}>Collections</div>
+            {collectionsNavBar.length>0?collectionsNavBar.map((collection,i)=>
+            collection.upcoming?
+            <div className={styles.searchResult}>
+            <img src={collection.collection_image_url} className={styles.searchImage} alt="collection logo" />
+            <p > {collection.name} <span className={styles.upcomingLabel}>Upcoming</span></p>
+            </div>
+            :
+            <><Link   key={`${i}collec`} href={`/collections/${collection.address}`}>
+            <a className={styles.searchResult}><img src={collection.collection_image_url} className={styles.searchImage} alt="collection logo" />{collection.name}</a></Link></>):"No results"}
+        </div>
+    :""}
+ 
+    </div>
+              </div>
+    :
     <>
     <div className={styles.container}>
         <div className={styles.logoContainer}>
             <Link href="/" replace  passHref><a><Image className={styles.logo} alt="logo, partially made by Eliricon" src={"/images/logo.svg"} width={72} height={72} /></a></Link>
         </div>
+        <div className={styles.betaLabel}>BETA</div>
        <div className={styles.inputContainer}>
        <div className={styles.searchIconContainer}>
         <SearchIcon className={styles.searchIcon} />
@@ -114,7 +148,7 @@ return (
         </div>
         
         </div>
-        <a className={styles.textElement}>About</a>
+        <a href="#about"className={styles.textElement}>About</a>
         {account? 
         <Link href={`/user/${account}`}>
           <a className={styles.textElement} >
@@ -130,11 +164,6 @@ return (
             src="" onClick={()=>{setupAndLogin(); setOpenDrawer(true);formatUserBalances()}}/>     
               
         </div>
-     
-        
-     
-    
-      
 
      </div>
      <div className={openDrawer? styles.drawerContainer:styles.hidden}>
@@ -160,7 +189,14 @@ return (
             <div className={styles.currencyInfo}>  {userBalance.ethBalance} <Image src={ethLogo} width={30} height={30} alt="ethereum logo" /></div>
             <div className={styles.currencyInfo}> {userBalance.imx} <Image src={xLogo} width={30} height={30} alt="IMX logo"/> </div>
               </div>
-              <button className={styles.transferButton}>Transfer Funds to IMX </button>
+              <button className={styles.transferButton} onClick={()=>setTransfer(!transfer)}>Deposit Funds to IMX </button>
+              {transfer? 
+              <div className={styles.transferContainer}>
+              <input type="number" className={styles.inputTransfer} placeholder="Enter the amount to deposit" onChange={e=>setAmountDeposit(e.target.value)} />
+              <button onClick={()=>depositEth(amountDeposit)} className={styles.depositButton}>
+                Deposit
+              </button>
+              </div>:""}
             <div className={styles.assetDrawer}>
             <p className={styles.drawerTitle}> Current Assets</p>
 
@@ -175,8 +211,8 @@ return (
          
          </div>
      </div>
-     </>
-)
+     </>}
+</>)
 }
 
 export default NavBar

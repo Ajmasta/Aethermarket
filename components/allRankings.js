@@ -4,6 +4,8 @@ import { useGetRankings } from "./functions/functions"
 import Link from 'next/link'
 import styles from "./styles/allRankings.module.css"
 import { addAOneOrNot } from "./functions/getCollectionsData"
+import ethLogo from "../public/images/ethLogo.png"
+import Image from 'next/image'
 const AllRankings = ({collection}) => {
     const [array,setArray] = useState([])
     const [page,setPage] = useState(1)

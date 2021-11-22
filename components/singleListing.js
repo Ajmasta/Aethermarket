@@ -7,7 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { style } from "@mui/system";
 import PersonIcon from '@mui/icons-material/Person';
-import { cancelOrder, fillOrder, getAndSellAsset, getAndtransferERC721, logout, sellAsset, transferERC721 } from "./functions/ImxFunctions";
+import { cancelOrder, fillOrder, getAndSellAsset, getAndtransferERC721, getUserBalances, logout, sellAsset, setupAndLogin, transferERC721 } from "./functions/ImxFunctions";
 import {
     RecoilRoot,
     atom,
@@ -15,16 +15,15 @@ import {
     useRecoilState,
     useRecoilValue,
   } from 'recoil';
-  import { accountAtom, assetsAtom } from "./states/states";
+  import { accountAtom, assetsAtom, userBalanceAtom } from "./states/states";
   import collections from "../components/functions/collectionRankings.json"
-
+  import BigNumber from "bignumber.js";
 
 const SingleListing = ({data}) => {
     const [sell,setSell] = useState(false)
     const listingData= data.data.result[0]
     const collection = listingData.sell.data.token_address
     const rank =  collections[collection]&& collections[collection]["ranksArray"]?collections[collection]["ranksArray"].indexOf(Number(listingData.sell.data.token_id)):undefined
-    const account= useRecoilValue(accountAtom)
     const [assets,setAssets] = useRecoilState(assetsAtom)
     const user = localStorage.getItem("WALLET_ADDRESS")
     if (data.similarListings.result.length > 0 && data.similarListings.result.length <=99)  
@@ -37,6 +36,9 @@ const SingleListing = ({data}) => {
     const [shownTab,setShownTab] = useState("sales")
     const [thisAsset,setThisAsset]=useState()
     const [shownTabAsset,setShownTabAsset] = useState("price")
+    const [errorMessage,setErrorMessage] = useState("")
+    const [userBalance,setUserBalance] = useRecoilState(userBalanceAtom)
+    const [account,setAccount] =useRecoilState(accountAtom)
 console.log(data)
     const checkOwnerShip = () =>{
         const filteredAssets = assets.result? assets.result.filter(asset=>
@@ -45,7 +47,7 @@ console.log(data)
 
     }
     console.log(checkOwnerShip())
-    
+    console.log(account)
 useEffect(()=>getAsset(),[collections])
 
     const getAsset= async ()=>{
@@ -57,7 +59,6 @@ useEffect(()=>getAsset(),[collections])
 
 console.log(thisAsset)
 const createTraitsTabGodsUnchained = () =>{
-
 
     return (<div className={styles.traitsContainer}>
         
@@ -402,10 +403,43 @@ const createTraitsTabGodsUnchained = () =>{
     data.similarCollection.result.sort((a,b) =>Number(a.buy.data.quantity/(10**18)) > Number(b.buy.data.quantity/(10**18)) ? 1:-1)
     const reducedSimilarCollection = data.similarCollection.result.slice(0,6)
 
-
+    const setError = (error) =>{
+        setErrorMessage(error)
+        setTimeout(()=>setErrorMessage(""),3000)
+    
+    }
+    
+    const buyFunction = (order) => {
+        if (account==="") formatUserBalances();
+        if(account[0]!==localStorage.getItem("WALLET_ADDRESS")) {
+            logout()
+            setupAndLogin()
+            return""
+        }
+    if(userBalance.imx<order.buy.data.quantity){
+        
+        setError(<><p className={styles.mainError}>Not enough funds!</p><p className={styles.secondaryError}>Transfer funds to IMX by clicking on the wallet in the top-right.</p></>)
+        return ""
+    }
+    fillOrder(order)
+    }
+    console.log(errorMessage)
+    const formatUserBalances = async () => {
+        const userBalance = await getUserBalances()
+        const account = await ethereum.request({ method: 'eth_requestAccounts' });
+        setAccount(account)
+      let ethBalance = await ethereum.request({ method: 'eth_getBalance', params:[...account,"latest"] });
+      ethBalance = new BigNumber(ethBalance)
+        
+      setUserBalance({imx:userBalance.imx,ethBalance:(ethBalance.toFixed()/10**18)})
+       
+        
+    }
     return (<>
         <div className={styles.mainContainer}>
-       
+                {errorMessage!==""?<div className={styles.errorContainer}>
+                    {errorMessage}
+                </div>:""}
             <div className={styles.topContainer}>
             <div className={styles.leftContainer} >
             <div className={styles.rankIdContainer}>
@@ -427,10 +461,10 @@ const createTraitsTabGodsUnchained = () =>{
                
                                                                          <button onClick={()=>cancelOrder(listingData)}>Cancel Listing</button></>:
                                 
-                                                                         <button onClick={()=>fillOrder(listingData)} className={styles.buyButton}>Buy </button>:
+                                                                         <button onClick={()=>buyFunction(listingData)} className={styles.buyButton}>Buy </button>:
                                                                          checkOwnerShip()? 
                                                                          <> <input type="number" min="0" placeholder="Enter listing price in ETH" onChange={(e)=>setSell(e.target.value)} className={styles.sellInput}></input>
-                                                                            <button onClick={()=>{logout();getAndSellAsset(listingData,sell)}} className={sell.length>0?styles.buyButton:styles.disabledButton} disabled={sell.length>0?false:true}>Sell </button> 
+                                                                            <button onClick={()=>{logout();formatUserBalances(); getAndSellAsset(listingData,sell);}} className={sell.length>0?styles.buyButton:styles.disabledButton} disabled={sell.length>0?false:true}>Sell </button> 
                                                                             </>:
                                                                             <div> 
                                                                             Last listed price: {listingData.buy.data.quantity/(10**18)}

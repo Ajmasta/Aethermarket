@@ -140,3 +140,8 @@
 .pageDots {
   padding: 5px;
 }
+@media (max-width: 600px) {
+  .filterTab {
+    width: 100%;
+  }
+}
