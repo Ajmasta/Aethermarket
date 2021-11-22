@@ -17,7 +17,7 @@ export const addAOneOrNot = async () =>
 export const getSevenDaysOrder = async () => {
     const data = await (await fetch("https://api.x.immutable.com/v1/orders?status=filled&buy_token_type=ETH") ).json()
     let cursor= "&cursor=" + data.cursor
-    for (let i=0;i<=1600;i++){
+    for (let i=0;i<=2500;i++){
         const newData = await (await fetch("https://api.x.immutable.com/v1/orders?status=filled&buy_token_type=ETH"+cursor)).json()
         cursor= "&cursor=" + newData.cursor
         data.result.push(...newData.result)

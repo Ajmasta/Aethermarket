@@ -1,5 +1,7 @@
 import styles from "./styles/about.module.css"
 import Image from 'next/image'
+import TwitterIcon from '@mui/icons-material/Twitter';
+import Link from 'next/link'
 
 const About = () => {
 
@@ -19,9 +21,9 @@ return (
         which will give their holders the ability to vote on important decisions.
         Once IMX puts fees in place for marketplaces, we also place to redistribute a 
         portion of our profits to our community and to sponsor artists to create new art. 
-        For now, we are collecting feedback from our community to continuously improve our 
+        During Beta, we are collecting feedback from our community to continuously improve our 
 
-        marketplace.
+        marketplace.<br /> <br /> Near the end of the beta, we will announce our NFT collection with many utilities for our holders to give you an edge in trading NFTs on IMX.
 
     </p>
 
@@ -33,6 +35,8 @@ return (
     <div className={styles.buttonContainer}>
     <button className={styles.button}>Learn more</button> <button className={styles.button}>Give Feedback</button>
     </div>
+    <Link href="https://twitter.com/aethercraftIMX"><a className={styles.twitterIcon}><TwitterIcon /></a></Link>
+
 </div>
 
 

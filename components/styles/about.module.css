@@ -4,6 +4,7 @@
   color: white;
   display: flex;
   flex-direction: column;
+  align-items: center;
   flex-wrap: wrap;
 }
 .contentContainer {
@@ -50,4 +51,8 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+.twitterIcon {
+  color: #17b5cb;
+  margin-bottom: 50px;
 }

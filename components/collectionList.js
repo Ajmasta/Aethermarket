@@ -37,15 +37,24 @@ const CollectionList = () => {
        {    "name": "Dinos IMX",
             "description": "IMX Dinos is the first Dino community on IMX! No gas fees, Carbon Neutral, we're taking it back to the Jurassic Period!",
             "icon_url": "/images/dinosIcon.gif",
-            "collection_image_url": "/images/dinosIcon.jpg"},  
+            "collection_image_url": "/images/dinosIcon.jpg",
+        "twitter":"https://mobile.twitter.com/imxdinos",
+        "website":"",
+        "discord":"https://t.co/LE795eI7le?amp=1"},  
              {    "name": "Highrise Creature Club",
             "description": "The creative world where everyone belongs. Highrise Creature Club with 10,000 unique NFT Creatures",
             "icon_url": "/images/highRise.png",
-            "collection_image_url":"/images/highRiseIcon.jpg" },  
+            "collection_image_url":"/images/highriseIcon.jpg",
+            "twitter":"https://mobile.twitter.com/HighriseApp",
+            "website":"https://apps.apple.com/app/id924589795?mt=8",
+            "discord":"https://discord.gg/hcc" },  
              {    "name": "Immutable Kongz",
             "description": "6666 Genetically modified Unique Beasts on a mission to conquer Planet IMX with style and utility",
             "icon_url": "/images/kongz.png",
-            "collection_image_url": "/images/kongzicon.png"}
+            "collection_image_url": "/images/kongzIcon.png",
+            "twitter":"https://twitter.com/immutablekongz?lang=en",
+            "website":"https://t.co/Y3djvdGhvX?amp=1",
+            "discord":"https://t.co/AE9PMakKQ5?amp=1"}
    ]
 const createCollectionWidget =  () => {
 
@@ -84,9 +93,9 @@ const createUpcomigCollectionWidget =  (collections) => {
                
                 </div>
                 <div className={styles.logoContainer}>
-                            <TwitterIcon />
-                            <WebIcon />
-                            <Image src={"/images/discord.png"} alt="discord Icon" width={24} height={24} />
+                           {collection.twitter!==""?<a href={collection.twitter}><TwitterIcon /></a>:""}
+                           {collection.website !==""?<a href={collection.website}><WebIcon /></a>:""}
+                            {collection.discord!==""? <a href={collection.discord}><Image src={"/images/discord.png"} alt="discord Icon" width={24} height={24} /> </a>:""}
                 </div>
             </div> 
             )})

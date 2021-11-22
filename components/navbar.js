@@ -95,12 +95,17 @@ return (
             {collectionsNavBar.length>0?collectionsNavBar.map((collection,i)=>
             collection.upcoming?
             <div className={styles.searchResult}>
-            <img src={collection.collection_image_url} className={styles.searchImage} alt="collection logo" />
+            <img src={collection.collection_image_url} className={styles.searchImage} alt="logo" />
             <p > {collection.name} <span className={styles.upcomingLabel}>Upcoming</span></p>
             </div>
             :
-            <><Link   key={`${i}collec`} href={`/collections/${collection.address}`}>
-            <a className={styles.searchResult}><img src={collection.collection_image_url} className={styles.searchImage} alt="collection logo" />{collection.name}</a></Link></>):"No results"}
+            <div className={styles.searchResult}><Link   key={`${i}collec`} href={`/collections/${collection.address}`}>
+                <a className={styles.searchResult}>
+                <img src={collection.collection_image_url} className={styles.searchImage} alt="logo" />
+                {collection.name}
+                </a>
+              </Link>
+            </div>):"No results"}
         </div>
     :""}
  
@@ -125,12 +130,18 @@ return (
                 {collectionsNavBar.length>0?collectionsNavBar.map((collection,i)=>
                 collection.upcoming?
                 <div className={styles.searchResult}>
-                <img src={collection.collection_image_url} className={styles.searchImage} alt="collection logo" />
-                <p > {collection.name} <span className={styles.upcomingLabel}>Upcoming</span></p>
-                </div>
+            <img src={collection.collection_image_url} className={styles.searchImage} alt="logo" />
+            <p > {collection.name} <span className={styles.upcomingLabel}>Upcoming</span></p>
+            </div>
                 :
-                <><Link   key={`${i}collec`} href={`/collections/${collection.address}`}>
-                <a className={styles.searchResult}><img src={collection.collection_image_url} className={styles.searchImage} alt="collection logo" />{collection.name}</a></Link></>):"No results"}
+                <div className={styles.searchResult}>
+                <Link   key={`${i}collec`} href={`/collections/${collection.address}`}>
+                <a >
+                <img src={collection.collection_image_url} className={styles.searchImage} alt="logo" />
+                {collection.name}
+                </a>
+              </Link>
+            </div>):"No results"}
             </div>
         :""}
      

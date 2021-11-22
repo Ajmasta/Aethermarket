@@ -39,7 +39,7 @@ const CollectionRankings = () => {
             <>
     <div className={styles.tableContainer}>
             {array.slice(0,15).map((element,i)=>{
-            let changeValue = activeTab==="day"? orderData["changeDay"][element[0]]?.toFixed(2):orderData["changeWeek"][element[0]].toFixed(2)
+            let changeValue = activeTab==="day"? orderData["changeDay"][element[0]]?.toFixed(2):orderData["changeWeek"][element[0]]?.toFixed(2)
             
             return (
                 

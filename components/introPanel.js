@@ -15,7 +15,7 @@ import { accountAtom, assetsAtom, collectionsAtom, userBalanceAtom } from "./sta
 import BigNumber from "bignumber.js";
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import painterIcon from "../public/images/thepaintericon.png"
+import TwitterIcon from '@mui/icons-material/Twitter';
 const IntroPanel = () => {
     const router = useRouter()
 const[openDrawer,setOpenDrawer] = useRecoilState(drawerAtom)
@@ -59,7 +59,9 @@ const formatUserBalances = async () => {
             }}>{account?"Start Listing":"Connect your Wallet"}</button>
     
         
-        
+                  </div>
+                  <div className={styles.twitterLogo}>
+                  <Link href="https://twitter.com/aethercraftIMX"><a><TwitterIcon /></a></Link>
                   </div>
             </div>
     </div>

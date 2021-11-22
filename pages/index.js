@@ -9,9 +9,10 @@ import LastListed from '../components/lastListed'
 import LastSold from '../components/lastSold'
 import NavBar from '../components/navbar'
 import styles from '../styles/Home.module.css'
-
+import ReactGA from 'react-ga';
 export default function Home({collections}) {
 
+  
   return (
     <div className={styles.container}>
      <Head>

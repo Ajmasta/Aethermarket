@@ -85,6 +85,12 @@
   bottom: 0;
   z-index: 0;
 }
+.twitterLogo {
+  position: absolute;
+  color: #17b5cb;
+  bottom: 10px;
+  font-size: 30px;
+}
 .artFrame {
   height: 100%;
   width: 100%;
