@@ -56,7 +56,7 @@ const LastListed = ({data}) => {
 
 <div className={styles.title} ><p>Last Listed </p></div>
 <div className={styles.container}>
-<div className={styles.arrowContainerRight} onClick={(e)=>setTranslateLeft(translateLeft+400)}><ArrowForwardIosIcon height={"100px"}/></div>
+<div className={styles.arrowContainerRight} onClick={(e)=>setTranslateLeft(translateLeft+800)}><ArrowForwardIosIcon height={"100px"}/></div>
 <div className={styles.arrowContainerLeft} onClick={(e)=>setTranslateLeft(0)}><ArrowBackIosNewIcon height={"100px"}/></div>
 <div className={styles.bottomImagesContainer} id="listingContainer"  >
 {createSimilarListings(data.listings,15)}

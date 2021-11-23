@@ -25,6 +25,11 @@
   align-items: flex-end;
   flex-direction: column;
 }
+@media (max-width: 600px) {
+  .textContainer {
+    align-items: center;
+  }
+}
 .text {
   width: 70%;
 }

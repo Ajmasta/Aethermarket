@@ -137,7 +137,7 @@ return(
              <>
 
         <div className={styles.profileContainer}>
-        <img className={styles.profileImage} src={collectionData.collection_image_url}/>
+        <img className={styles.profileImage} src={collections[collection]?.collectionIcon? collections[collection].collectionIcon:collectionData.collection_image_url}/>
             <p className={styles.collectionName}>{collectionData.name}</p>
         </div>
         <div className={styles.statsContainer}>

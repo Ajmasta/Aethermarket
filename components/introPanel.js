@@ -16,7 +16,10 @@ import BigNumber from "bignumber.js";
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import TwitterIcon from '@mui/icons-material/Twitter';
+import { useMediaQuery } from "@mui/material"
 const IntroPanel = () => {
+    let mobile=true
+     mobile = useMediaQuery("(max-width:600px)")
     const router = useRouter()
 const[openDrawer,setOpenDrawer] = useRecoilState(drawerAtom)
     const [panel,setPanel] = useState("intro")
@@ -50,13 +53,15 @@ const formatUserBalances = async () => {
                  
     <div className={styles.buttonContainer}>
         <a href="#collectionContainer"><button className={styles.button}>Start Browsing</button></a>
-        <button className={styles.button} onClick={()=>{
+        
+        
+        {mobile?"":<button className={styles.button} onClick={()=>{
             setupAndLogin();
             formatUserBalances(); 
             
             if(account) router.push(`/user/${account[0]}`)
             
-            }}>{account?"Start Listing":"Connect your Wallet"}</button>
+            }}>{account?"Start Listing":"Connect your Wallet"}</button>}
     
         
                   </div>

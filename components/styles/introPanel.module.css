@@ -70,6 +70,16 @@
   background-color: white;
   color: black;
 }
+@media (max-width: 600px) {
+  .pictureFrame {
+    max-width: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .picture {
+    max-width: 300px;
+  }
+}
 .containerRight {
   width: 50%;
   height: 100%;
@@ -166,8 +176,21 @@
   .buttonContainer {
     display: flex;
     width: 100%;
+    justify-content: center;
   }
   .button {
     width: 130px;
+  }
+  .artFrame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .containerRight {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

@@ -80,6 +80,12 @@
 .arrowContainerRight:hover {
   background-color: rgba(0, 0, 0, 1);
 }
+@media (max-width: 600px) {
+  .arrowContainerRight,
+  .arrowContainerLeft {
+    display: none;
+  }
+}
 .bottomImagesContainer::-webkit-scrollbar {
   display: none;
 }
