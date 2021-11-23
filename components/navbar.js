@@ -68,7 +68,7 @@ const formatUserBalances = async () => {
 }
 
 const filterCollections = async (filter) => {
-  const blacklist = ["0x04792367709c5daea4fd781f558cba092695bbc0","0xf797fa8b22218f4a82286e28a2727cd1680f4237"]
+  const blacklist = ["0x04792367709c5daea4fd781f558cba092695bbc0","0x41ff943a5a31652a33cb23fb942769abb3dbaf97"]
     let collections2 = data.filter(collection => collection.name.toUpperCase().includes(filter.toUpperCase()))
      collections2 = collections2.filter(collection =>!blacklist.includes(collection.address))
     console.log(collections2)
@@ -118,7 +118,7 @@ return (
         <div className={styles.logoContainer}>
             <Link href="/" replace  passHref><a><Image className={styles.logo} alt="logo, partially made by Eliricon" src={"/images/logo.svg"} width={72} height={72} /></a></Link>
         </div>
-       <a href="#about"> <div className={styles.betaLabel}>BETA</div> </a>
+        <Link href="/#about"><a><div className={styles.betaLabel}>BETA</div></a></Link>
        <div className={styles.inputContainer}>
        <div className={styles.searchIconContainer}>
         <SearchIcon className={styles.searchIcon} />
@@ -160,7 +160,7 @@ return (
         </div>
         
         </div>
-        <a href="#about"className={styles.textElement}>About</a>
+        <Link href="/#about"><a className={styles.textElement}>About</a></Link>
         {account? 
         <Link href={`/user/${account}`}>
           <a className={styles.textElement} >

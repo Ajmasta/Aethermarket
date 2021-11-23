@@ -54,7 +54,14 @@ const CollectionList = () => {
             "collection_image_url": "/images/kongzIcon.png",
             "twitter":"https://twitter.com/immutablekongz?lang=en",
             "website":"https://t.co/Y3djvdGhvX?amp=1",
-            "discord":"https://t.co/AE9PMakKQ5?amp=1"}
+            "discord":"https://t.co/AE9PMakKQ5?amp=1"},
+            {    "name": "Wild Turtles",
+            "description": "There will be 7,000 Wild Turtle NFTs and every NFT represents a living turtle in the wild. Mint a turtle, save a turtle.",
+            "icon_url": "/images/vegetaTurtle.jpg",
+            "collection_image_url": "/images/turtles.png",
+            "twitter":"https://mobile.twitter.com/WildTurtlesNFT",
+            "website":"https://www.wildturtlenft.com/",
+            "discord":"https://discord.gg/SEJswYvH"}
    ]
 const createCollectionWidget =  () => {
 

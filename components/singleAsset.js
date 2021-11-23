@@ -468,7 +468,6 @@ const createTraitsTabGodsUnchained = () =>{
                                                                             <div className={styles.notListedContainer}> 
                                                                            <p className={styles.notListedText}>This item was never listed </p>
                                                                           
-                                                                            <Image width={20} height={20}  src={ethLogo} alt="ethereum logo" />
                                                                             </div>
                 }
                 <Link href={`/user/${thisAsset?thisAsset.user:listingData.user}`}>

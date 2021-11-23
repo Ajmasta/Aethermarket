@@ -85,7 +85,7 @@ console.log(array)
         </span>
         
         </div> :""}
-        {collections[result.token_address]? <p className={styles.rankContainer}>Rank:{collections[result.token_address]["ranksArray"].indexOf(Number(result.token_id))+1}</p>:""}
+        {collections[result.token_address]?.ranksArray? <p className={styles.rankContainer}>Rank:{collections[result.token_address]["ranksArray"].indexOf(Number(result.token_id))+1}</p>:""}
                 </div>
             </a>
             </Link>
@@ -203,7 +203,7 @@ console.log(array)
         </span>
         
         </div> :""}
-        {collections[result.sell.data.token_address]? <p className={styles.rankContainer}>Rank:{collections[result.sell.data.token_address]["ranksArray"].indexOf(Number(result.sell.data.token_id))+1}</p>:""}
+        {collections[result.token_address]?.ranksArray? <p className={styles.rankContainer}>Rank:{collections[result.sell.data.token_address]["ranksArray"].indexOf(Number(result.sell.data.token_id))+1}</p>:""}
                 </div>
             </a>
             </Link>
