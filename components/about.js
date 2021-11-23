@@ -33,7 +33,12 @@ return (
 </div>
     </div>
     <div className={styles.buttonContainer}>
-    <button className={styles.button}>Learn more</button> <button className={styles.button}>Give Feedback</button>
+    <a href="https://aethercraft.io">
+    <button className={styles.button}>Learn more</button> 
+    </a>
+    <a href="https://forms.gle/FHMjyNwXK5G9mk2s8">
+    <button className={styles.button}>Give Feedback</button>
+    </a>
     </div>
     <Link href="https://twitter.com/aethercraftIMX"><a className={styles.twitterIcon}><TwitterIcon /></a></Link>
 

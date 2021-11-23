@@ -110,7 +110,7 @@ const AllRankings = ({collection}) => {
             </span>
             </div>
         <span className={styles.priceQuantity}>
-        {result.price}
+        {result.price} <Image src={ethLogo} width={15} height={15} alt="ethlogo" />
         </span>
         
         </div> :""}

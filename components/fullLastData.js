@@ -12,6 +12,8 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import collections from "../components/functions/collectionRankings.json"
 import AllRankings from "./allRankings"
 import orderData from "./functions/orderData.json"
+import ethLogo from "../public/images/ethLogo.png"
+import Image from 'next/image'
 
 const FullLastData = ({collection})=>{
     const collectionRanking = collections[collection]
@@ -155,7 +157,7 @@ return(
            :""
           }
            <div className={styles.statsBox}>
-           <p className={styles.statsNumber}> {floorPrice/10**18} </p>
+           <p className={styles.statsNumber}> {(floorPrice/10**18)?.toFixed(3)} <Image src={ethLogo} width={20} height={20} alt="ethlogo"/></p>
            <p className={styles.statsText}> Floor Price </p>
            </div>
            {collections[collection]["ranksArray"]?

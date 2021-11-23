@@ -100,7 +100,7 @@ const createTraitsTabGodsUnchained = () =>{
             <div key={`${i}Traits`} className={styles.traitContainer}>
                 <p className={styles.traitName}>{trait[0]}</p>
                 <p className={styles.traitValue}>{trait[1]}</p>
-                <p className={styles.traitRarity}>{(trait[2]/collections[collection].ranksArray.length*100).toFixed(2)}%</p>
+              {collections[collection].ranksArray?  <p className={styles.traitRarity}>{(trait[2]/collections[collection].ranksArray.length*100).toFixed(2)}%</p>:""}
             </div>
 
 
@@ -415,6 +415,7 @@ const createTraitsTabGodsUnchained = () =>{
     
     const buyFunction = (order) => {
         if (account==="") formatUserBalances();
+
         if(account[0]!==localStorage.getItem("WALLET_ADDRESS")) {
             logout()
             setupAndLogin()
@@ -437,7 +438,6 @@ const createTraitsTabGodsUnchained = () =>{
         
       setUserBalance({imx:userBalance.imx,ethBalance:(ethBalance.toFixed()/10**18)})
        
-        
     }
     return (<>
         <div className={styles.mainContainer}>
