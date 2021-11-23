@@ -51,10 +51,11 @@ useEffect(()=>setCollections(data),[data])
 console.log(collections)
 
 const formatUserBalances = async () => {
-    const userBalance = await getUserBalances()
-    console.log(userBalance)
+  
     const account = await ethereum.request({ method: 'eth_requestAccounts' });
     setAccount(account)
+    const userBalance = await getUserBalances(account)
+    console.log(userBalance)
   let ethBalance = await ethereum.request({ method: 'eth_getBalance', params:[...account,"latest"] });
   ethBalance = new BigNumber(ethBalance)
     
@@ -198,7 +199,7 @@ return (
             <p className={styles.drawerTitle}> Current Balances</p>
 
             <div className={styles.currencyInfo}>  {userBalance.ethBalance} <Image src={ethLogo} width={30} height={30} alt="ethereum logo" /></div>
-            <div className={styles.currencyInfo}> {userBalance.imx} <Image src={xLogo} width={30} height={30} alt="IMX logo"/> </div>
+            <div className={styles.currencyInfo}> {userBalance.imx/10**18} <Image src={xLogo} width={30} height={30} alt="IMX logo"/> </div>
               </div>
               <button className={styles.transferButton} onClick={()=>setTransfer(!transfer)}>Deposit Funds to IMX </button>
               {transfer? 

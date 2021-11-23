@@ -1,4 +1,6 @@
 import Head from 'next/head'
+import Script from 'next/script'
+
 import Image from 'next/image'
 import About from '../components/about'
 import CollectionList from '../components/collectionList'
@@ -22,9 +24,12 @@ export default function Home({collections}) {
             as="font"
             crossOrigin=""
           />
-         
+  
+
+
         </Head>
         <Head> 
+        
     <title>Aethermarket</title>
     <meta name="description" content="Aethermarket is a decentralized  NFT marketplace on IMX.Buy, create and participate in a decentralized marketplace that rewards its community." />
     <link rel="icon" href="/icon.svg" />

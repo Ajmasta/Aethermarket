@@ -49,9 +49,9 @@ export function logout() {
 }
 
 //Get the user balances
-export async function getUserBalances() {
+export async function getUserBalances(account) {
    const address = localStorage.getItem('WALLET_ADDRESS');
-  const balances = await (await fetch(`https://api.x.immutable.com/v1/balances/${address}`)).json()
+  const balances = await (await fetch(`https://api.x.immutable.com/v1/balances/${account}`)).json()
    return balances
 }
 //Deposits ETH into Immutable X

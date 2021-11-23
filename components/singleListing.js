@@ -46,8 +46,7 @@ console.log(data)
         return filteredAssets.length>0? true:false
 
     }
-    console.log(checkOwnerShip())
-    console.log(account)
+ 
 useEffect(()=>getAsset(),[collections])
 
     const getAsset= async ()=>{
@@ -57,7 +56,6 @@ useEffect(()=>getAsset(),[collections])
           setThisAsset(data)
     }
 
-console.log(thisAsset)
 const createTraitsTabGodsUnchained = () =>{
 
     return (<div className={styles.traitsContainer}>
@@ -318,7 +316,6 @@ const createTraitsTabGodsUnchained = () =>{
     }
     const createListingsTable = (array,numberOfItems) =>{
         let selling = isSimilarListing? array.similarListings.result : array.similarCollection.result
-        console.log(selling)
         const arrayLength = selling.length
         selling.sort((result, result2)=> Number(result.buy.data.quantity) > Number(result2.buy.data.quantity) ? 1:-1)
         selling = selling.slice(0,numberOfItems)
@@ -414,25 +411,52 @@ const createTraitsTabGodsUnchained = () =>{
     }
     
     const buyFunction = (order) => {
-        if (account==="") formatUserBalances();
-
+        console.log("called",order.buy.data.quantity)
+        if (account==="") {
+            formatUserBalances();
+          
+        }
         if(account[0]!==localStorage.getItem("WALLET_ADDRESS")) {
+            console.log(userBalance.imx,"hello")
+            console.log(account[0])
+            console.log(localStorage.getItem("WALLET_ADDRESS"))
+            setError(<><p className={styles.mainError}>Not logged into IMX</p><p className={styles.secondaryError}>Your current account is not linked to IMX. Log into IMX to continue.</p></>)
             logout()
             setupAndLogin()
             return""
         }
     if(userBalance.imx<order.buy.data.quantity){
-        
+     
+
         setError(<><p className={styles.mainError}>Not enough funds!</p><p className={styles.secondaryError}>Transfer funds to IMX by clicking on the wallet in the top-right.</p></>)
         return ""
     }
+    console.log(userBalance.imx,"hello")
+
     fillOrder(order)
     }
-    console.log(errorMessage)
+
+    const sellFunction = () =>{
+       
+        if(account !=="" && account[0]!==localStorage.getItem("WALLET_ADDRESS")) {
+            console.log(account[0])
+            console.log(localStorage.getItem("WALLET_ADDRESS"))
+            setError(<><p className={styles.mainError}>Wrong account logged into IMX</p><p className={styles.secondaryError}>Your current account is not linked to IMX. Relog to IMX to continue.</p></>)
+            logout()
+            setupAndLogin()
+            return""
+        }
+  
+    getAndSellAsset(listingData,sell)
+    }
+    
+
     const formatUserBalances = async () => {
-        const userBalance = await getUserBalances()
+       
         const account = await ethereum.request({ method: 'eth_requestAccounts' });
         setAccount(account)
+        const userBalance = await getUserBalances(account)
+        console.log(userBalance,"userA")
       let ethBalance = await ethereum.request({ method: 'eth_getBalance', params:[...account,"latest"] });
       ethBalance = new BigNumber(ethBalance)
         
@@ -468,7 +492,7 @@ const createTraitsTabGodsUnchained = () =>{
                                                                          <button onClick={()=>buyFunction(listingData)} className={styles.buyButton}>Buy </button>:
                                                                          checkOwnerShip()? 
                                                                          <> <input type="number" min="0" placeholder="Enter listing price in ETH" onChange={(e)=>setSell(e.target.value)} className={styles.sellInput}></input>
-                                                                            <button onClick={()=>{logout();formatUserBalances(); getAndSellAsset(listingData,sell);}} className={sell.length>0?styles.buyButton:styles.disabledButton} disabled={sell.length>0?false:true}>Sell </button> 
+                                                                            <button onClick={()=>{sellFunction()}} className={sell.length>0?styles.buyButton:styles.disabledButton} disabled={sell.length>0?false:true}>Sell </button> 
                                                                             </>:
                                                                             <div className={styles.notListedContainer}> 
                                                                            <p className={styles.notListedText}>Not currently listed </p>

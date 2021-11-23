@@ -28,9 +28,10 @@ const[openDrawer,setOpenDrawer] = useRecoilState(drawerAtom)
     const [assets,setAssets] = useRecoilState(assetsAtom)
     const [collections,setCollections] = useRecoilState(collectionsAtom)
 const formatUserBalances = async () => {
-    const userBalance = await getUserBalances()
     const account = await ethereum.request({ method: 'eth_requestAccounts' });
     setAccount(account)
+    const userBalance = await getUserBalances(account)
+
   let ethBalance = await ethereum.request({ method: 'eth_getBalance', params:[...account,"latest"] });
   ethBalance = new BigNumber(ethBalance)
     
