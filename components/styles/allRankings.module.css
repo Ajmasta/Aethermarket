@@ -29,10 +29,12 @@
 .similarImageContainer {
   padding: 10px 10px;
   background-color: white;
-  min-height: 200px;
+  min-height: 270px;
+  width: 270px;
 }
 .similarImage {
   width: 250px;
+  min-height: 250px;
   background-color: white;
 }
 .bottomImagesContainer {
@@ -65,11 +67,12 @@
 .nameDescription {
   display: flex;
   flex-direction: column;
-  max-width: 150px;
+  max-width: 145px;
 }
 .collectionName {
   color: rgba(5, 5, 5, 0.6);
 }
+
 .inputFilter {
   padding: 10px 5px;
   margin-bottom: 10px;
@@ -94,6 +97,15 @@
   justify-content: flex-end;
 }
 .priceQuantity {
+  display: flex;
+  justify-content: flex-end;
+}
+.currencyQuantity {
+  display: flex;
+  justify-content: flex-end;
+  color: rgb(165, 161, 161);
+
+  margin-right: 5px;
 }
 .hidden {
   display: none;

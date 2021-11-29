@@ -1,0 +1,543 @@
+.mainContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+.tableContainer {
+  display: flex;
+  width: 70%;
+  flex-direction: column;
+  padding: 0 0px;
+  border-top: none;
+}
+.tableRow:nth-child(2n + 1) {
+  background-color: #fff;
+}
+.tableTitle {
+  text-align: center;
+  font-weight: 600;
+  background-color: #eee;
+  padding: 20px 0;
+  margin: 10px 0 0 0;
+
+  border-bottom: 1px solid black;
+}
+.tableRow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 3px 0;
+  transition: all 0.25s ease;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+.tableRow:hover {
+  box-shadow: 1px 1px 8px;
+}
+.tableFirstRow {
+  padding: 30px 0;
+  border-bottom: 1px solid #666;
+  font-weight: 600;
+}
+.tableFirstRow:hover {
+  box-shadow: none;
+}
+.tableCell {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tableCellUser {
+  color: blue !important;
+}
+.tableCellUser:hover {
+  font-weight: 700;
+}
+.imageSearchIcon {
+  cursor: pointer;
+}
+.table .quantityCell {
+  flex: 1;
+}
+.nameCell {
+  justify-content: space-around;
+}
+.tableImage {
+  width: 100px;
+}
+@media (max-width: 600px) {
+  .tableImage {
+    width: 50px;
+  }
+
+  .tableContainer {
+    display: flex;
+    width: 100%;
+  }
+  .tableCell {
+    text-align: center;
+  }
+}
+.tableSeeMore {
+  cursor: pointer;
+  font-size: 16px;
+  padding: 20px 0;
+}
+.tableSeeMore:hover {
+  background-color: #fff;
+  color: black;
+}
+.tabs {
+  display: Flex;
+  width: 150px;
+  justify-content: center;
+  margin-bottom: 0px;
+  margin-top: 0;
+}
+
+.activeTab,
+.inactiveTab {
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+.activeTab {
+  border-bottom: 3px blue solid;
+}
+.inactiveTab {
+  cursor: pointer;
+}
+.chartContainer {
+  width: 70%;
+  max-width: 900px;
+  margin-bottom: 100px;
+}
+.statsContainer {
+  display: flex;
+  width: 350px;
+  justify-content: space-around;
+}
+.statsBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 1px 3px;
+  padding: 20px;
+}
+.stats {
+  margin: 0;
+  font-weight: 600;
+  height: 18px;
+  display: flex;
+  align-items: center;
+}
+.statsName {
+  margin: 0;
+}
+.helpIcon {
+  margin-left: 5px;
+}
+.tableCellHelp {
+  position: relative;
+}
+.hidden {
+  display: none;
+  max-height: 0;
+}
+.helpBox {
+  position: absolute;
+  bottom: 40px;
+  background-color: white;
+  padding: 10px;
+}
+.leaderboardNotice {
+  padding: 3px;
+}
+.assetDisplay {
+  border: 1px solid #666;
+  border-top: none;
+  border-bottom: none;
+  margin-top: -12px;
+  z-index: 1;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: inset 2px 2px 4px;
+  border-radius: 10px;
+  animation: slidedown 0.5s forwards;
+}
+@keyframes slidedown {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.tableAssetCell {
+  flex: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tableAssetRow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0px;
+  padding: 3px 0;
+  transition: all 0.25s ease;
+  position: relative;
+  border-bottom: 1px solid #eee;
+}
+.tableAssetRow:hover {
+  box-shadow: 1px 1px 8px;
+}
+.assetElements {
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+}
+.imageDisplay {
+  position: fixed;
+  top: 200px;
+  right: 10px;
+  width: 270px;
+  height: 360px;
+  z-index: 44;
+  box-shadow: 1px 1px 6px black;
+  transition: all 0.25 ease;
+}
+.imageDisplay:hover {
+  box-shadow: 1px 1px 12px black;
+}
+.exitImageDisplay {
+  position: fixed;
+  top: 200px;
+  right: 10px;
+  z-index: 10;
+  height: 24px;
+  background-color: white;
+}
+.userRankContainer {
+  width: 70%;
+  position: fixed;
+  bottom: 20px;
+  height: 100px;
+  background-color: white;
+  border: 1px solid black;
+  box-shadow: 1px 1px 3px black;
+  z-index: 10;
+}
+.tableUserCell {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  max-height: 80px;
+}
+.tableUserRow {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.tableUserFirstRow {
+  border-bottom: 1px solid black;
+  font-weight: 900;
+}
+.elementsContainer {
+  display: flex;
+}
+.exitUserRank {
+  position: absolute;
+  right: 20px;
+  top: 1px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+.exitUserRank:hover {
+  background-color: black;
+  color: white;
+}
+.diamondWhale {
+  background-color: rgb(189, 233, 250);
+
+  padding: 5px;
+  animation: diamond alternate 1.5s infinite;
+  animation-name: diamond;
+  border-radius: 5px;
+}
+.goldWhale {
+  padding: 5px;
+  animation: goldAni alternate 1.5s infinite;
+
+  border-radius: 5px;
+  background-color: rgb(248, 219, 52);
+}
+.silverWhale {
+  padding: 5px;
+  animation: silverAni alternate 1.5s infinite;
+
+  border-radius: 5px;
+  background-color: rgb(220, 232, 241);
+}
+
+.bronzeWhale {
+  padding: 5px;
+  animation: bronzeAni alternate 1.5s infinite;
+
+  border-radius: 5px;
+  background-color: rgb(205, 127, 50);
+}
+.topDog {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  animation: silverAni alternate 1.5s infinite;
+}
+.expertCollector {
+  background-color: rgb(241, 12, 12);
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  animation: expertAni alternate 1.5s infinite;
+}
+.intermediateCollector {
+  background-color: rgb(241, 178, 95);
+  color: black;
+  border-radius: 5px;
+  padding: 5px;
+  animation: intermediateAni alternate 1.5s infinite;
+}
+
+.noviceCollector {
+  background-color: rgb(199, 245, 146);
+  color: black;
+  border-radius: 5px;
+  padding: 5px;
+  animation: noviceAni alternate 1.5s infinite;
+}
+.trainee {
+  background-color: rgb(227, 68, 248);
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  animation: traineeAni alternate 1.5s infinite;
+}
+
+.holder {
+  background-color: rgb(104, 176, 243);
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  animation: holderAni alternate 1.5s infinite;
+}
+
+.sprout {
+  background-color: rgb(223, 223, 223);
+  color: black;
+  border-radius: 5px;
+  padding: 5px;
+  animation: sproutAni alternate 1.5s infinite;
+}
+
+.noItems {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@keyframes diamond {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: 5px 5px 20px rgb(41, 192, 252);
+  }
+}
+@keyframes goldAni {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: 5px 5px 20px rgb(231, 211, 31);
+  }
+}
+@keyframes silverAni {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: 5px 5px 20px rgb(71, 71, 71);
+  }
+}
+@keyframes bronzeAni {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: 5px 5px 20px rgb(255, 168, 81);
+  }
+}
+@keyframes expertAni {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: 5px 5px 20px rgb(241, 12, 12);
+  }
+}
+@keyframes intermediateAni {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: 5px 5px 20px rgb(241, 178, 95);
+  }
+}
+
+@keyframes noviceAni {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: 5px 5px 20px rgb(199, 245, 146);
+  }
+}
+@keyframes traineeAni {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: 5px 5px 20px rgb(232, 119, 247);
+  }
+}
+@keyframes holderAni {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: 5px 5px 20px rgb(104, 176, 243);
+  }
+}
+@keyframes sproutAni {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: 5px 5px 20px rgb(223, 223, 223);
+  }
+}
+
+.similarDescription {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: white;
+  padding: 10px 20px;
+  border-top: none;
+  font-weight: 500;
+  font-size: 14px;
+  min-height: 80px;
+  border-top: 1px solid #666;
+}
+.similarListingsContainer {
+  margin: 0 5px 5px 0;
+  background-color: black;
+  border-radius: 10px;
+
+  transition: all 0.25 ease;
+  z-index: 44;
+
+  box-shadow: 1px 1px 12px black;
+}
+.similarListingsContainer:hover {
+  box-shadow: 1px 1px 12px;
+}
+.similarImageContainer {
+  padding: 10px 10px;
+  background-color: white;
+  min-height: 270px;
+  width: 270px;
+}
+.similarImage {
+  width: 250px;
+  min-height: 250px;
+  background-color: white;
+}
+.bottomImagesContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1500px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.moreButton {
+  width: 250px;
+  background-color: #0074d9;
+  color: white;
+  height: 80px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 50px;
+}
+
+.nameDescription {
+  display: flex;
+  flex-direction: column;
+  max-width: 145px;
+}
+.collectionName {
+  color: rgba(5, 5, 5, 0.6);
+}
+.priceDescription {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+.priceName {
+  display: flex;
+  justify-content: flex-end;
+}
+.priceQuantity {
+}
+
+.rankContainer {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  background-color: white;
+  padding: 5px;
+  border-radius: 8px;
+}
+.soldLabel {
+  background-color: red;
+  color: white;
+  padding: 2px;
+  margin: 0;
+}
+.listedLabel {
+  background-color: rgb(17, 207, 49);
+  color: white;
+  padding: 2px;
+  margin: 0;
+}

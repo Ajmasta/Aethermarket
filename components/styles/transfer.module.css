@@ -1,0 +1,412 @@
+.mainContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.balanceImage {
+  width: 75px;
+  height: 80px;
+}
+.balanceImageAsset {
+  width: 75px;
+  height: 80px;
+}
+.balancesContainer {
+  display: flex;
+  justify-content: space-around;
+}
+.balanceContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 1px 1px 8px;
+  padding: 10px;
+  transition: all 0.5s ease;
+  border-radius: 10px;
+  width: 100px;
+  margin-bottom: 20px;
+}
+.active {
+  cursor: pointer;
+}
+.active:hover {
+  box-shadow: 1px 1px 18px;
+}
+.inactive {
+  background-color: #eee;
+}
+.tokenContainer {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  min-width: 360px;
+  justify-content: space-around;
+}
+.tokenTitle {
+  font-size: 20px;
+  align-self: center;
+}
+.tokenName {
+  margin: 0;
+  color: #666;
+}
+.balanceAmount {
+  margin: 0;
+}
+
+.transfersContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 1px 1px 12px black;
+  width: 40%;
+  min-width: 300px;
+  overflow: hidden;
+
+  bottom: 0;
+  top: 20px;
+  position: fixed;
+  right: 0;
+  background-color: white;
+  margin-top: 60px;
+  transition: 0.5s all ease;
+  z-index: 5;
+}
+.noWidth {
+  width: 0%;
+  min-width: 0;
+}
+.transferButtonContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.transferListContainer {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+.transferListHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #666;
+}
+.transferListConfirmedContainer {
+  width: 100%;
+  overflow-y: scroll;
+  max-height: 60%;
+  margin-bottom: 150px;
+}
+.transferRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-width: 450px;
+  border-bottom: 1px solid #eee;
+}
+.transferRowConfirmed{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-width: 450px;
+  border-bottom: 1px solid #eee;
+}
+.transferNameImageContainer {
+  flex: 1;
+}
+.transferAmount {
+  flex: 1;
+  text-align: center;
+}
+.transferAddress {
+  flex: 1;
+  text-align: center;
+  overflow: hidden;
+}
+.iconsContainer {
+  width: 50px;
+}
+.balanceImage {
+  width: 40px;
+}
+.transferImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.amountInput,
+.addressInput {
+  padding: 5px;
+  margin-right: 5px;
+  width: 150px;
+}
+.nameImageContainer {
+  display: flex;
+  
+  align-items: center;
+  justify-content: flex-start;
+  width: 85px;
+  margin-right: 5px;
+}
+
+.transferAll {
+  padding: 10px 10px;
+  border-radius: 5px;
+  background-color: white;
+  border: none;
+  color: black;
+  box-shadow: 1px 1px 5px;
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  width: 200px;
+}
+.transferAll:hover {
+  background-color: #eee;
+  color: black;
+}
+.clearAll {
+  background-color: black;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  width: 200px;
+}
+.clearAll:hover {
+  background-color: #666;
+}
+.clearButton{
+  background-color: black;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  width: 200px;
+}
+.checkIcon {
+  cursor: pointer;
+  margin-right: 20px;
+}
+.clickText {
+  height: 80px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.transferInputContainer {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding: 5px 20px;
+  position: fixed;
+  width: 510px;
+  bottom: 0;
+  box-shadow: 1px 1px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+}
+@media (max-width:600px){
+  .transferInputContainer {
+    width:300px;
+  }
+ 
+ .filterAndDisplayContainer{
+
+  margin-bottom:300px;
+ }
+  .transferRowConfirmed{
+    flex-direction:row;
+    flex-wrap:no-wrap;
+    overflow-x:scroll;
+    min-width: 350px;
+  }
+
+  .checkIcon{
+    margin:0
+  }
+}
+.openDrawer {
+  padding: 10px;
+  background-color: white;
+  border: none;
+  box-shadow: 1px 1px 3px;
+  cursor: pointer;
+  width: 200px;
+  border-radius: 5px;
+}
+.openDrawer:hover {
+  background-color: #eee;
+}
+.clickToClose {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 4;
+}
+.nftContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  height: 100%;
+  flex-direction: column;
+  flex-wrap:wrap;
+}
+.displayContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap:wrap;
+  max-width:100%;
+}
+.assetDisplayContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  width:100%;
+  height:100%;
+}
+.collectionsFilterContainer {
+  min-width: 300px;
+  width: 300px;
+  max-height: 600px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  margin-left: 20px;
+}
+.collectionFilterInputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.collectionNameInput {
+  padding: 10px 5px;
+  width: 200px;
+  border: #666 solid 1px;
+  border-radius: 10px;
+}
+.inputNameFilter {
+  padding: 10px 5px;
+  width: 200px;
+  height:38px;
+  border: #666 solid 1px;
+  border-radius: 10px;
+}
+.collectionFilterRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.filterAndDisplayContainer {
+  display: flex;
+  
+}
+@media (max-width:600px){
+  .filterAndDisplayContainer {
+    flex-wrap:wrap;
+    
+  }
+}
+.filterNameContainer {
+  display: flex;
+  flex-wrap:wrap;
+  justify-content: space-around;
+  align-items:center;
+  width: 100%;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+.similarDescription {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: white;
+  padding: 10px 20px;
+  border-top: none;
+  font-weight: 500;
+  font-size: 14px;
+  min-height: 80px;
+  border-top: 1px solid #666;
+}
+.similarListingsContainer {
+  margin: 0 5px 5px 0;
+  background-color: white;
+  width: 270px;
+
+  border-radius: 10px;
+  position: relative;
+  transition: all 0.25 ease;
+  box-shadow: 1px 1px 3px;
+}
+.similarListingsContainer:hover {
+  box-shadow: 1px 1px 12px;
+}
+.similarImageContainer {
+  padding: 10px 10px;
+  background-color: white;
+  min-height: 270px;
+  width: 270px;
+}
+.similarImage {
+  width: 250px;
+  min-height: 250px;
+  background-color: white;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.nameDescription {
+  display: flex;
+  flex-direction: column;
+  max-width: 145px;
+}
+.collectionName {
+  color: rgba(5, 5, 5, 0.6);
+}
+.errorContainer {
+  position: fixed;
+  bottom: 25px;
+  left:50%;
+  width: 450px;
+  padding: 0 20px;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+  box-shadow: 1px 1px 12px;
+  text-align: center;
+  z-index:12
+}
+.mainError {
+  font-size: 18px;
+  font-weight: 600;
+}

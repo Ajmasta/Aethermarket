@@ -15,14 +15,12 @@ const UserAccount = ({userId, data}) => {
     const [array,setArray] = useState([])
     const [numberOfItems,setNumberOfItems] = useState(15)
     const[salesTab,setSalesTab] = useState("sold")
-console.log(data)
 const { ref, inView, entry } = useInView();
 
   useEffect(()=>setNumberOfItems(numberOfItems+10),[inView])
   
     const getData = async (array)=>
     {
-console.log(array)
         if(filter==="" && array.user.result){
         const newArray = array.user.result.map(element=>{
             
@@ -41,7 +39,6 @@ console.log(array)
 
                 return element
                 }  )
-                console.log(newArray)
                 setArray(newArray)
         }
         else if (data.user.result){
@@ -218,6 +215,10 @@ return (
 <div className={styles.mainContainer}> 
     <div className={styles.usernameContainer}>
         <p className={styles.userId}>{userId.slice(0,5)+"..."+userId.slice(userId.length-5,userId.length-1)}</p>
+    </div>
+    <div className={styles.tabsContainer}> 
+    <Link href="/transfer"><a className={styles.inactiveTab}>Transfer </a></Link>
+    <p className={styles.activeTab}>Inventory </p>
     </div>
 <div className={styles.assetContainer}>
     <div className={styles.tabsContainer}>

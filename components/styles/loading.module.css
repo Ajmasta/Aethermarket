@@ -1,0 +1,50 @@
+.mainContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+}
+.icon {
+  animation: moveAround 4s infinite;
+
+  overflow: visible;
+  width: 100%;
+}
+.iconContainer {
+  overflow: visible;
+}
+@keyframes zoomIn {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes moveAround {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    margin-left: 50px;
+    transform: rotate(20deg);
+  }
+  33% {
+    transform: rotate(-20deg);
+    margin-left: 50px;
+  }
+  50% {
+    transform: rotate(-20deg);
+    margin-left: 0px;
+  }
+
+  100% {
+    transform: rotate(0);
+  }
+}

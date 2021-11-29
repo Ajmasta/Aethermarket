@@ -190,3 +190,74 @@
 .discordIcon {
   width: 24px;
 }
+.iconContainerFeatured {
+  max-width: 300px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+.imageFeatured {
+  width: 100%;
+
+  transition: all ease 0.5s;
+}
+.imageFeatured:hover {
+  transform: scale(1.1);
+}
+.descriptionContainerFeatured {
+  display: flex;
+  flex-direction: column;
+  color: transparent;
+  width: 300px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+.containerFeatured {
+  width: 100%;
+}
+.collectionsContainerFeatured {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.collectionContainerFeatured {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  position: relative;
+  background-color: transparent;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  padding: 0px 0;
+  border: 1px solid #eee;
+  border-radius: 18px;
+}
+.volume {
+  color: black;
+
+  border-radius: 5px;
+  background-color: white;
+  padding: 3px;
+}
+.descriptionAnalytics {
+  display: flex;
+  color: black;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+}
+.descriptionAnalyticsBottom {
+  display: flex;
+  justify-content: flex-start;
+  width: 90%;
+}
+
+.holders {
+  display: flex;
+}
+.label {
+  color: #666;
+}

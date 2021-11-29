@@ -19,6 +19,8 @@
 .logoContainer {
   padding: 5px 0;
   padding-right: 0px;
+  display: flex;
+  align-items: center;
 }
 .searchBar {
   max-width: 768px;
@@ -36,11 +38,29 @@
   display: flex;
 }
 .searchResult {
-  width: 40%;
+  width: 100%;
   display: flex;
   align-items: center;
-  min-height: 65px;
+
   overflow-y: hidden;
+  min-height: 70px;
+}
+.searchResultContent {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  cursor: pointer;
+}
+.searchResultText {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+}
+.searchResult:hover {
+  font-weight: 700;
 }
 .upcomingLabel {
   background-color: red;
@@ -48,8 +68,8 @@
   padding: 5px;
 }
 .searchImage {
-  width: 30px;
-  height: 30px;
+  width: 70px;
+  height: 70px;
   margin-right: 10px;
 }
 .textElement {
@@ -287,4 +307,9 @@
   background-color: #7ec2fa;
   color: white;
   padding: 5px 10px;
+}
+.twitterIcon {
+  align-self: center;
+  color: #2797f3;
+  display: flex;
 }

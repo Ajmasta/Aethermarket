@@ -1,0 +1,35 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.tabs {
+  display: Flex;
+  width: 300px;
+  justify-content: center;
+  margin-bottom: 0px;
+  margin-top: -50px;
+}
+
+.activeTab,
+.inactiveTab {
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  width: 150px;
+  margin-top: 20px;
+}
+.activeTab {
+  border-bottom: 3px blue solid;
+}
+.inactiveTab {
+  cursor: pointer;
+}
+.diamondIcon {
+  margin-right: 5px;
+}
+.boxes {
+  max-height: 24px !important;
+  margin-right: 5px;
+}

@@ -14,6 +14,7 @@
   font-size: 14px;
   min-height: 80px;
   border-top: 1px solid #666;
+  max-width: 270px;
 }
 .similarListingsContainer {
   margin: 0 5px 5px 0;
@@ -30,9 +31,12 @@
   padding: 10px 10px;
   background-color: white;
   min-height: 200px;
+  min-height: 270px;
+  width: 270px;
 }
 .similarImage {
   width: 250px;
+  min-height: 250px;
   background-color: white;
 }
 .bottomImagesContainer {
@@ -42,6 +46,7 @@
   max-width: 1800px;
   justify-content: center;
   flex-wrap: wrap;
+  position: relative;
 }
 .moreButton {
   width: 250px;
@@ -66,7 +71,7 @@
 .nameDescription {
   display: flex;
   flex-direction: column;
-  max-width: 150px;
+  max-width: 145px;
 }
 .collectionName {
   color: rgba(5, 5, 5, 0.6);
@@ -95,6 +100,14 @@
   justify-content: flex-end;
 }
 .priceQuantity {
+  display: flex;
+  justify-content: flex-end;
+}
+.currencyQuantity {
+  display: flex;
+  justify-content: flex-end;
+  color: rgb(165, 161, 161);
+  margin-right: 5px;
 }
 .hidden {
   display: none;
@@ -124,6 +137,12 @@
   display: flex;
   width: 200px;
   justify-content: space-around;
+}
+.inView {
+  position: absolute;
+  bottom: 300px;
+  width: 100px;
+  height: 100px;
 }
 
 .page {

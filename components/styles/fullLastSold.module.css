@@ -10,6 +10,7 @@
   flex-direction: column;
   padding: 0 0px;
   border-top: none;
+  position: relative;
 }
 .tableRow:nth-child(2n + 1) {
   background-color: #fff;
@@ -32,6 +33,12 @@
   transition: all 0.25s ease;
   border-bottom: 1px solid #eee;
 }
+.inView {
+  position: absolute;
+  bottom: 600px;
+  width: 100px;
+  height: 100px;
+}
 .tableRow:hover {
   box-shadow: 1px 1px 8px;
 }
@@ -53,7 +60,12 @@
   flex: 1;
 }
 .nameCell {
-  justify-content: space-around;
+  justify-content: center;
+}
+.cellName {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
 }
 .tableImage {
   width: 100px;
@@ -62,10 +74,14 @@
   .tableImage {
     width: 50px;
   }
-
+  .loading {
+    width: 50px;
+    height: 50px;
+  }
   .tableContainer {
     display: flex;
     width: 100%;
+    position: relative;
   }
   .tableCell {
     text-align: center;
@@ -128,4 +144,9 @@
 }
 .statsName {
   margin: 0;
+}
+.loading {
+  background-color: #eee;
+  height: 100px;
+  width: 100px;
 }

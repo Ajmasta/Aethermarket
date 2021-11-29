@@ -1,21 +1,15 @@
-import AllLastListed from "./AllLastListed"
-import { getLongListData, useGetData } from "./functions/functions"
-import useSWR from 'swr'
-import { useState } from "react"
+import AllLastListed from "./AllLastListed";
+import { getLongListData, useGetData } from "./functions/functions";
+import useSWR from "swr";
+import { useState } from "react";
+import Loading from "./loading";
 
+const AllLastData = ({ listingData }) => {
+  const [status, setStatus] = useState("active");
 
-const AllLastData = ({listingData}) => {
-const [status, setStatus]= useState("active")
+  return (
+    <>{!listingData ? <Loading /> : <AllLastListed data={listingData} />}</>
+  );
+};
 
-    
- console.log(listingData)
-return(
-    <>
-{!listingData? "loading":<AllLastListed data={listingData} /> }
-    </>
-)
-
-
-}
-
-export default AllLastData
+export default AllLastData;

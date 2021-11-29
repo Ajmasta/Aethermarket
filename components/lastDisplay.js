@@ -1,30 +1,32 @@
-import styles from "./styles/lastSold.module.css"
-import Image from 'next/image'
-import useSWR from 'swr'
-import LastListed from "./lastListed"
-import LastSold from "./lastSold"
-import { useGetBothData, useGetData } from "./functions/functions"
+import styles from "./styles/lastSold.module.css";
+import Image from "next/image";
+import useSWR from "swr";
+import LastListed from "./lastListed";
+import LastSold from "./lastSold";
+import { useGetBothData, useGetData } from "./functions/functions";
 
-const LastDisplay = ({finalData}) => {
-    
-const {data, isLoading,isError} = useGetBothData("https://api.x.immutable.com/v1/orders?page_size=15&sell_token_type=ERC721&include_fees=true")
-console.log(data)
-    return(
+const LastDisplay = ({ finalData }) => {
+  const { data, isLoading, isError } = useGetBothData(
+    "https://api.x.immutable.com/v1/orders?page_size=15&sell_token_type=ERC721&include_fees=true"
+  );
+  return (
+    <>
+      {data ? (
         <>
-        {data?<>
-        <LastSold data={data}/>
-        <LastListed data={data}/>
-    
-        </>:""}
+          <LastSold data={data} />
+          <LastListed data={data} />
         </>
-    )
-}
+      ) : (
+        ""
+      )}
+    </>
+  );
+};
 //use token address to make links to collection or item
 
+export default LastDisplay;
 
-  export default LastDisplay
-
-  /*
+/*
 
       const fetcher = async url => {
         const listings = []

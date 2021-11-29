@@ -42,11 +42,12 @@
   display: flex;
   text-align: center;
   justify-content: space-around;
-  width: 120px;
+  width: 160px;
   align-items: center;
 }
 .inactiveTab {
   color: black;
+  cursor: pointer;
 }
 .activeTab {
   background-color: #fff;
@@ -99,7 +100,7 @@
   justify-content: space-around;
 }
 .traitName {
-  width: 30%;
+  width: 110%;
 }
 .traitPercentage {
   width: 20%;
@@ -134,12 +135,42 @@
   box-shadow: 1px 1px 3px black;
   padding: 20px 10px;
 }
+.statsBox:first-child {
+  border-radius: 5px;
+  z-index: -1;
+}
+.statsBox:last-child {
+  border-radius: 5px;
+}
 
 .statsContainer {
   display: flex;
   justify-content: center;
   width: 100%;
   margin-bottom: 20px;
+}
+
+.noListingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.checkButton {
+  width: 120px;
+  padding: 20px 0px;
+  margin-left: 40px;
+  border: none;
+  background-color: #17b5cb;
+  box-shadow: 1px 1px 12px black;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+.noListingText {
+  font-size: 16px;
+  font-weight: 500;
 }
 @media (max-width: 600px) {
   .filtersContainer {
@@ -150,5 +181,8 @@
   }
   .listingsContainer {
     flex-wrap: wrap;
+  }
+  .tabs {
+    overflow-x: scroll;
   }
 }
