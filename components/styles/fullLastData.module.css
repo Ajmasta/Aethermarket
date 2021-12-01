@@ -48,6 +48,12 @@
 .inactiveTab {
   color: black;
   cursor: pointer;
+  border-bottom: 3px #ffffff solid;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+.inactiveTab:hover {
+  border-bottom: 3px #b4d7f5 solid;
 }
 .activeTab {
   background-color: #fff;
@@ -88,9 +94,11 @@
   display: flex;
   flex-direction: column;
   margin-left: 20px;
-  height: 660px;
   overflow-y: scroll;
-  margin-bottom: 500px;
+  height: 600px;
+  position: sticky;
+  bottom: 0;
+  top: 72px;
 }
 
 .traitContainer {
@@ -132,12 +140,16 @@
   width: 150px;
   justify-content: center;
   align-items: center;
-  box-shadow: 1px 1px 3px black;
+  box-shadow: 1px 1px 2px black;
   padding: 20px 10px;
+  cursor: default;
+}
+.statsBox:hover {
+  box-shadow: 1px 1px 4px;
 }
 .statsBox:first-child {
   border-radius: 5px;
-  z-index: -1;
+  z-index: 0;
 }
 .statsBox:last-child {
   border-radius: 5px;
@@ -175,9 +187,12 @@
 @media (max-width: 600px) {
   .filtersContainer {
     height: 400px;
-    margin-bottom: 20px;
+    margin-bottom: 100px;
     width: 100%;
     margin-left: 0px;
+    position: relative;
+    justify-self: flex-start;
+    margin-top: -100px;
   }
   .listingsContainer {
     flex-wrap: wrap;

@@ -269,8 +269,14 @@ const AllRankings = ({ collection }) => {
               <p className={styles.rankContainer}>
                 Rank:
                 {collections[collection]["ranksArray"].indexOf(
-                  Number(result.token_id)
-                ) + 1}
+                  result.token_id
+                ) +
+                  1 ===
+                0
+                  ? "N/A"
+                  : collections[collection]["ranksArray"].indexOf(
+                      result.token_id
+                    ) + 1}
               </p>
             ) : (
               ""
@@ -291,7 +297,7 @@ const AllRankings = ({ collection }) => {
       />
 
       <div className={styles.bottomImagesContainer}>
-        {array !==[] ? createSimilarListings(array) : <Loading />}
+        {array !== [] ? createSimilarListings(array) : <Loading />}
       </div>
 
       {collections && filter === ""

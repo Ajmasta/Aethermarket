@@ -106,11 +106,15 @@
   justify-content: center;
   width: 50%;
 }
+
 .activeTab {
-  border-bottom: 3px blue solid;
+  border-bottom: 3px #0074d9 solid;
 }
 .inactiveTab {
   cursor: pointer;
+}
+.inactiveTab:hover {
+  border-bottom: 3px #b4d7f5 solid;
 }
 .chartContainer {
   width: 70%;
@@ -187,6 +191,8 @@
   flex: 2;
   height: 100%;
   display: flex;
+
+  overflow: hidden;
   align-items: center;
   justify-content: center;
 }
@@ -213,8 +219,8 @@
   top: 200px;
   right: 10px;
   width: 270px;
-  height: 360px;
   z-index: 44;
+  background-color: white;
   box-shadow: 1px 1px 6px black;
   transition: all 0.25 ease;
 }
@@ -453,7 +459,7 @@
   border-top: none;
   font-weight: 500;
   font-size: 14px;
-  min-height: 80px;
+  max-height: 103px;
   border-top: 1px solid #666;
 }
 .similarListingsContainer {

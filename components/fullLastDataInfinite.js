@@ -31,7 +31,7 @@ import UsersRankings from "./usersRankings";
 import Leaderboards from "./leaderboards";
 import collectionsList from "./functions/collectionsList.json";
 import FullLastListedInfinite from "./fullLastListedInfinite";
-
+import imagePath from "./functions/imagePath.json";
 const FullLastDataInfinite = ({ collection }) => {
   console.log(UsersCount);
   const collectionRanking = collections[collection];
@@ -178,8 +178,8 @@ const FullLastDataInfinite = ({ collection }) => {
               <img
                 className={styles.profileImage}
                 src={
-                  collections[collection]?.collectionIcon
-                    ? collections[collection].collectionIcon
+                  imagePath[collection]
+                    ? imagePath[collection]
                     : collectionData.collection_image_url
                 }
               />

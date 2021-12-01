@@ -21,10 +21,13 @@
   margin-top: 20px;
 }
 .activeTab {
-  border-bottom: 3px blue solid;
+  border-bottom: 3px #0074d9 solid;
 }
 .inactiveTab {
   cursor: pointer;
+}
+.inactiveTab:hover {
+  border-bottom: 3px #b4d7f5 solid;
 }
 .diamondIcon {
   margin-right: 5px;

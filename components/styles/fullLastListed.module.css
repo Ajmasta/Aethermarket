@@ -80,9 +80,18 @@
   padding: 10px 5px;
   margin-bottom: 10px;
   border-radius: 5px;
-  border: 1px solid black;
-
+  border: 1px solid rgb(202, 202, 202);
   outline-width: 0;
+}
+.selectInput {
+  width: 250px;
+  border-radius: 10px;
+  border: 1px solid rgb(202, 202, 202);
+  padding: 5px;
+}
+.optionInput {
+  height: 70px;
+  padding: 20px;
 }
 .filterTab {
   display: flex;

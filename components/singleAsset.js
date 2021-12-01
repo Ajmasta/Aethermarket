@@ -34,15 +34,14 @@ import collections from "../components/functions/collectionRankings.json";
 import BigNumber from "bignumber.js";
 
 const SingleListing = ({ data }) => {
+  console.log(data);
   const listingData = data.data;
   const thisAsset = data.data;
   const collection = data.data.token_address;
   const [sell, setSell] = useState(false);
   const rank =
-    collections[collection] && collections[collection]["ranksArray"]
-      ? collections[collection]["ranksArray"].indexOf(
-          Number(listingData.token_id)
-        )
+    collections[collection] && collections[collection]?.ranksArray
+      ? collections[collection]["ranksArray"].indexOf(listingData.token_id)
       : undefined;
   const [assets, setAssets] = useRecoilState(assetsAtom);
   const user = localStorage.getItem("WALLET_ADDRESS");
@@ -75,17 +74,22 @@ const SingleListing = ({ data }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [userBalance, setUserBalance] = useRecoilState(userBalanceAtom);
   const [account, setAccount] = useRecoilState(accountAtom);
+  const [fees, setFees] = useState([]);
+  console.log(fees);
   const checkOwnerShip = () => {
-    const filteredAssets = assets.result
-      ? assets.result.filter(
-          (asset) =>
-            asset.token_address === listingData.token_address &&
-            asset.token_id === listingData.token_id
-        )
-      : [];
-    return filteredAssets.length > 0 ? true : false;
+    return thisAsset.user === account[0] ? true : false;
   };
+  useEffect(() => getFees(), [collections]);
 
+  const getFees = async () => {
+    const data = await (
+      await fetch(
+        `https://api.x.immutable.com/v1/assets?page_size=1&include_fees=true&collection=${listingData.token_address}`
+      )
+    ).json();
+    console.log(data);
+    setFees(data.result[0] ? data.result[0].fees : []);
+  };
   const createTraitsTabGodsUnchained = () => {
     return (
       <div className={styles.traitsContainer}>
@@ -417,7 +421,7 @@ const SingleListing = ({ data }) => {
               collections[item.sell.data.token_address]["ranksArray"] ? (
                 <p className={`${styles.tableCell} ${styles.quantityCell}`}>
                   {collections[collection]["ranksArray"].indexOf(
-                    Number(item.sell.data.token_id)
+                    item.sell.data.token_id
                   )}
                 </p>
               ) : (
@@ -497,7 +501,7 @@ const SingleListing = ({ data }) => {
             collections[item.sell.data.token_address]["ranksArray"] ? (
               <p className={`${styles.tableCell} ${styles.quantityCell}`}>
                 {collections[collection]["ranksArray"].indexOf(
-                  Number(item.sell.data.token_id)
+                  item.sell.data.token_id
                 )}
               </p>
             ) : (
@@ -635,6 +639,14 @@ const SingleListing = ({ data }) => {
     }
     fillOrder(order);
   };
+  const calculatePriceWithFees = (price) => {
+    let newPrice = Number(price);
+    console.log(fees);
+    fees?.map((element) => {
+      newPrice = newPrice + (newPrice * Number(element["percentage"])) / 100;
+    });
+    return newPrice;
+  };
   const formatUserBalances = async () => {
     const account = await ethereum.request({ method: "eth_requestAccounts" });
     setAccount(account);
@@ -719,11 +731,19 @@ const SingleListing = ({ data }) => {
                     onChange={(e) => setSell(e.target.value)}
                     className={styles.sellInput}
                   ></input>
+                  {fees.length > 0 ? (
+                    <p className={styles.priceInfo}>
+                      Price with {fees[0].type} fees ({fees[0].percentage}%) :{" "}
+                      {parseFloat(calculatePriceWithFees(sell).toFixed(6))}
+                    </p>
+                  ) : (
+                    ""
+                  )}
                   <button
                     onClick={() => {
                       logout();
                       formatUserBalances();
-                      getAndSellAsset(listingData, sell);
+                      sellAsset(listingData, sell);
                     }}
                     className={
                       sell.length > 0 ? styles.buyButton : styles.disabledButton
@@ -746,11 +766,11 @@ const SingleListing = ({ data }) => {
                 <a className={styles.linkToUser}>
                   <PersonIcon />
                   {thisAsset
-                    ? thisAsset.user.slice(0, 5) +
+                    ? thisAsset.user?.slice(0, 5) +
                       "..." +
-                      thisAsset.user.slice(
-                        thisAsset.user.length - 5,
-                        thisAsset.user.length - 1
+                      thisAsset.user?.slice(
+                        thisAsset.user?.length - 5,
+                        thisAsset.user?.length - 1
                       )
                     : listingData.user.slice(0, 5) +
                       "..." +
@@ -764,10 +784,10 @@ const SingleListing = ({ data }) => {
                 <a className={styles.linkToUser}>
                   <img
                     width="25px"
-                    src={listingData.collection.icon_url}
+                    src={listingData.collection?.icon_url}
                     alt="collection icon"
                   />
-                  {listingData.collection.name}
+                  {listingData.collection?.name}
                 </a>
               </Link>
               <div className={styles.tabContainerAsset}>

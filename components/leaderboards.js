@@ -6,7 +6,7 @@ import UsersRankings from "./usersRankings";
 import DiamondIcon from "@mui/icons-material/Diamond";
 import boxes from "../public/images/boxes.png";
 import Image from "next/image";
-import usersCount from "./functions/usersCount.json"
+import usersCount from "./functions/usersCount.json";
 const Leaderboards = ({ collection }) => {
   const [active, setActive] = useState("quantity");
 
@@ -25,7 +25,7 @@ const Leaderboards = ({ collection }) => {
           Quantity
         </div>
 
-        {usersCount[collection] ? (
+        {usersRankings[collection] ? (
           <div
             onClick={() => setActive("quality")}
             className={
@@ -46,7 +46,7 @@ const Leaderboards = ({ collection }) => {
           <UsersRankings collection={collection} />
         </>
       ) : (
-        "Sorry, no rankings exist for this collection"
+        "Sorry, no rankings exist for this collection."
       )}
     </div>
   );

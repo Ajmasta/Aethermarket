@@ -388,3 +388,172 @@
   text-align: center;
   font-size: 18px;
 }
+.priceInfo {
+  margin: 0;
+  font-size: 20px;
+  display: flex;
+  position: relative;
+}
+.floorPriceInfo {
+  font-size: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 10px;
+}
+.tableSellPricesRow {
+  margin: 0;
+  font-size: 20px;
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+.royaltiesInfo {
+  font-size: 12px;
+  width: 300px;
+  position: absolute;
+  left: -30px;
+  bottom: 30px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 2px 5px;
+}
+.setFloorPrice {
+  width: 100px;
+  padding: 10px 10px;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+  background-color: #17b5cb;
+
+  color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+}
+.inputRef {
+  width: 100%;
+  position: relative;
+}
+
+.setTenPercent {
+  border: 1px #eee solid;
+  padding: 10px 10px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  background-color: #3b99aa;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+
+  position: absolute;
+  right: 100px;
+  top: 0;
+  width: 50px;
+  bottom: 0;
+}
+.setOnePercent {
+  padding: 10px 10px;
+  color: white;
+  cursor: pointer;
+  background-color: #3b99aa;
+  position: absolute;
+  right: 150px;
+  top: 0;
+  width: 50px;
+  bottom: 0;
+  border: none;
+}
+.setOnePercent:hover {
+  background-color: #1d5963;
+}
+.setTenPercent:hover {
+  background-color: #1d5963;
+}
+.setFloorPrice:hover {
+  background-color: #1d5963;
+}
+.floorPriceQuantity {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 1px 1px 2px;
+  width: 150px;
+  padding: 5px;
+}
+.floorPriceContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+.floorPrice {
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+.floorPriceNumber {
+  display: flex;
+}
+.floorPriceStat {
+  display: flex;
+}
+.tableSellPricesRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  width: 100%;
+  align-items: flex-start;
+  height: 70px;
+}
+.tableSellPricesCellUSD {
+  display: flex;
+  font-size: 12px;
+  color: #666;
+  align-items: center;
+  height: 100%;
+}
+.tableSellPricesCellText {
+  width: 270px;
+  display: flex;
+  align-items: flex-end;
+}
+.tableSellPricesCellEth {
+  width: 100px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+}
+.tableSellPricesRowSmall {
+  margin: 0;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+}
+.tableSellPricesRowUSD {
+  display: flex;
+  justify-content: flex-end;
+}
+.helpIcon {
+  position: absolute;
+  left: -30px;
+}
+.feesInfo {
+  animation: rolldown 0.5s ease;
+  margin-bottom: 50px;
+}
+@keyframes rolldown {
+  0% {
+    max-height: 0;
+  }
+  100% {
+    max-height: 500px;
+  }
+}
+.tableSellPricesCell {
+}

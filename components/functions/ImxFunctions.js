@@ -156,7 +156,11 @@ export async function getAndSellAsset(order, priceInEth) {
 
 export async function transferAll(array) {
   setupAndLogin();
-  await link.transfer(array);
+  try {
+    await link.transfer(array);
+  } catch (err) {
+    console.log(err);
+  }
 }
 export async function transferERC721(asset, toAddress, asset2, toAddress2) {
   setupAndLogin();
@@ -177,7 +181,6 @@ export async function transferERC721(asset, toAddress, asset2, toAddress2) {
 }
 
 export async function transferERC20(amount, symbol, tokenAddress, toAddress) {
- 
   setupAndLogin();
   try {
     console.log(asset.id);

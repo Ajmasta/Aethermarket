@@ -11,7 +11,7 @@
   width: 90%;
   flex-wrap: wrap;
   align-items: flex-start;
-  height: 310px;
+  height: 370px;
 }
 
 .rowContainer {
@@ -21,6 +21,13 @@
   justify-content: space-around;
   align-items: center;
   margin-left: 20px;
+  border-bottom: 1px solid #eee;
+  height: 70px;
+  padding: 0 10px;
+}
+.rowContainer:hover {
+  box-shadow: 1px 1px 3px;
+  border-radius: 5px;
 }
 @media (max-width: 1200px) {
   .tableContainer {
@@ -40,7 +47,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 500px;
+  height: 550px;
   z-index: 5;
 }
 .tabsContainer {
@@ -52,8 +59,15 @@
 .activeTab {
   border-bottom: 2px solid #17b5cb;
 }
+
 .tab {
   cursor: pointer;
+}
+.tab:hover {
+  border-bottom: 2px solid #b0d9df;
+}
+.activeTab:hover {
+  border-bottom: 2px solid #17b5cb;
 }
 .titleContainer {
   width: 100%;
@@ -76,9 +90,7 @@
   width: 300px;
   margin-left: 10px;
 }
-.rowContainer:hover {
-  font-weight: 600;
-}
+
 .volume {
   display: flex;
   justify-content: space-around;

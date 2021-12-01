@@ -2,6 +2,32 @@ import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
 import { useState } from "react";
 import orderData from "./orderData.json";
+import collectionsList from "./collectionsList.json";
+export const useGetAllFloorPrices = (url) => {
+  const { data, error } = useSWR(url, fetchAllFloor);
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};
+
+const fetchAllFloor = async () => {
+  const collections = collectionsList.filter((element) => !element.upcoming);
+  let floorPrices = {};
+  let newArray = Promise.all(
+    collections.map(async (collection) => {
+      const floorPrice = await (
+        await fetch(
+          `https://api.x.immutable.com/v1/orders?&status=active&buy_token_type=ETH&page_size=1&include_fees=true&sell_token_address=${collection.address}&order_by=buy_quantity&direction=asc`
+        )
+      ).json();
+      floorPrices[collection.address] = floorPrice.buy.data.quantity;
+      return floorPrices;
+    })
+  );
+  return floorPrices;
+};
 
 const fetcher = async (url) => {
   const listings = [];
@@ -141,13 +167,24 @@ const fetcherListLong = async (url) => {
 };
 
 const fetcherBoth = async (url) => {
-  const salesAdd = "&status=filled&sell_token_type=ERC721";
-  const listingsAdd = "&status=active";
-
   const listings = await (await fetch(url + listingsAdd)).json();
-  const sales = await (await fetch(url + salesAdd)).json();
-  const data = { listings: listings.result, sales: sales.result };
+  const data = { listings: listings.result };
   return data;
+};
+export const useGetFloorPrice = (url) => {
+  const { data, error } = useSWR(url, fetchFloorPrice, {
+    refreshInterval: 1000,
+  });
+  return {
+    floorPrice: data,
+    isLoadingFloor: !error && !data,
+    isErrorFloor: error,
+  };
+};
+const fetchFloorPrice = async (url) => {
+  const floor = await (await fetch(url)).json();
+  console.log(floor);
+  return floor.result[0].buy.data.quantity;
 };
 const getAllListings = async (url) => {
   let i = 0;
@@ -161,12 +198,14 @@ const getAllListings = async (url) => {
     dataArray.push(...data.result);
     cursor = "&cursor=" + data.cursor;
     i++;
-    if (!data.cursor || i > 10) roll = false;
+    if (data.cursor === "" || i > 50) roll = false;
   }
   return dataArray;
 };
 export const useGetListingsLong = (url) => {
-  const { data, error } = useSWR(url, fetcherListLong);
+  const { data, error } = useSWR(url, fetcherListLong, {
+    refreshInterval: 1000,
+  });
   return {
     data,
     isLoading: !error && !data,
@@ -273,22 +312,35 @@ export const getListingInfo = async (url, url2) => {
   let tokenAddress;
   let tokenId;
   let name;
+  let fees;
   if (data.result.length === 0) {
     data = await (await fetch(url2)).json();
     tokenAddress = data.token_address;
     tokenId = data.token_id;
     name = data.name;
+    data.asset = true;
   } else {
     tokenId = data.result[0].sell.data.token_id;
     tokenAddress = data.result[0].sell.data.token_address;
     name = data.result[0].sell.data.properties.name;
+    data.asset = false;
   }
 
-  let soldResults = await getSoldListings(tokenAddress, tokenId, name);
+  let soldResults = await getSoldListings(
+    tokenAddress,
+    tokenId,
+    name,
+    data.asset
+  );
   let soldListings = soldResults[0];
   let soldCollectionListings = soldResults[1];
 
-  let similarResults = await getSimilarListings(tokenAddress, tokenId);
+  let similarResults = await getSimilarListings(
+    tokenAddress,
+    tokenId,
+    name,
+    data.asset
+  );
   let similarListings = similarResults[0];
   let similarCollection = similarResults[1];
   const results = {
@@ -311,12 +363,16 @@ export const useGetListingInfo = (url, url2) => {
   };
 };
 
-const getSimilarListings = async (tokenAddress, tokenId, name) => {
+const getSimilarListings = async (tokenAddress, tokenId, newName, asset) => {
   let similarListings = { result: [] };
+  const addOn = "&include_fees=true";
+
+  let name = newName.split(" ").join("%20");
+  console.log(name);
   try {
     similarListings = await (
       await fetch(
-        `https://api.x.immutable.com/v1/orders?status=active&sell_token_name=${name}&sell_token_address=${tokenAddress}`
+        `https://api.x.immutable.com/v1/orders?status=active${addOn}&sell_token_name=${name}&sell_token_address=${tokenAddress}`
       )
     ).json();
   } catch (err) {
@@ -327,19 +383,27 @@ const getSimilarListings = async (tokenAddress, tokenId, name) => {
   );
   let collectionListings = await (
     await fetch(
-      `https://api.x.immutable.com/v1/orders?status=active&sell_token_address=${tokenAddress}`
+      `https://api.x.immutable.com/v1/orders?status=active${addOn}&sell_token_address=${tokenAddress}`
     )
   ).json();
 
   return [similarListings, collectionListings];
 };
 
-const getSoldListings = async (tokenAddress, tokenId, name) => {
+const getSoldListings = async (tokenAddress, tokenId, newName, asset) => {
   let soldListings = { result: [] };
+  const addOn = "&include_fees=true";
+  let name = newName.split(" ").join("%20");
+  console.log(name);
+
+  console.log(addOn);
+  console.log(
+    `https://api.x.immutable.com/v1/orders?status=filled${addOn}&sell_token_name=${name}&sell_token_address=${tokenAddress}`
+  );
   try {
-    let soldListings = await (
+    soldListings = await (
       await fetch(
-        `https://api.x.immutable.com/v1/orders?status=filled&sell_token_name=${name}&sell_token_address=${tokenAddress}`
+        `https://api.x.immutable.com/v1/orders?status=filled${addOn}&sell_token_name=${name}&sell_token_address=${tokenAddress}`
       )
     ).json();
   } catch (err) {
@@ -350,7 +414,7 @@ const getSoldListings = async (tokenAddress, tokenId, name) => {
   );
   let collectionSoldListings = await (
     await fetch(
-      `https://api.x.immutable.com/v1/orders?status=filled&sell_token_address=${tokenAddress}`
+      `https://api.x.immutable.com/v1/orders?status=filled&sell_token_address=${tokenAddress}${addOn}`
     )
   ).json();
 

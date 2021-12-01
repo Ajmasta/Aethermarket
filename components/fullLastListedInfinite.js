@@ -119,11 +119,11 @@ const FullLastListedInfinite = ({
                   <p key={`{i}rank`} className={styles.rankContainer}>
                     Rank:
                     {collections[collection]["ranksArray"].indexOf(
-                      Number(result.sell.data.token_id)
+                      result.sell.data.token_id
                     ) === -1
                       ? "N/A"
                       : collections[collection]["ranksArray"].indexOf(
-                          Number(result.sell.data.token_id)
+                          result.sell.data.token_id
                         ) + 1}
                   </p>
                 ) : (

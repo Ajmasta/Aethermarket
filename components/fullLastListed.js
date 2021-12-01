@@ -32,12 +32,8 @@ const FullLastListed = ({ data, setSortBy, sortBy, collection }) => {
   extraFilters === "rankings"
     ? data.listings.sort(
         (a, b) =>
-          collections[collection]["ranksArray"].indexOf(
-            Number(a.sell.data.token_id)
-          ) -
-          collections[collection]["ranksArray"].indexOf(
-            Number(b.sell.data.token_id)
-          )
+          collections[collection]["ranksArray"].indexOf(a.sell.data.token_id) -
+          collections[collection]["ranksArray"].indexOf(b.sell.data.token_id)
       )
     : "";
   const [numberOfItems, setNumberOfItems] = useState(10);
@@ -93,11 +89,11 @@ const FullLastListed = ({ data, setSortBy, sortBy, collection }) => {
                 <p key={`{i}rank`} className={styles.rankContainer}>
                   Rank:
                   {collections[collection]["ranksArray"].indexOf(
-                    Number(result.sell.data.token_id)
+                    result.sell.data.token_id
                   ) === -1
                     ? "N/A"
                     : collections[collection]["ranksArray"].indexOf(
-                        Number(result.sell.data.token_id)
+                        result.sell.data.token_id
                       ) + 1}
                 </p>
               ) : (
@@ -123,6 +119,7 @@ const FullLastListed = ({ data, setSortBy, sortBy, collection }) => {
         ></input>
         <select
           id="filter"
+          className={styles.selectInput}
           value={extraFilters === "" ? sortBy : extraFilters}
           name="filter"
           onChange={(e) => {
@@ -134,17 +131,28 @@ const FullLastListed = ({ data, setSortBy, sortBy, collection }) => {
             }
           }}
         >
-          <option value="&order_by=buy_quantity&direction=asc">
+          <option
+            className={styles.optionInput}
+            value="&order_by=buy_quantity&direction=asc"
+          >
             Lowest Price
           </option>
-          <option value="&order_by=buy_quantity&direction=desc">
+          <option
+            className={styles.optionInput}
+            value="&order_by=buy_quantity&direction=desc"
+          >
             Highest price
           </option>
-          <option value="&order_by=created_at&direction=asc">
+          <option
+            className={styles.optionInput}
+            value="&order_by=created_at&direction=asc"
+          >
             Newly Listed
           </option>
           {collections && collections[collection]?.ranksArray ? (
-            <option value="rankings">Rankings</option>
+            <option className={styles.optionInput} value="rankings">
+              Rankings
+            </option>
           ) : (
             ""
           )}

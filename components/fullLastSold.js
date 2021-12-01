@@ -40,7 +40,10 @@ const FullLastSold = ({ collection, name }) => {
   };
   const { data, error, isValidating, mutate, size, setSize } = useSWRInfinite(
     getKey,
-    fetcher
+    fetcher,
+    {
+      refreshInterval: 1000,
+    }
   );
 
   const { ref, inView, entry } = useInView();
@@ -172,7 +175,7 @@ const FullLastSold = ({ collection, name }) => {
               <p className={`${styles.tableCell} ${styles.quantityCell}`}>
                 #
                 {collections[collection]["ranksArray"].indexOf(
-                  Number(item.sell.data.token_id)
+                  item.sell.data.token_id
                 ) + 1}
               </p>
             ) : (
@@ -185,9 +188,7 @@ const FullLastSold = ({ collection, name }) => {
                   item.user.slice(item.user.length - 5, item.user.length - 1)}
               </a>
             </Link>
-            <p className={styles.tableCell}>
-              {calculateTime(item.updated_timestamp)}
-            </p>
+            <p className={styles.tableCell}>{calculateTime(item.timestamp)}</p>
           </div>
         ))}
         <div ref={ref} className={styles.inView}></div>
@@ -207,17 +208,27 @@ const FullLastSold = ({ collection, name }) => {
                   <Image src={ethLogo} width={15} height={15} alt="eth logo" />
                 </div>
 
-                <p className={styles.statsName}> Today's Volume</p>
+                <p className={styles.statsName}> Daily Volume</p>
               </div>
 
               <div className={styles.statsBox}>
                 <div className={styles.stats}>
-                  {" "}
-                  {orderData["week"][name]?.toFixed(2)}
-                  <Image src={ethLogo} width={18} height={18} alt="eth logo" />
+                  {orderData["week"][name] ? (
+                    <>
+                      {orderData["week"][name]?.toFixed(2)}
+                      <Image
+                        src={ethLogo}
+                        width={18}
+                        height={18}
+                        alt="eth logo"
+                      />
+                    </>
+                  ) : (
+                    "-"
+                  )}
                 </div>
 
-                <p className={styles.statsName}> Week's Volume</p>
+                <p className={styles.statsName}> Weekly Volume</p>
               </div>
             </div>
           ) : (

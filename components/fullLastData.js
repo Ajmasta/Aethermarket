@@ -12,6 +12,7 @@ import {
   useGetData,
   useGetListingsLong,
   useGetSingleCollection,
+  useGetFloorPrice,
 } from "./functions/functions";
 import AppsIcon from "@mui/icons-material/Apps";
 import AssessmentIcon from "@mui/icons-material/Assessment";
@@ -31,8 +32,11 @@ import UsersRankings from "./usersRankings";
 import Leaderboards from "./leaderboards";
 import collectionsList from "./functions/collectionsList.json";
 import Loading from "./loading";
+import usersCounts from "./functions/usersCount.json";
+import imagePath from "./functions/imagePath.json";
 
 const FullLastData = ({ collection }) => {
+  const blacklistedRanks = ["0xb0e827c9ab5e68d243f707f832b756981987f704"];
   console.log(UsersCount);
   const collectionRanking = collections[collection];
   const account = useRecoilValue(accountAtom);
@@ -42,28 +46,19 @@ const FullLastData = ({ collection }) => {
   const [filtersMetadata, setFiltersMetadata] = useState();
   const [urlMetadata, setUrlMetadata] = useState();
   const [openFilters, setOpenFilters] = useState([]);
-  const [floorPrice, setFloorPrice] = useState();
 
   const { data, isLoading, isError } = useGetListingsLong(
-    `https://api.x.immutable.com/v1/orders?page_size=999999&include_fees=true&sell_token_address=${collection}${sortBy}${metadata}`
+    `https://api.x.immutable.com/v1/orders?status="active"&page_size=999999&include_fees=true&sell_token_address=${collection}${sortBy}${metadata}`
   );
   let collectionData = collectionsList.filter(
     (element) => element.address === collection
   );
   collectionData = collectionData[0];
 
-  const getFloorPrice = async () => {
-    try {
-      const floor = await (
-        await fetch(
-          `https://api.x.immutable.com/v1/orders?&status=active&page_size=1&include_fees=true&sell_token_address=${collection}&order_by=buy_quantity&direction=asc`
-        )
-      ).json();
-      if (collection && floor.result.length > 0)
-        setFloorPrice(floor.result[0].buy.data.quantity);
-    } catch (err) {}
-  };
-  useEffect(() => getFloorPrice(), [collection]);
+  const { floorPrice, isLoadingFloor, errorFloor } = useGetFloorPrice(
+    `https://api.x.immutable.com/v1/orders?&status=active&page_size=1&include_fees=true&sell_token_address=${collection}&order_by=buy_quantity&direction=asc`
+  );
+  console.log(data);
   const setMetadataForUrl = () => {
     const filteredObject = { ...filtersMetadata };
 
@@ -79,7 +74,14 @@ const FullLastData = ({ collection }) => {
       ? setMetadata("")
       : setMetadata(`&sell_metadata=${stringedObject}`);
   };
+  const getNumberOfItems = () => {
+    const itemArray = usersCounts[collection]?.userCounts.map(
+      (element) => element[1]
+    );
 
+    const numberOfItems = itemArray.reduce((a, b) => a + b);
+    return numberOfItems;
+  };
   const createFilters = () => {
     const filters = collections[collection].listOfTraits;
     const numberItems = collections[collection]?.ranksArray
@@ -181,22 +183,23 @@ const FullLastData = ({ collection }) => {
               <img
                 className={styles.profileImage}
                 src={
-                  collections[collection]?.collectionIcon
-                    ? collections[collection].collectionIcon
+                  imagePath[collection]
+                    ? imagePath[collection]
                     : collectionData.collection_image_url
                 }
               />
               <p className={styles.collectionName}>{collectionData.name}</p>
             </div>
             <div className={styles.statsContainer}>
-              {collections[collection] && data ? (
+              {data ? (
                 <>
-                  {collections[collection]["ranksArray"] ? (
+                  {collections[collection] &&
+                  collections[collection]["ranksArray"] ? (
                     <>
                       <div className={styles.statsBox}>
                         <p className={styles.statsNumber}>
                           {" "}
-                          {collections[collection]["ranksArray"].length}{" "}
+                          {getNumberOfItems()}{" "}
                         </p>
                         <p className={styles.statsText}> Items </p>
                       </div>
@@ -215,7 +218,7 @@ const FullLastData = ({ collection }) => {
                     <p className={styles.statsNumber}>
                       {" "}
                       {floorPrice
-                        ? (floorPrice / 10 ** 18)?.toFixed(3)
+                        ? parseFloat((floorPrice / 10 ** 18)?.toFixed(5))
                         : "-"}{" "}
                       <Image
                         src={ethLogo}
@@ -226,13 +229,13 @@ const FullLastData = ({ collection }) => {
                     </p>
                     <p className={styles.statsText}> Floor Price </p>
                   </div>
-                  {collections[collection]["ranksArray"] ? (
+                  {collections[collection] &&
+                  collections[collection]["ranksArray"] ? (
                     <div className={styles.statsBox}>
                       <p className={styles.statsNumber}>
                         {" "}
                         {(
-                          (data.listings.length /
-                            collections[collection]["ranksArray"].length) *
+                          (data.listings.length / getNumberOfItems()) *
                           100
                         ).toFixed(2)}
                         %
@@ -323,7 +326,11 @@ const FullLastData = ({ collection }) => {
         )
       ) : status === "active" ? (
         <div className={styles.listingsContainer}>
-          {collection && collections[collection] ? createFilters() : ""}
+          {collection &&
+          collections[collection] &&
+          Object.keys(collections[collection].listOfTraits).length !== 0
+            ? createFilters()
+            : ""}
           {isLoading ? (
             <Loading />
           ) : isError ? (
@@ -389,7 +396,8 @@ const FullLastData = ({ collection }) => {
         <Leaderboards collection={collection} />
       ) : (
         <p style={{ textAlign: "center" }}>
-          No leaderboards for this collection
+          No leaderboards for this collection.Come back when the rankings are
+          out!
         </p>
       )}
     </div>

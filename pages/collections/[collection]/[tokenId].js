@@ -56,10 +56,10 @@ const Nfts = () => {
         <Loading />
       ) : isError ? (
         "Issue with the IMX api"
-      ) : asset ? (
-        <SingleAsset data={data} />
+      ) : data.data.asset ? (
+        <SingleListing assetData={data} />
       ) : (
-        <SingleListing data={data} />
+        <SingleListing dataListing={data} />
       )}
     </>
   );

@@ -19,6 +19,7 @@ import collections2 from "./functions/collectionRankings.json";
 import PersonIcon from "@mui/icons-material/Person";
 import collections from "./functions/collectionsList.json";
 import Loading from "./loading";
+import imagePath from "./functions/imagePath.json";
 const AllCollections = () => {
   const [status, setStatus] = useState("current");
   const [filter, setFilter] = useState("all");
@@ -60,8 +61,8 @@ const AllCollections = () => {
                   <img
                     className={styles.image}
                     src={
-                      collections2[collection.address]?.collectionIcon
-                        ? collections2[collection.address].collectionIcon
+                      imagePath[collection]
+                        ? imagePath[collection]
                         : collection.collection_image_url
                         ? collection.collection_image_url
                         : collection.icon_url

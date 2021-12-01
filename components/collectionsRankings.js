@@ -19,6 +19,7 @@ import { useState } from "react";
 import ethLogo from "../public/images/ethLogo.png";
 import Image from "next/image";
 import collections from "./functions/collectionsList.json";
+import imagePath from "./functions/imagePath.json";
 const CollectionRankings = () => {
   console.log(collections);
   const [activeTab, setActiveTab] = useState("day");
@@ -29,9 +30,8 @@ const CollectionRankings = () => {
         const collection = collections
           ? collections.filter((collection) => collection.name === element)
           : "";
-        const collectionIconUrl = collectionRankings[collection[0].address]
-          ?.collectionIcon
-          ? collectionRankings[collection[0].address].collectionIcon
+        const collectionIconUrl = imagePath[collection[0].address]
+          ? imagePath[collection[0].address]
           : "";
         array.push([
           element,

@@ -112,10 +112,17 @@
   margin-top: 20px;
 }
 .activeTab {
-  border-bottom: 3px blue solid;
+  border-bottom: 3px #0074d9 solid;
 }
 .inactiveTab {
+  color: black;
   cursor: pointer;
+  border-bottom: 3px #ffffff solid;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+.inactiveTab:hover {
+  border-bottom: 3px #b4d7f5 solid;
 }
 .chartContainer {
   width: 70%;
@@ -132,8 +139,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 1px 1px 3px;
+  box-shadow: 1px 1px 2px black;
   padding: 20px;
+  cursor: default;
+  border-radius: 5px;
 }
 .stats {
   margin: 0;
@@ -149,4 +158,14 @@
   background-color: #eee;
   height: 100px;
   width: 100px;
+}
+.statsNumber {
+  margin: 0;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.statsText {
+  margin: 0;
+  font-size: 16px;
 }

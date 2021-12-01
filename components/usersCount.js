@@ -14,6 +14,7 @@ import { useRecoilValue } from "recoil";
 import { accountAtom } from "./states/states";
 import CloseIcon from "@mui/icons-material/Close";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
+import blacklist from "./functions/blacklist.json";
 
 const UsersCount = ({ collection, name }) => {
   const mobile = useMediaQuery("(max-width:600px)");
@@ -34,6 +35,7 @@ const UsersCount = ({ collection, name }) => {
     const numberOfAssets = usersCountArray[collection].userCounts.length;
     console.log(numberOfAssets);
     const top10 = Math.ceil(numberOfAssets / 1000);
+    const top50 = numberOfAssets / 200;
     const top100 = numberOfAssets / 100;
     const top200 = numberOfAssets / 50;
     const top1000 = numberOfAssets / 10;
@@ -44,8 +46,8 @@ const UsersCount = ({ collection, name }) => {
     const top9000 = numberOfAssets / 1.111;
     const top10000 = numberOfAssets / 1;
 
-    if (i === 0) return <p className={styles.diamondWhale}>Diamond Whale</p>;
-    if (i <= top10) return <p className={styles.goldWhale}>Gold Whale</p>;
+    if (i <= top10) return <p className={styles.diamondWhale}>Diamond Whale</p>;
+    if (i <= top50) return <p className={styles.goldWhale}>Gold Whale</p>;
     if (i <= top100) return <p className={styles.silverWhale}>Silver Whale</p>;
     if (i <= top200) return <p className={styles.bronzeWhale}>Bronze Whale</p>;
     if (i <= top1000) return <p className={styles.topDog}>Top Dog</p>;
@@ -129,7 +131,7 @@ const UsersCount = ({ collection, name }) => {
               <p className={styles.rankContainer}>
                 Rank:
                 {collections[collection]["ranksArray"].indexOf(
-                  Number(result.token_id)
+                  result.token_id
                 ) + 1}
               </p>
             ) : (
@@ -146,7 +148,6 @@ const UsersCount = ({ collection, name }) => {
         <div className={`${styles.tableAssetRow} ${styles.tableFirstRow}`}>
           <p className={styles.tableAssetCell}>Asset ID</p>
           <p className={styles.tableAssetCell}>Rank</p>
-          <p className={`${styles.tableAssetCell}`}>Points</p>
           <p className={styles.tableAssetCell}>Check Asset</p>
         </div>
         {array.map((element, y) => (
@@ -154,16 +155,7 @@ const UsersCount = ({ collection, name }) => {
             <div key={"tableRow" + i} className={styles.tableAssetRow}>
               <p className={styles.tableAssetCell}>{element[0]}</p>
               <p className={styles.tableAssetCell}>{element[1]}</p>
-              <p className={styles.tableAssetCell}>
-                {parseFloat(
-                  (
-                    (1 /
-                      element[1] /
-                      collections[collection].ranksArray.length) *
-                    10000000
-                  ).toFixed(2)
-                )}
-              </p>
+
               {imageDisplay.includes(`${i}e${y}`) ? (
                 <p className={styles.tableAssetCell}>
                   <CloseIcon onClick={() => setImageDisplay([])} />{" "}
@@ -187,6 +179,15 @@ const UsersCount = ({ collection, name }) => {
         ))}
       </div>
     );
+  };
+  const getNumberOfItems = () => {
+    const itemArray = usersCountArray[collection]?.userCounts.map(
+      (element) => element[1]
+    );
+
+    const numberOfItems = itemArray.reduce((a, b) => a + b);
+    console.log(numberOfItems);
+    return numberOfItems;
   };
   const createUserRank = (account) => {
     console.log(account[0]);
@@ -223,12 +224,7 @@ const UsersCount = ({ collection, name }) => {
           <p className={styles.tableUserCell}>{users[userIndex][1]}</p>
           {collections[collection]?.ranksArray ? (
             <p className={styles.tableUserCell}>
-              {(
-                (users[userIndex][1] /
-                  collections[collection]?.ranksArray.length) *
-                100
-              ).toFixed(2)}
-              %
+              {((users[userIndex][1] / getNumberOfItems()) * 100).toFixed(2)}%
             </p>
           ) : (
             ""
@@ -238,7 +234,8 @@ const UsersCount = ({ collection, name }) => {
     );
   };
   const createUsersTable = (usersArray, numberOfItems) => {
-    const users = usersCountArray[collection].userCounts.slice(0, 100);
+    let users = usersCountArray[collection].userCounts.slice(0, 100);
+    users = users.filter((user) => !blacklist.includes(user[0]));
     return (
       <div className={styles.tableContainer}>
         <div className={`${styles.tableRow} ${styles.tableFirstRow}`}>
@@ -278,17 +275,10 @@ const UsersCount = ({ collection, name }) => {
                 </a>
               </Link>
               <p className={styles.tableCell}>{user[1]}</p>
-              {collections[collection]?.ranksArray ? (
-                <p className={styles.tableCell}>
-                  {(
-                    (user[1] / collections[collection]?.ranksArray.length) *
-                    100
-                  ).toFixed(2)}
-                  %
-                </p>
-              ) : (
-                ""
-              )}
+
+              <p className={styles.tableCell}>
+                {((user[1] / getNumberOfItems()) * 100).toFixed(3)}%
+              </p>
             </div>
             {assetDisplay.includes(i) ? (
               <div className={styles.assetDisplay}>

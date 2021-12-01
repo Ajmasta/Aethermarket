@@ -16,7 +16,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import Image from "next/image";
 import ethLogo from "../public/images/ethLogo.png";
-
+import blacklist from "./functions/blacklist.json";
 const UsersRankings = ({ collection, name }) => {
   //users based on ranks? make in user tab maybe a stats like : 3 of that collection top%, 7 of that collection top % -- easier to implement, who holds the most top 100/1000
   //Leaderboard updated every 24hours -- Quantity vs QUality
@@ -39,6 +39,7 @@ const UsersRankings = ({ collection, name }) => {
   const giveLabel = (i, length) => {
     const numberOfAssets = usersRankings[collection].userRanks.length;
     const top10 = Math.ceil(numberOfAssets / 1000);
+    const top50 = numberOfAssets / 200;
     const top100 = numberOfAssets / 100;
     const top200 = numberOfAssets / 50;
     const top1000 = numberOfAssets / 10;
@@ -49,8 +50,8 @@ const UsersRankings = ({ collection, name }) => {
     const top9000 = numberOfAssets / 1.111;
     const top10000 = numberOfAssets / 1;
 
-    if (i === 0) return <p className={styles.diamondWhale}>Diamond Whale</p>;
-    if (i <= top10) return <p className={styles.goldWhale}>Gold Whale</p>;
+    if (i <= top10) return <p className={styles.diamondWhale}>Diamond Whale</p>;
+    if (i <= top50) return <p className={styles.goldWhale}>Gold Whale</p>;
     if (i <= top100) return <p className={styles.silverWhale}>Silver Whale</p>;
     if (i <= top200) return <p className={styles.bronzeWhale}>Bronze Whale</p>;
     if (i <= top1000) return <p className={styles.topDog}>Top Dog</p>;
@@ -136,7 +137,7 @@ const UsersRankings = ({ collection, name }) => {
               <p className={styles.rankContainer}>
                 Rank:
                 {collections[collection]["ranksArray"].indexOf(
-                  Number(result.token_id)
+                  result.token_id
                 ) + 1}
               </p>
             ) : (
@@ -236,7 +237,9 @@ const UsersRankings = ({ collection, name }) => {
     );
   };
   const createUsersTable = (usersArray, numberOfItems) => {
-    const users = usersRankings[collection].userRanks.slice(0, 100);
+    let users = usersRankings[collection].userRanks.slice(0, 100);
+
+    users = users.filter((user) => !blacklist.includes(user[0]));
 
     return (
       <div className={styles.tableContainer}>

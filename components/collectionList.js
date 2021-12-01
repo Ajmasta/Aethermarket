@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import collectionsFetched from "./functions/collectionsList.json";
 import ethLogo from "../public/images/ethLogo.png";
 import PersonIcon from "@mui/icons-material/Person";
-
+import imagePath from "./functions/imagePath.json";
 const CollectionList = () => {
   const [collections, setCollections] = useState([]);
 
@@ -62,6 +62,7 @@ const CollectionList = () => {
       twitter: "https://mobile.twitter.com/HighriseApp",
       website: "https://apps.apple.com/app/id924589795?mt=8",
       discord: "https://discord.gg/hcc",
+      collection: "0xb0e827c9ab5e68d243f707f832b756981987f704",
     },
     {
       name: "Immutable Kongz",
@@ -72,6 +73,7 @@ const CollectionList = () => {
       twitter: "https://twitter.com/immutablekongz?lang=en",
       website: "https://t.co/Y3djvdGhvX?amp=1",
       discord: "https://t.co/AE9PMakKQ5?amp=1",
+      collection: "0x084820cd4fc214dd782a21b7d486f83b3a9c84a4",
     },
     {
       name: "Yellowcake Mutants",
@@ -82,6 +84,7 @@ const CollectionList = () => {
       twitter: "https://twitter.com/YCMutants",
       website: "https://www.yellowcakeparkmutants.com/",
       discord: "https://discord.gg/enta9b3p8P",
+      collection: "0x2322fe4290ddbceb7c9f49a4d39062d10b3ac69a",
     },
   ];
   const featuredCollections = ["Moody Krows", "Last Dragons", "Bad Grandma"];
@@ -97,8 +100,8 @@ const CollectionList = () => {
               <img
                 className={styles.imageFeatured}
                 src={
-                  collections2[collection.address].collectionIcon
-                    ? collections2[collection.address].collectionIcon
+                  imagePath[collection.address]
+                    ? imagePath[collection.address]
                     : collection.collection_image_url
                     ? collection.collection_image_url
                     : collection.icon_url
@@ -150,8 +153,8 @@ const CollectionList = () => {
               <img
                 className={styles.image}
                 src={
-                  collections2[collection.address].collectionIcon
-                    ? collections2[collection.address].collectionIcon
+                  imagePath[collection.address]
+                    ? imagePath[collection.address]
                     : collection.collection_image_url
                     ? collection.collection_image_url
                     : collection.icon_url
@@ -174,24 +177,28 @@ const CollectionList = () => {
           key={`upcollec${i}`}
           className={`${styles.upcomingCollectionContainer} panel${i}`}
         >
-          <div className={styles.upcomingImageContainer}>
-            <img
-              className={styles.upcomingImage}
-              src={collection.icon_url}
-              alt="collection sample"
-            />
-            <div className={styles.upcomingIconContainer}>
-              <img
-                className={styles.upcomingIcon}
-                src={
-                  collection.collection_image_url
-                    ? collection.collection_image_url
-                    : collection.icon_url
-                }
-                alt="collection icon"
-              />
-            </div>
-          </div>
+          <Link href={`/collections/${collection.collection}`}>
+            <a>
+              <div className={styles.upcomingImageContainer}>
+                <img
+                  className={styles.upcomingImage}
+                  src={collection.icon_url}
+                  alt="collection sample"
+                />
+                <div className={styles.upcomingIconContainer}>
+                  <img
+                    className={styles.upcomingIcon}
+                    src={
+                      collection.collection_image_url
+                        ? collection.collection_image_url
+                        : collection.icon_url
+                    }
+                    alt="collection icon"
+                  />
+                </div>
+              </div>
+            </a>
+          </Link>
           <div className={styles.upcomingDescriptionContainer}>
             <p className={styles.upcomingName}>{collection.name}</p>
             <p className={styles.upcomingDescription}>

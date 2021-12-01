@@ -41,16 +41,19 @@ import {
 import useMediaQuery from "@mui/material/useMediaQuery";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import collections from "./functions/collectionsList.json";
+import imagePath from "./functions/imagePath.json";
 const NavBar = () => {
   const matches = useMediaQuery("(min-width:1000px)");
   const mobile = useMediaQuery("(max-width:600px)");
   const [exploreMenu, setExploreMenu] = useState(false);
+  const [inventoryMenu, setInventoryMenu] = useState(false);
   const [mouseOnTop, setMouseOnTop] = useState(false);
   const [openDrawer, setOpenDrawer] = useRecoilState(drawerAtom);
   const [userBalance, setUserBalance] = useRecoilState(userBalanceAtom);
   const [account, setAccount] = useRecoilState(accountAtom);
   const [assets, setAssets] = useRecoilState(assetsAtom);
   const [searchInput, setSearchInput] = useState("");
+  const [mouseOnTopInventory, setMouseOnTopInventory] = useState(false);
 
   const [collectionsNavBar, setCollectionsNavBar] = useState();
   const [researchOpen, setResearchOpen] = useState(false);
@@ -110,6 +113,7 @@ const NavBar = () => {
   };
 
   let timeout;
+  let timeoutInventory;
   return (
     <>
       {mobile ? (
@@ -159,7 +163,11 @@ const NavBar = () => {
                         >
                           <a className={styles.searchResult}>
                             <img
-                              src={collection.collection_image_url}
+                              src={
+                                imagePath[collection.address]
+                                  ? imagePath[collection.address]
+                                  : collection.collection_image_url
+                              }
                               className={styles.searchImage}
                               alt="logo"
                             />
@@ -180,7 +188,11 @@ const NavBar = () => {
                           <a className={styles.searchResult}>
                             <div className={styles.searchResultContent}>
                               <img
-                                src={collection.collection_image_url}
+                                src={
+                                  imagePath[collection.address]
+                                    ? imagePath[collection.address]
+                                    : collection.collection_image_url
+                                }
                                 className={styles.searchImage}
                                 alt="logo"
                               />
@@ -257,7 +269,11 @@ const NavBar = () => {
                           >
                             <a className={styles.searchResult}>
                               <img
-                                src={collection.collection_image_url}
+                                src={
+                                  imagePath[collection.address]
+                                    ? imagePath[collection.address]
+                                    : collection.collection_image_url
+                                }
                                 className={styles.searchImage}
                                 alt="logo"
                               />
@@ -278,7 +294,11 @@ const NavBar = () => {
                             <a className={styles.searchResult}>
                               <div className={styles.searchResultContent}>
                                 <img
-                                  src={collection.collection_image_url}
+                                  src={
+                                    imagePath[collection.address]
+                                      ? imagePath[collection.address]
+                                      : collection.collection_image_url
+                                  }
                                   className={styles.searchImage}
                                   alt="logo"
                                 />
@@ -304,7 +324,7 @@ const NavBar = () => {
                   clearTimeout(timeout);
                 }}
                 onMouseLeave={() =>
-                  (timeout = setTimeout(() => setMouseOnTop(false), 800))
+                  (timeout = setTimeout(() => setMouseOnTop(false), 300))
                 }
               >
                 <Link href="/explore/listings">
@@ -331,31 +351,52 @@ const NavBar = () => {
                 </div>
               </div>
               <Link href="/#about">
-                <a className={styles.textElement}>About</a>
+                <a className={styles.reference}>About</a>
               </Link>
-              {account ? (
-                <Link href={`/user/${account}`}>
-                  <a className={styles.textElement}>
-                    {account[0].slice(0, 5) +
-                      "..." +
-                      account[0].slice(
-                        account[0].length - 5,
-                        account[0].length - 1
-                      )}
-                  </a>
-                </Link>
-              ) : (
-                <p
-                  onClick={() => {
-                    setupAndLogin();
+              <div
+                className={styles.reference}
+                onMouseEnter={() => {
+                  setMouseOnTopInventory(true);
+                  clearTimeout(timeoutInventory);
+                }}
+                onMouseLeave={() =>
+                  (timeoutInventory = setTimeout(
+                    () => setMouseOnTopInventory(false),
+                    200
+                  ))
+                }
+              >
+                {account ? (
+                  <Link href={`/user/${account}`}>
+                    <a className={styles.textElement}>Inventory</a>
+                  </Link>
+                ) : (
+                  <p
+                    onClick={() => {
+                      setupAndLogin();
 
-                    formatUserBalances();
-                  }}
-                  className={styles.textElement}
+                      formatUserBalances();
+                    }}
+                    className={styles.textElement}
+                  >
+                    Connect your Wallet
+                  </p>
+                )}
+                <div
+                  className={
+                    !inventoryMenu && !mouseOnTopInventory
+                      ? styles.hidden
+                      : styles.exploreMenu
+                  }
+                  onMouseEnter={() => setInventoryMenu(true)}
+                  onMouseLeave={() => setInventoryMenu(false)}
                 >
-                  Connect your Wallet
-                </p>
-              )}
+                  <Link href="/transfer">
+                    <a className={styles.menuLink}> Transfer </a>
+                  </Link>
+                </div>
+              </div>
+
               <AccountBalanceWalletIcon
                 className={styles.iconElement}
                 alt="wallet Icon"

@@ -6,8 +6,9 @@ import {
   transferERC20,
   transferERC721,
   logout,
-  setupAndLogin
+  setupAndLogin,
 } from "../components/functions/ImxFunctions";
+import Link from "next/link";
 
 import NavBar from "../components/navbar";
 import {
@@ -47,6 +48,8 @@ const Transfer = () => {
 
   const [collectionFilterName, setCollectionFilterName] = useState("");
   const getUserBalances = async () => {
+    //0x822bac563288e76ab0ec2ea05281eba9519d8690
+    //account = ["0x822bac563288e76ab0ec2ea05281eba9519d8690"];
     try {
       //baby krows and moody krows, 0.05 eth 0xa106338772931be6b4feb671c2fb1c3c1994c892
       const result = await (
@@ -61,9 +64,10 @@ const Transfer = () => {
   };
 
   const getKey = (pageIndex, previousPageData) => {
-
+    //account = ["0xea6093c807f09de83bb2ec9160386e96899fbbc9"];
+    //0xea6093c807f09de83bb2ec9160386e96899fbbc9
     // reached the end
-    if (previousPageData && !previousPageData.result) return null;
+    if (previousPageData && previousPageData.result.length === 0) return null;
 
     // first page, we don't have `previousPageData`
     if (!previousPageData)
@@ -108,10 +112,7 @@ const Transfer = () => {
           <div className={styles.transferListHead}>
             <p className={styles.transferListTitle}> Transfer List</p>
 
-            <div className={styles.transferHeadIcons}>
-              <KeyboardArrowUpIcon />
-              <ExpandMoreIcon />
-            </div>
+            <div className={styles.transferHeadIcons}></div>
           </div>
 
           <div className={styles.readyTransfers}>
@@ -229,7 +230,12 @@ const Transfer = () => {
           <div className={styles.transferImage}>
             <img className={styles.balanceImageAsset} src={imageUrl} />
           </div>
-          <div className={styles.transferName}>#{tokenId}</div>
+          <div className={styles.transferName}>
+            #
+            {tokenId.length > 8
+              ? "..." + tokenId.slice(tokenId.length - 5, tokenId.length)
+              : tokenId}
+          </div>
         </div>
         <div className={styles.transferAmount}>1</div>
         <div className={styles.transferAddress}>
@@ -423,7 +429,7 @@ const Transfer = () => {
       </div>
     );
   };
- const transferFunction = () => {
+  const transferFunction = () => {
     if (
       account !== "" &&
       account[0] !== localStorage.getItem("WALLET_ADDRESS")
@@ -436,28 +442,34 @@ const Transfer = () => {
           </p>
         </>
       );
-      logout()
+      logout();
       setupAndLogin();
       return "";
     }
 
-    transferAll(transferList)
+    transferAll(transferList);
   };
- const setError = (error) => {
+  const setError = (error) => {
     setErrorMessage(error);
     setTimeout(() => setErrorMessage(""), 3000);
   };
 
+  const checkIfAssetIsSelected = (asset) => {
+    const collection = transferInput[0];
+    const tokenId = transferInput[1];
+
+    return asset[0] === collection && asset[1] === tokenId ? true : false;
+  };
   const createSimilarListings = (assets) => {
     const allAssets = [];
     console.log(assets);
     assets?.map((element) =>
       element.result.map((result) => allAssets.push(result))
     );
+
     console.log(allAssets);
     return (
       <>
-    
         {allAssets.map((result, i) => {
           const arrayToTransfer = [
             result.token_address,
@@ -465,7 +477,7 @@ const Transfer = () => {
             result.collection,
             result.image_url,
           ];
-
+          console.log(checkIfAssetIsSelected(arrayToTransfer));
           return (
             <div
               onClick={() => {
@@ -494,7 +506,7 @@ const Transfer = () => {
                   <p className={styles.rankContainer}>
                     Rank:
                     {collections[result.token_address]["ranksArray"].indexOf(
-                      Number(result.token_id)
+                      result.token_id
                     ) + 1}
                   </p>
                 ) : (
@@ -507,6 +519,11 @@ const Transfer = () => {
         <div ref={ref}></div>
       </>
     );
+  };
+
+  const login = async () => {
+    const account = await ethereum.request({ method: "eth_requestAccounts" });
+    setAccount(account);
   };
 
   useEffect(() => getUserBalances(), [account]);
@@ -584,13 +601,28 @@ const Transfer = () => {
   return (
     <>
       <NavBar />
-        {errorMessage !== "" ? (
-          <div className={styles.errorContainer}>{errorMessage}</div>
-        ) : (
-          ""
-        )}
+      {errorMessage !== "" ? (
+        <div className={styles.errorContainer}>{errorMessage}</div>
+      ) : (
+        ""
+      )}
       <div className={styles.mainContainer}>
-        <div className={styles.mainTitle}>Transfer</div>
+        <div className={styles.tabsContainer}>
+          <div className={styles.mainTitleActive}>Transfer</div>
+          <Link href={`/user/${account[0]}`}>
+            <a>
+              <div className={styles.mainTitle}>Inventory</div>
+            </a>
+          </Link>
+        </div>
+        <div className={styles.accountHolder}>
+          {account[0]?.slice(0, 5) +
+            "..." +
+            account[0]?.slice(
+              account[0].length - 5,
+              account[0].length - 1
+            )}{" "}
+        </div>
         <div className={styles.tokenContainer}>
           <div className={styles.tokenTitle}>Your IMX tokens</div>
           <div className={styles.balancesContainer}>
@@ -603,6 +635,7 @@ const Transfer = () => {
           <div className={styles.displayContainer}>
             <div className={styles.filterAndDisplayContainer}>
               {createCollectionsFilter()}
+
               <div className={styles.assetDisplayContainer}>
                 <div className={styles.filterNameContainer}>
                   <input
@@ -611,15 +644,18 @@ const Transfer = () => {
                     onChange={(e) => setFilterName(`&name=${e.target.value}`)}
                     className={styles.inputNameFilter}
                   />
-        <button className={styles.clearButton} onClick={()=>setFilterCollection("")}>Clear Filters </button>
-                  
+                  <button
+                    className={styles.clearButton}
+                    onClick={() => setFilterCollection("")}
+                  >
+                    Clear Filters{" "}
+                  </button>
                 </div>
-                
-                {filterCollection === "" && filterName === ""
-                  ? createSimilarListings(data)
-                  : createSimilarListings(data)}
+
+                {createSimilarListings(data)}
               </div>
             </div>
+
             <div
               className={
                 transferContainerVisible
@@ -642,7 +678,16 @@ const Transfer = () => {
         )}
 
         <div className={styles.transferInputContainer}>
-          {createTransferInput(transferInput)}
+          {account === "" ? (
+            <div className={styles.connectWallet}>
+              <button onClick={() => login()} className={styles.transferAll}>
+                {" "}
+                Connect your wallet{" "}
+              </button>
+            </div>
+          ) : (
+            <>{createTransferInput(transferInput)}</>
+          )}
         </div>
       </div>
     </>

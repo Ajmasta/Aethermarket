@@ -121,6 +121,7 @@
 .upcomingImageContainer {
   position: relative;
   width: 300px;
+  height: 300px;
   display: flex;
   justify-content: center;
 }
@@ -178,7 +179,7 @@
   height: 600px;
 }
 .upcomingCollectionContainer:hover {
-  box-shadow: 2px 2px 12px black;
+  box-shadow: 1px 1px 8px black;
 }
 .upcomingCollectionsContainer {
   display: flex;

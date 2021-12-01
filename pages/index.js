@@ -57,7 +57,7 @@ export default function Home({ collections }) {
       <IntroPanel />
       <CollectionRankings />
 
-      <LazyLoad height={1568} offset={100} once>
+      <LazyLoad height={1568} offset={300} once>
         <CollectionList collections={collections.result} />
       </LazyLoad>
 

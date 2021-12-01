@@ -121,11 +121,16 @@
 }
 .pictureFrame {
   background-color: white;
-  box-shadow: 2px 2px 12px black;
+  box-shadow: 2px 2px 5px black;
   margin-left: 50px;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .picture {
+  border-radius: 10px;
 }
 .pictureDetails {
   color: black;

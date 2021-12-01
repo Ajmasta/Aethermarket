@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   calculateTime,
   getListingInfo,
+  useGetFloorPrice,
   useGetListingInfo,
 } from "./functions/functions";
 import styles from "./styles/singleListing.module.css";
@@ -37,18 +38,65 @@ import {
 } from "./states/states";
 import collections from "../components/functions/collectionRankings.json";
 import BigNumber from "bignumber.js";
-
-const SingleListing = ({ data }) => {
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+const SingleListing = ({ dataListing, assetData }) => {
   const [sell, setSell] = useState(false);
-  const listingData = data.data.result[0];
-  const collection = listingData.sell.data.token_address;
-  const [ethPrice, setEthPrice] = useRecoilState(ethPriceAtom);
+  const [thisAsset, setThisAsset] = useState();
+  let [
+    listingData,
+    collection,
+    name,
+    imageUrl,
+    tokenId,
+    status,
+    userL,
+    price,
+    data,
+    collectionIcon,
+    collectionName,
+  ] = "";
+  if (dataListing) {
+    data = dataListing;
+    listingData = data.data.result[0];
+    collection = listingData.sell.data.token_address;
 
+    name = listingData.sell.data.properties.name;
+
+    imageUrl = listingData.sell.data.properties.image_url;
+
+    tokenId = listingData.sell.data.token_id;
+
+    status = listingData.status;
+    userL = listingData.user;
+    price = listingData.buy.data.quantity;
+    collectionIcon = listingData.sell.data.properties.collection.icon_url;
+    collectionName = listingData.sell.data.properties.collection.name;
+  }
+  if (assetData) {
+    data = assetData;
+    listingData = assetData.data;
+    collection = listingData.token_address;
+
+    name = listingData.name;
+
+    imageUrl = listingData.image_url;
+    tokenId = listingData.token_id;
+    status = "asset";
+    userL = listingData.user;
+    price = 0;
+    collectionIcon = listingData.collection.icon_url;
+    collectionName = listingData.collection.name;
+  }
+  console.log(data);
+  const [ethPrice, setEthPrice] = useRecoilState(ethPriceAtom);
+  const [royaltyHelp, setRoyaltyHelp] = useState(false);
+
+  const { floorPrice, isLoadingFloor, errorFloor } = useGetFloorPrice(
+    `https://api.x.immutable.com/v1/orders?&status=active&page_size=1&include_fees=true&sell_token_address=${collection}&order_by=buy_quantity&direction=asc`
+  );
   const rank =
     collections[collection] && collections[collection]["ranksArray"]
-      ? collections[collection]["ranksArray"].indexOf(
-          Number(listingData.sell.data.token_id)
-        )
+      ? collections[collection]["ranksArray"].indexOf(tokenId)
       : undefined;
   const [assets, setAssets] = useRecoilState(assetsAtom);
   const user = localStorage.getItem("WALLET_ADDRESS");
@@ -77,34 +125,40 @@ const SingleListing = ({ data }) => {
   const isSimilarSold = data.soldListings.result.length > 0 ? true : false;
   const [numberOfItems, setNumberOfItems] = useState(5);
   const [shownTab, setShownTab] = useState("sales");
-  const [thisAsset, setThisAsset] = useState();
   const [shownTabAsset, setShownTabAsset] = useState("price");
   const [errorMessage, setErrorMessage] = useState("");
   const [userBalance, setUserBalance] = useRecoilState(userBalanceAtom);
   const [account, setAccount] = useRecoilState(accountAtom);
+  const [fees, setFees] = useState([]);
+
   const checkOwnerShip = () => {
-    const filteredAssets = assets.result
-      ? assets.result.filter(
-          (asset) =>
-            asset.token_address === listingData.sell.data.token_address &&
-            asset.token_id === listingData.sell.data.token_id
-        )
-      : [];
-    return filteredAssets.length > 0 ? true : false;
+    console.log(userL);
+    return thisAsset?.user === account[0] ? true : false;
   };
 
-  useEffect(() => getAsset(), [collections]);
+  useEffect(() => {
+    getAsset(), getFees();
+  }, [collection]);
 
   const getAsset = async () => {
     const data = await (
       await fetch(
-        `https://api.x.immutable.com/v1/assets/${listingData.sell.data.token_address}/${listingData.sell.data.token_id}`
+        `https://api.x.immutable.com/v1/assets/${collection}/${tokenId}`
       )
     ).json();
 
     setThisAsset(data);
   };
+  const getFees = async () => {
+    const data = await (
+      await fetch(
+        `https://api.x.immutable.com/v1/assets?page_size=1&include_fees=true&collection=${collection}`
+      )
+    ).json();
 
+    setFees(data.result[0] ? data.result[0].fees : []);
+  };
+  console.log(fees);
   const createTraitsTabGodsUnchained = () => {
     return (
       <div className={styles.traitsContainer}>
@@ -176,7 +230,7 @@ const SingleListing = ({ data }) => {
       datasets: [
         {
           label: "Current Price",
-          data: [{ x: 0, y: listingData.buy.data.quantity / 10 ** 18 }],
+          data: [{ x: 0, y: price / 10 ** 18 }],
           backgroundColor: "rgba(0, 255, 0, 1)",
           pointRadius: 7,
         },
@@ -258,7 +312,7 @@ const SingleListing = ({ data }) => {
     };
 
     const soldPrice = sold.map((result, i) => {
-      result.sell.data.token_id === listingData.sell.data.token_id
+      result.sell.data.token_id === tokenId
         ? chartData.datasets[0].data.push({
             x: i + 1,
             y: result.buy.data.quantity / 10 ** 18,
@@ -274,8 +328,6 @@ const SingleListing = ({ data }) => {
           });
       return result.buy.data.quantity / 10 ** 18;
     });
-
-    const averagePrice = soldPrice.reduce((a, b) => a + b) / soldPrice.length;
 
     return (
       <Scatter
@@ -319,7 +371,7 @@ const SingleListing = ({ data }) => {
       },
     };
     const sellingPrice = selling.map((result, i) => {
-      result.sell.data.token_id === listingData.sell.data.token_id
+      result.sell.data.token_id === tokenId
         ? chartData.datasets[0].data.push({
             x: i + 1,
             y: result.buy.data.quantity / 10 ** 18,
@@ -444,8 +496,8 @@ const SingleListing = ({ data }) => {
               collections[item.sell.data.token_address]["ranksArray"] ? (
                 <p className={`${styles.tableCell} ${styles.quantityCell}`}>
                   {collections[collection]["ranksArray"].indexOf(
-                    Number(item.sell.data.token_id)
-                  )}
+                    item.sell.data.token_id
+                  ) + 1}
                 </p>
               ) : (
                 ""
@@ -523,8 +575,8 @@ const SingleListing = ({ data }) => {
             collections[item.sell.data.token_address]["ranksArray"] ? (
               <p className={`${styles.tableCell} ${styles.quantityCell}`}>
                 {collections[collection]["ranksArray"].indexOf(
-                  Number(item.sell.data.token_id)
-                )}
+                  item.sell.data.token_id
+                ) + 1}
               </p>
             ) : (
               ""
@@ -587,7 +639,14 @@ const SingleListing = ({ data }) => {
                   className={styles.tableImage}
                   src={item.sell.data.properties.image_url}
                 />
-                #{item.sell.data.token_id}
+                #
+                {item.sell.data.token_id.length > 8
+                  ? "..." +
+                    item.sell.data.token_id.slice(
+                      item.sell.data.token_id.length - 5,
+                      item.sell.data.token_id.length
+                    )
+                  : item.sell.data.token_id}
               </a>
             </Link>
             <p className={styles.tableCell}>
@@ -658,7 +717,8 @@ const SingleListing = ({ data }) => {
       setupAndLogin();
       return "";
     }
-    if (userBalance.imx < order.buy.data.quantity) {
+    console.log(Number(userBalance.imx) < Number(order.buy.data.quantity));
+    if (Number(userBalance.imx) < Number(order.buy.data.quantity)) {
       setError(
         <>
           <p className={styles.mainError}>Not enough funds!</p>
@@ -691,9 +751,18 @@ const SingleListing = ({ data }) => {
       return "";
     }
 
-    getAndSellAsset(listingData, sell);
+    assetData
+      ? sellAsset(listingData, sell)
+      : getAndSellAsset(listingData, sell);
   };
-
+  const calculatePriceWithFees = (price) => {
+    let newPrice = Number(price);
+    console.log(fees);
+    fees?.map((element) => {
+      newPrice = newPrice + (newPrice * Number(element["percentage"])) / 100;
+    });
+    return newPrice;
+  };
   const formatUserBalances = async () => {
     const account = await ethereum.request({ method: "eth_requestAccounts" });
     setAccount(account);
@@ -709,6 +778,7 @@ const SingleListing = ({ data }) => {
       ethBalance: ethBalance.toFixed() / 10 ** 18,
     });
   };
+  console.log(sell, "sell");
   return (
     <>
       <div className={styles.mainContainer}>
@@ -720,10 +790,7 @@ const SingleListing = ({ data }) => {
         <div className={styles.topContainer}>
           <div className={styles.leftContainer}>
             <div className={styles.rankIdContainer}>
-              <p className={styles.elementID}>
-                {" "}
-                {listingData.sell.data.properties.name}
-              </p>
+              <p className={styles.elementID}> {name}</p>
               {rank ? (
                 <p className={styles.elementRank}> Rank: {rank + 1} </p>
               ) : (
@@ -731,20 +798,16 @@ const SingleListing = ({ data }) => {
               )}
             </div>
             <div className={styles.photoContainer}>
-              <img
-                className={styles.image}
-                src={listingData.sell.data.properties.image_url}
-                alt="nft icon"
-              />
+              <img className={styles.image} src={imageUrl} alt="nft icon" />
             </div>
 
             <div className={styles.statsContainer}>
               <div className={styles.priceContainer}>
                 {" "}
-                {listingData.status === "active" ? (
+                {status === "active" ? (
                   <>
                     {" "}
-                    {listingData.buy.data.quantity / 10 ** 18}
+                    {price / 10 ** 18}
                     <Image
                       alt="ethereum logo"
                       src={ethLogo}
@@ -752,23 +815,20 @@ const SingleListing = ({ data }) => {
                       height={30}
                     />
                     <div className={styles.currencyQuantityBig}>
-                      {parseFloat(
-                        (
-                          (listingData.buy.data.quantity / 10 ** 18) *
-                          ethPrice
-                        ).toFixed(2)
-                      )}
-                      $
+                      {parseFloat(((price / 10 ** 18) * ethPrice).toFixed(2))}$
                     </div>
                   </>
                 ) : (
                   ""
                 )}{" "}
               </div>
-              {listingData.status === "active" ? (
+              {status === "active" ? (
                 checkOwnerShip() ? (
                   <>
-                    <button onClick={() => cancelOrder(listingData)}>
+                    <button
+                      className={styles.buyButton}
+                      onClick={() => cancelOrder(listingData)}
+                    >
                       Cancel Listing
                     </button>
                   </>
@@ -783,29 +843,221 @@ const SingleListing = ({ data }) => {
               ) : checkOwnerShip() ? (
                 <>
                   {" "}
-                  <input
-                    type="number"
-                    min="0"
-                    placeholder="Enter listing price in ETH"
-                    onChange={(e) => setSell(e.target.value)}
-                    className={styles.sellInput}
-                  ></input>
+                  <div className={styles.inputRef}>
+                    <input
+                      type="tel"
+                      pattern="[0-9]*"
+                      placeholder={sell ? sell : "Enter listing price in ETH"}
+                      value={sell ? sell : ""}
+                      onChange={(e) => setSell(e.target.value)}
+                      className={styles.sellInput}
+                    ></input>
+                    <button
+                      className={styles.setFloorPrice}
+                      onClick={() =>
+                        setSell(floorPrice / (1 + 5 / 100) / 10 ** 18)
+                      }
+                    >
+                      Floor
+                    </button>
+                    <button
+                      className={styles.setTenPercent}
+                      onClick={() =>
+                        setSell(
+                          parseFloat((Number(sell) + sell * 0.1).toFixed(8))
+                        )
+                      }
+                    >
+                      +10%
+                    </button>
+                    <button
+                      className={styles.setOnePercent}
+                      onClick={() =>
+                        setSell(
+                          parseFloat((Number(sell) - sell * 0.01).toFixed(8))
+                        )
+                      }
+                    >
+                      -1%
+                    </button>
+                  </div>
+                  <span className={styles.floorPrice}>
+                    Floor Price: {floorPrice / 10 ** 18}
+                    <Image
+                      width={18}
+                      height={18}
+                      src={ethLogo}
+                      alt="ethereum logo"
+                    />
+                  </span>{" "}
+                  <span className={styles.floorPriceInfo}>
+                    The floor price is updated in real time. No need to refresh.
+                    It includes all fees.
+                  </span>{" "}
                   <button
                     onClick={() => {
                       sellFunction();
                     }}
                     className={
-                      sell.length > 0 ? styles.buyButton : styles.disabledButton
+                      sell > 0 ? styles.buyButton : styles.disabledButton
                     }
-                    disabled={sell.length > 0 ? false : true}
+                    disabled={sell > 0 ? false : true}
                   >
                     Sell{" "}
                   </button>
+                  {sell > 0 ? (
+                    <div className={styles.tableSellPrices}>
+                      <div className={styles.feesInfo}>
+                        <div className={styles.tableSellPricesRow}>
+                          <span className={styles.tableSellPricesCellText}>
+                            {" "}
+                            Amount you receive{" "}
+                          </span>
+                          <div className={styles.quantityContainer}>
+                            <div className={styles.tableSellPricesCellEth}>
+                              {parseFloat(
+                                calculatePriceWithFees(
+                                  sell / (5 / 100 + 1)
+                                ).toFixed(5)
+                              )}{" "}
+                              <Image
+                                width={24}
+                                height={24}
+                                src={ethLogo}
+                                alt="ethereum logo"
+                              />
+                            </div>
+
+                            <div className={styles.tableSellPricesRowUSD}>
+                              <span className={styles.tableSellPricesCellUSD}>
+                                {parseFloat((sell * ethPrice).toFixed(2))}$
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        {fees?.length > 0 && sell > 0 ? (
+                          <div className={styles.feesContainer}>
+                            <div className={styles.tableSellPricesRow}>
+                              <HelpOutlineOutlinedIcon
+                                className={styles.helpIcon}
+                                onMouseEnter={() => setRoyaltyHelp(true)}
+                                onMouseLeave={() => setRoyaltyHelp(false)}
+                              />
+                              <span className={styles.tableSellPricesCellText}>
+                                IMX listing price (incl. fees):{" "}
+                              </span>
+                              <div>
+                                <div className={styles.tableSellPricesCellEth}>
+                                  {parseFloat(
+                                    calculatePriceWithFees(sell).toFixed(6)
+                                  )}
+                                  <Image
+                                    width={24}
+                                    height={24}
+                                    src={ethLogo}
+                                    alt="ethereum logo"
+                                  />
+                                </div>
+                                <div className={styles.tableSellPricesRowUSD}>
+                                  <span
+                                    className={styles.tableSellPricesCellUSD}
+                                  >
+                                    {parseFloat(
+                                      (
+                                        calculatePriceWithFees(sell) * ethPrice
+                                      ).toFixed(2)
+                                    )}
+                                    $
+                                  </span>
+                                </div>
+                              </div>
+                              {royaltyHelp ? (
+                                <span className={styles.royaltiesInfo}>
+                                  IMX adds fees when you list an item with them.
+                                  We show you what fees will be added so you
+                                  know exactly how much you will get. <br />
+                                  Royalties are fees paid to the creator of the
+                                  collection.
+                                </span>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            <p className={styles.tableSellPricesRowSmall}>
+                              Fees{" "}
+                            </p>
+                            {fees.map((element) => (
+                              <>
+                                <div
+                                  key={element}
+                                  className={styles.tableSellPricesRowSmall}
+                                >
+                                  <span
+                                    className={styles.tableSellPricesCellSmall}
+                                  >
+                                    {" "}
+                                    {element.type === "royalty"
+                                      ? "Royalty set by the artist " +
+                                        "(" +
+                                        element.percentage +
+                                        "%)"
+                                      : ""}
+                                  </span>{" "}
+                                  <span
+                                    className={styles.tableSellPricesCellSmall}
+                                  >
+                                    {parseFloat(
+                                      (
+                                        (sell * element.percentage) /
+                                        100
+                                      ).toFixed(6)
+                                    )}
+                                    <Image
+                                      width={18}
+                                      height={18}
+                                      src={ethLogo}
+                                      alt="ethereum logo"
+                                    />
+                                  </span>
+                                </div>
+                                <div className={styles.tableSellPricesRowUSD}>
+                                  <span
+                                    className={styles.tableSellPricesCellUSD}
+                                  >
+                                    {parseFloat(
+                                      (
+                                        (sell * element.percentage * ethPrice) /
+                                        100
+                                      ).toFixed(6)
+                                    )}
+                                    $
+                                  </span>
+                                </div>
+                              </>
+                            ))}
+                          </div>
+                        ) : (
+                          <>
+                            <p className={styles.tableSellPricesRowSmall}>
+                              Fees{" "}
+                            </p>
+                            <div className={styles.tableSellPricesRowSmall}>
+                              <span className={styles.tableSellPricesCellSmall}>
+                                No Fees
+                              </span>{" "}
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}{" "}
                 </>
               ) : (
                 <div className={styles.notListedContainer}>
                   <p className={styles.notListedText}>Not currently listed </p>
-                  Last listed price: {listingData.buy.data.quantity / 10 ** 18}
+                  Last listed price: {price / 10 ** 18}
                   <Image
                     width={20}
                     height={20}
@@ -814,9 +1066,8 @@ const SingleListing = ({ data }) => {
                   />
                 </div>
               )}
-              <Link
-                href={`/user/${thisAsset ? thisAsset.user : listingData.user}`}
-              >
+
+              <Link href={`/user/${thisAsset ? thisAsset.user : userL}`}>
                 <a className={styles.linkToUser}>
                   <PersonIcon />
                   {thisAsset
@@ -826,24 +1077,22 @@ const SingleListing = ({ data }) => {
                         thisAsset.user.length - 5,
                         thisAsset.user.length - 1
                       )
-                    : listingData.user.slice(0, 5) +
+                    : userL.slice(0, 5) +
                       "..." +
-                      listingData.user.slice(
-                        listingData.user.length - 5,
-                        listingData.user.length - 1
-                      )}
+                      userL.slice(userL.length - 5, userL.length - 1)}
                 </a>
               </Link>
-              <Link href={`../${listingData.sell.data.token_address}`}>
+              <Link href={`../${collection}`}>
                 <a className={styles.linkToUser}>
                   <img
                     width="25px"
-                    src={listingData.sell.data.properties.collection.icon_url}
+                    src={collectionIcon}
                     alt="collection icon"
                   />
-                  {listingData.sell.data.properties.collection.name}
+                  {collectionName}
                 </a>
               </Link>
+
               <div className={styles.tabContainerAsset}>
                 <div className={styles.tabRow}>
                   <p
@@ -877,8 +1126,14 @@ const SingleListing = ({ data }) => {
                   >
                     <div className={styles.historyContainer}>
                       <p className={styles.tableTitle}>Price History</p>
-                      {createHistoryTable(data.data.result, numberOfItems)}
-                      {getItemPriceHistoryChart(data.data.result)}
+                      {data.data.asset ? (
+                        ""
+                      ) : (
+                        <>
+                          {createHistoryTable(data.data.result, numberOfItems)}
+                          {getItemPriceHistoryChart(data.data.result)}
+                        </>
+                      )}
                     </div>
                   </div>
                   <div
@@ -933,6 +1188,7 @@ const SingleListing = ({ data }) => {
                   <p className={styles.tableTitle}>Current Similar Listings</p>
                   {createListingsTable(data, numberOfItems)}
                 </div>
+
                 <div
                   className={
                     shownTab === "sales" ? styles.pastSalesTab : styles.hidden
