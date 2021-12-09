@@ -2,6 +2,21 @@
   display: flex;
   flex-direction: row;
 }
+.inputContainer {
+  display: flex;
+}
+.searchButton {
+  height: 37px;
+  border-radius: 5px;
+  background-color: var(--button);
+  border: none;
+  color: white;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.searchButton:hover {
+  background-color: rgb(25, 106, 138);
+}
 .similarDescription {
   display: flex;
   flex-direction: row;

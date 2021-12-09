@@ -8,6 +8,11 @@
 .image {
   max-width: 500px;
   min-width: 300px;
+  min-height: 300px;
+}
+.videoContainer {
+  max-width: 500px;
+  min-width: 300px;
 }
 @media (max-width: 600px) {
   .image {
@@ -413,8 +418,8 @@
   font-size: 12px;
   width: 300px;
   position: absolute;
-  left: -30px;
-  bottom: 30px;
+  left: 0px;
+  bottom: 50px;
   background-color: white;
   border: 1px solid black;
   padding: 2px 5px;

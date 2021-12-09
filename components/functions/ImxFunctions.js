@@ -248,3 +248,13 @@ export async function fillOrder(order) {
     console.log(err);
   }
 }
+
+export async function fillAllOrder(order) {
+  setupAndLogin();
+  const orderIds = order.map((result) => result.order_id);
+  try {
+    await link.buy({ orderIds: orderIds });
+  } catch (err) {
+    console.log(err);
+  }
+}

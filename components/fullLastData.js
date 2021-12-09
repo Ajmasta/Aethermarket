@@ -21,8 +21,8 @@ import AllRankings from "./allRankings";
 import orderData from "./functions/orderData.json";
 import ethLogo from "../public/images/ethLogo.png";
 import Image from "next/image";
-import { useRecoilValue } from "recoil";
-import { accountAtom } from "./states/states";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { accountAtom, refreshAtom } from "./states/states";
 import StarsIcon from "@mui/icons-material/Stars";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import MilitaryTech from "@mui/icons-material/MilitaryTech";
@@ -46,9 +46,10 @@ const FullLastData = ({ collection }) => {
   const [filtersMetadata, setFiltersMetadata] = useState();
   const [urlMetadata, setUrlMetadata] = useState();
   const [openFilters, setOpenFilters] = useState([]);
-
+  const [refreshInterval, setRefreshInterval] = useRecoilState(refreshAtom);
   const { data, isLoading, isError } = useGetListingsLong(
-    `https://api.x.immutable.com/v1/orders?status="active"&page_size=999999&include_fees=true&sell_token_address=${collection}${sortBy}${metadata}`
+    `https://api.x.immutable.com/v1/orders?status="active"&page_size=999999&include_fees=true&sell_token_address=${collection}${sortBy}${metadata}`,
+    refreshInterval
   );
   let collectionData = collectionsList.filter(
     (element) => element.address === collection
@@ -79,7 +80,7 @@ const FullLastData = ({ collection }) => {
       (element) => element[1]
     );
 
-    const numberOfItems = itemArray.reduce((a, b) => a + b);
+    const numberOfItems = itemArray?.reduce((a, b) => a + b);
     return numberOfItems;
   };
   const createFilters = () => {
@@ -90,8 +91,10 @@ const FullLastData = ({ collection }) => {
     let titles = [];
     let listOf = [];
     for (let object in filters) {
-      titles.push(object);
-      listOf.push(filters[object]);
+      if (object !== "animation_url" && object !== "animation_url_mime_type") {
+        titles.push(object);
+        listOf.push(filters[object]);
+      }
     }
 
     return (
@@ -336,39 +339,7 @@ const FullLastData = ({ collection }) => {
           ) : isError ? (
             "Looks like IMX is having some issues. Come back later for sales and listings"
           ) : data.listings.length < 1 ? (
-            <div className={styles.noListingContainer}>
-              <p className={styles.noListingText}> No items listed right now</p>
-              {collections[collection] && collections[collection].ranksArray ? (
-                <>
-                  <button
-                    className={styles.checkButton}
-                    onClick={() => {
-                      setMetadata("");
-                      setStatus("rankings");
-                    }}
-                  >
-                    Check Rankings
-                  </button>
-                  <p className={styles.noListingText}>
-                    {" "}
-                    Want to be the first one to list? Check your inventory
-                  </p>
-                  {account === "" ? (
-                    <p>Login by clicking the wallet on the top-right</p>
-                  ) : (
-                    <Link href={`/user/${account}`}>
-                      <a>
-                        <button className={styles.checkButton}>
-                          Go to your inventory
-                        </button>
-                      </a>
-                    </Link>
-                  )}
-                </>
-              ) : (
-                <p>Come back when the collection is out!</p>
-              )}
-            </div>
+            <div className={styles.noListingContainer}>No listings found!</div>
           ) : (
             <>
               <FullLastListed

@@ -12,6 +12,8 @@ import orderData from "./functions/orderData.json";
 import { useInView } from "react-intersection-observer";
 import { useMediaQuery } from "@mui/material";
 import useSWRInfinite from "swr/infinite";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { ethPriceAtom } from "./states/states";
 
 const FullLastSold = ({ collection, name }) => {
   const mobile = useMediaQuery("(max-width:600px)");
@@ -42,14 +44,15 @@ const FullLastSold = ({ collection, name }) => {
     getKey,
     fetcher,
     {
-      refreshInterval: 1000,
+      refreshInterval: 3000,
     }
   );
 
   const { ref, inView, entry } = useInView();
 
   useEffect(() => (inView ? setSize(size + 1) : ""), [inView]);
-
+  const dollarFormat = Intl.NumberFormat("en-US");
+  const ethPrice = useRecoilValue(ethPriceAtom);
   if (!data) return "";
   const getAnalyticsData = (data) => {
     const dataPrice = data.map((item) => item.buy.data.quantity / 10 ** 18);
@@ -58,6 +61,7 @@ const FullLastSold = ({ collection, name }) => {
     const average = volume / dataPrice.length;
     const time = calculateTime(timestamp);
     const results = data.length;
+
     return { volume, time, average, results };
   };
 
@@ -164,11 +168,50 @@ const FullLastSold = ({ collection, name }) => {
                 </span>
               </a>
             </Link>
-            <div className={styles.tableCell}>
-              {mobile
-                ? (item.buy.data.quantity / 10 ** 18).toFixed(2)
-                : item.buy.data.quantity / 10 ** 18}{" "}
-              <Image src={ethLogo} width={15} height={15} alt="eth logo" />
+            <div className={styles.tableCellPrice}>
+              {mobile ? (
+                <>
+                  <div className={styles.ethPrice}>
+                    {(item.buy.data.quantity / 10 ** 18).toFixed(2)}
+
+                    <Image
+                      src={ethLogo}
+                      width={15}
+                      height={15}
+                      alt="eth logo"
+                    />
+                  </div>
+                  <div className={styles.usdPrice}>
+                    {dollarFormat.format(
+                      ((item.buy.data.quantity / 10 ** 18) * ethPrice).toFixed(
+                        2
+                      )
+                    )}
+                    $
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className={styles.ethPrice}>
+                    {item.buy.data.quantity / 10 ** 18}
+
+                    <Image
+                      src={ethLogo}
+                      width={15}
+                      height={15}
+                      alt="eth logo"
+                    />
+                  </div>
+                  <div className={styles.usdPrice}>
+                    {dollarFormat.format(
+                      ((item.buy.data.quantity / 10 ** 18) * ethPrice).toFixed(
+                        2
+                      )
+                    )}
+                    $
+                  </div>
+                </>
+              )}
             </div>
             {collections[item.sell.data.token_address] &&
             collections[item.sell.data.token_address]["ranksArray"] ? (

@@ -36,3 +36,11 @@ export const ethPriceAtom = atom({
   key: "ethPrice",
   default: "0",
 });
+export const buyCartAtom = atom({
+  key: "buyCart",
+  default: [],
+});
+export const refreshAtom = atom({
+  key: "refreshAtom",
+  default: 100000,
+});

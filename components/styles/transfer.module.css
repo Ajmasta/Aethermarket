@@ -109,10 +109,7 @@
   width: 0%;
   min-width: 0;
 }
-.transferButtonContainer {
-  display: flex;
-  justify-content: space-between;
-}
+
 .transferListContainer {
   display: flex;
   flex-direction: column;
@@ -200,6 +197,10 @@
 .transferAll:hover {
   background-color: #eee;
   color: black;
+}
+.transferButtonContainer {
+  display: flex;
+  justify-content: space-between;
 }
 .clearAll {
   background-color: black;

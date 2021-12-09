@@ -54,11 +54,11 @@ const CollectionList = () => {
       discord: "https://t.co/LE795eI7le?amp=1",
     },
     {
-      name: "Highrise Creature Club",
+      name: "Terra Obscura",
       description:
-        "The creative world where everyone belongs. Highrise Creature Club a collection of 10,000 unique NFT Creatures",
-      icon_url: "/images/highRise.png",
-      collection_image_url: "/images/highriseIcon.jpg",
+        "High resolution ai-generated landscapes that gives you permission to generate your own images and NFTs.",
+      icon_url: "/images/terraObscura.jfif",
+      collection_image_url: "/images/terraObscuraLogo.jpg",
       twitter: "https://mobile.twitter.com/HighriseApp",
       website: "https://apps.apple.com/app/id924589795?mt=8",
       discord: "https://discord.gg/hcc",
@@ -87,7 +87,12 @@ const CollectionList = () => {
       collection: "0x2322fe4290ddbceb7c9f49a4d39062d10b3ac69a",
     },
   ];
-  const featuredCollections = ["Moody Krows", "Last Dragons", "Bad Grandma"];
+  const featuredCollections = [
+    "Moody Krows",
+    "Last Dragons",
+    "Bad Grandma",
+    "Highrise Creature Club",
+  ];
   const createFeaturedCollections = () => {
     const collectionsFiltered = collectionsFetched.filter((collection) =>
       featuredCollections.includes(collection.name)
@@ -239,12 +244,6 @@ const CollectionList = () => {
   };
   return (
     <div className={styles.mainContainer} id="collectionContainer">
-      <div className={styles.upcomingCollection}>
-        <div className={styles.title2}>Top Upcoming Collections</div>
-        <div className={styles.upcomingCollectionsContainer}>
-          {createUpcomigCollectionWidget(upcomingCollections)}
-        </div>
-      </div>
       <div className={styles.containerFeatured}>
         <div className={styles.title}>Featured Collections</div>
 
@@ -252,6 +251,13 @@ const CollectionList = () => {
           {createFeaturedCollections()}
         </div>
       </div>
+      <div className={styles.upcomingCollection}>
+        <div className={styles.title2}>Top Upcoming Collections</div>
+        <div className={styles.upcomingCollectionsContainer}>
+          {createUpcomigCollectionWidget(upcomingCollections)}
+        </div>
+      </div>
+
       <div className={styles.container}>
         <div className={styles.title}>Curated Collections</div>
 

@@ -1,3 +1,18 @@
+:root {
+  --background: white;
+  --border: #eee;
+  --borderDark: #666;
+  --font: black;
+  --borderActive: ​#0074d9;
+  --borderHover: #b4d7f5;
+  --boxShadow: black;
+  --button: #17b5cb;
+  --lightblue: #7ec2fa;
+}
+.test {
+  --background: #2e353b;
+}
+
 html,
 body {
   padding: 0;
@@ -23,6 +38,9 @@ a {
 .panel0 {
   background-color: rgb(247, 57, 57) !important;
 }
+.panel1 {
+  background-color: rgb(15, 127, 179) !important;
+}
 .panel2 {
   background-color: rgb(185, 54, 202) !important;
 }
@@ -36,7 +54,6 @@ a {
   background-color: rgb(15, 127, 179) !important;
 }
 .panel9 {
-  background-color: rgb(15, 127, 179) !important;
 }
 .panel10 {
   background-color: rgb(15, 127, 179) !important;

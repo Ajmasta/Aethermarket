@@ -42,6 +42,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import collections from "./functions/collectionsList.json";
 import imagePath from "./functions/imagePath.json";
+import Cart from "./cart";
 const NavBar = () => {
   const matches = useMediaQuery("(min-width:1000px)");
   const mobile = useMediaQuery("(max-width:600px)");
@@ -100,6 +101,7 @@ const NavBar = () => {
   const filterCollections = async (filter) => {
     const blacklist = [
       "0x04792367709c5daea4fd781f558cba092695bbc0",
+      "0x5084e56a8c987c651f2aa6cc515aeb4518beee9a",
       "0x41ff943a5a31652a33cb23fb942769abb3dbaf97",
     ];
     let collections2 = collections.filter((collection) =>
@@ -123,7 +125,7 @@ const NavBar = () => {
               <a>
                 <img
                   className={styles.logo}
-                  alt="logo, partially made by Eliricon"
+                  alt="logo"
                   src={"/images/logo.svg"}
                   width={36}
                   height={36}
@@ -527,6 +529,7 @@ const NavBar = () => {
           </div>
         </>
       )}
+      <Cart />
     </>
   );
 };

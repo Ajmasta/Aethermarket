@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import collections from "../components/functions/collectionRankings.json";
 import { useGetRankings } from "./functions/functions";
 import Link from "next/link";
@@ -8,20 +8,22 @@ import Image from "next/image";
 import { ethPriceAtom } from "./states/states";
 import { useRecoilValue } from "recoil";
 import Loading from "./loading";
+import debounce from "lodash.debounce";
+
 const AllRankings = ({ collection }) => {
   const [array, setArray] = useState([]);
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState("");
+  const [search, setSearch] = useState(false);
   const [loading, setLoading] = useState(false);
   const ethPrice = useRecoilValue(ethPriceAtom);
   let tokenArray = collections
     ? collections[collection]["ranksArray"].slice((page - 1) * 20, page * 20)
     : [];
-
-  useEffect(() => getData(filter), [page, filter]);
-
   const getData = async (filter) => {
+    setSearch(false);
     if (filter === "") {
+      setArray([]);
       const newArray = await Promise.all(
         tokenArray.map(async (token) => {
           const data = await (
@@ -44,7 +46,8 @@ const AllRankings = ({ collection }) => {
       );
       setArray(newArray);
     } else {
-      const data = await (
+      console.log("FILTER");
+      let data = await (
         await fetch(
           `https://api.x.immutable.com/v1/assets/${collection}/${filter}`
         )
@@ -60,17 +63,34 @@ const AllRankings = ({ collection }) => {
       }
       if (data.name) {
         setArray([]);
-        setTimeout(() => setArray([data]), 100);
+        setArray([data]);
       } else {
+        console.log("NAME");
+        let data2;
+        data2 = await (
+          await fetch(
+            `https://api.x.immutable.com/v1/assets?collection=${collection}&name=${filter}`
+          )
+        ).json();
+        console.log(data2);
+        console.log(filter);
+
         setArray([]);
+
+        setArray(data2.result);
       }
     }
   };
+  useEffect(() => getData(filter), []);
+  useEffect(
+    () => (filter === "" && search ? getData(filter) : ""),
+    [filter, page]
+  );
+
   const createPageList = () => {
     const maxPage = Math.ceil(
       collections[collection]["ranksArray"].length / 20
     );
-    console.log(maxPage, page);
     return (
       <div className={styles.pageListContainer}>
         {page === 1 ? (
@@ -289,22 +309,37 @@ const AllRankings = ({ collection }) => {
 
   return (
     <div className={styles.mainContainer}>
-      <input
-        type="number"
-        className={styles.inputFilter}
-        onChange={(e) => setFilter(e.target.value)}
-        placeholder="Search by ID"
-      />
-
-      <div className={styles.bottomImagesContainer}>
-        {array !== [] ? createSimilarListings(array) : <Loading />}
-      </div>
-
-      {collections && filter === ""
-        ? array === []
-          ? ""
-          : createPageList()
-        : ""}
+      {collections[collection]["ranksArray"].length > 0 ? (
+        <>
+          <div className={styles.inputContainer}>
+            <input
+              type="text"
+              className={styles.inputFilter}
+              onChange={(e) => setFilter(e.target.value)}
+              placeholder="Search by ID"
+            />
+            <button
+              className={styles.searchButton}
+              onClick={() => {
+                getData(filter);
+                setSearch(true);
+              }}
+            >
+              Search
+            </button>
+          </div>
+          <div className={styles.bottomImagesContainer}>
+            {array !== [] ? createSimilarListings(array) : <Loading />}
+          </div>
+          {collections && filter === ""
+            ? array === []
+              ? ""
+              : createPageList()
+            : ""}
+        </>
+      ) : (
+        "No rankings yet! Come back after reveal."
+      )}
     </div>
   );
 };

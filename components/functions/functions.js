@@ -3,6 +3,8 @@ import useSWRInfinite from "swr/infinite";
 import { useState } from "react";
 import orderData from "./orderData.json";
 import collectionsList from "./collectionsList.json";
+import collectionsRankings from "./collectionRankings.json";
+
 export const useGetAllFloorPrices = (url) => {
   const { data, error } = useSWR(url, fetchAllFloor);
   return {
@@ -22,11 +24,13 @@ const fetchAllFloor = async () => {
           `https://api.x.immutable.com/v1/orders?&status=active&buy_token_type=ETH&page_size=1&include_fees=true&sell_token_address=${collection.address}&order_by=buy_quantity&direction=asc`
         )
       ).json();
-      floorPrices[collection.address] = floorPrice.buy.data.quantity;
-      return floorPrices;
+      floorPrices[collection.address] = floorPrice.result[0]?.buy.data.quantity;
+
+      return [collection.address, floorPrice.result[0]?.buy.data.quantity];
     })
   );
-  return floorPrices;
+  console.log(newArray);
+  return newArray;
 };
 
 const fetcher = async (url) => {
@@ -161,8 +165,8 @@ export const useGetUserData = (userId) => {
 const fetcherListLong = async (url) => {
   const salesAdd = "&status=filled&sell_token_type=ERC721";
   const listingsAdd = "&status=active";
-  const listings = await getAllListings(url + listingsAdd);
-  const data = { listings: listings };
+  let listings = await getAllListings(url + listingsAdd);
+  const data = { listings };
   return data;
 };
 
@@ -171,9 +175,10 @@ const fetcherBoth = async (url) => {
   const data = { listings: listings.result };
   return data;
 };
+
 export const useGetFloorPrice = (url) => {
   const { data, error } = useSWR(url, fetchFloorPrice, {
-    refreshInterval: 1000,
+    refreshInterval: 3000,
   });
   return {
     floorPrice: data,
@@ -190,7 +195,7 @@ const getAllListings = async (url) => {
   let i = 0;
   let roll = true;
   let cursor = "";
-  const dataArray = [];
+  let dataArray = [];
   while (roll) {
     const data = cursor
       ? await (await fetch(url + cursor)).json()
@@ -200,11 +205,12 @@ const getAllListings = async (url) => {
     i++;
     if (data.cursor === "" || i > 50) roll = false;
   }
+
   return dataArray;
 };
-export const useGetListingsLong = (url) => {
+export const useGetListingsLong = (url, refreshInterval) => {
   const { data, error } = useSWR(url, fetcherListLong, {
-    refreshInterval: 1000,
+    refreshInterval: 3000,
   });
   return {
     data,

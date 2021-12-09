@@ -54,9 +54,11 @@ const SingleListing = ({ dataListing, assetData }) => {
     data,
     collectionIcon,
     collectionName,
+    historyData,
   ] = "";
   if (dataListing) {
     data = dataListing;
+    historyData = data.data.result;
     listingData = data.data.result[0];
     collection = listingData.sell.data.token_address;
 
@@ -219,12 +221,12 @@ const SingleListing = ({ dataListing, assetData }) => {
       </div>
     );
   };
-
   const getItemPriceHistoryChart = (data) => {
     const dataFiltered = data.filter((data) =>
-      data.status === "cancelled" ? false : true
+      data.status === "filled" ? true : false
     );
-    if (dataFiltered.length <= 1) return "No sale history for this item";
+    console.log(data);
+    if (dataFiltered.length === 0) return "No sale history for this item";
 
     const chartData = {
       datasets: [
@@ -398,6 +400,7 @@ const SingleListing = ({ dataListing, assetData }) => {
     );
   };
   const createSimilarListings = (array) => {
+    console.log(array);
     return array.map((result, i) => (
       <Link
         key={i}
@@ -609,9 +612,9 @@ const SingleListing = ({ dataListing, assetData }) => {
 
   const createHistoryTable = (array, numberOfItems) => {
     let dataFiltered = array.filter((data) =>
-      data.status === "cancelled" ? false : true
+      data.status === "filled" ? true : false
     );
-    if (dataFiltered.length <= 1) return "";
+    if (dataFiltered.length <= 0) return "";
 
     dataFiltered.sort((result, result2) =>
       result.updated_timestamp < result2.updated_timestamp ? 1 : -1
@@ -798,7 +801,28 @@ const SingleListing = ({ dataListing, assetData }) => {
               )}
             </div>
             <div className={styles.photoContainer}>
-              <img className={styles.image} src={imageUrl} alt="nft icon" />
+              {thisAsset &&
+              thisAsset.metadata.animation_url &&
+              !thisAsset.metadata.animation_url.includes("m3u8") ? (
+                <div
+                  className={styles.videoContainer}
+                  style={{
+                    background: `url(${imageUrl})`,
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <video
+                    src={thisAsset.metadata.animation_url}
+                    autoPlay
+                    muted
+                    loop
+                    className={styles.image}
+                    type="application/x-mpegURL"
+                  />
+                </div>
+              ) : (
+                <img className={styles.image} src={imageUrl} alt="nft icon" />
+              )}
             </div>
 
             <div className={styles.statsContainer}>
@@ -975,9 +999,8 @@ const SingleListing = ({ dataListing, assetData }) => {
                                 <span className={styles.royaltiesInfo}>
                                   IMX adds fees when you list an item with them.
                                   We show you what fees will be added so you
-                                  know exactly how much you will get. <br />
-                                  Royalties are fees paid to the creator of the
-                                  collection.
+                                  know exactly how much you will get and for
+                                  what price it will be listed. <br />
                                 </span>
                               ) : (
                                 ""
@@ -1126,12 +1149,12 @@ const SingleListing = ({ dataListing, assetData }) => {
                   >
                     <div className={styles.historyContainer}>
                       <p className={styles.tableTitle}>Price History</p>
-                      {data.data.asset ? (
+                      {assetData ? (
                         ""
                       ) : (
                         <>
-                          {createHistoryTable(data.data.result, numberOfItems)}
-                          {getItemPriceHistoryChart(data.data.result)}
+                          {createHistoryTable(historyData, numberOfItems)}
+                          {getItemPriceHistoryChart(historyData)}
                         </>
                       )}
                     </div>

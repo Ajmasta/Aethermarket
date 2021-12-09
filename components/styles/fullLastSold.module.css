@@ -56,6 +56,17 @@
   align-items: center;
   justify-content: center;
 }
+.tableCellPrice {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.usdPrice {
+  color: #666;
+  font-size: 13px;
+}
 .quantityCell {
   flex: 1;
 }

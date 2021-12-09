@@ -496,7 +496,7 @@ const UserAccount = ({ userId }) => {
                         Rank:
                         {collections[result.token_address][
                           "ranksArray"
-                        ].indexOf(Number(result.token_id)) + 1}
+                        ].indexOf(result.token_id) + 1}
                       </p>
                     ) : (
                       ""
