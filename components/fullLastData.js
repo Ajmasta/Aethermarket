@@ -37,7 +37,7 @@ import imagePath from "./functions/imagePath.json";
 
 const FullLastData = ({ collection }) => {
   const blacklistedRanks = ["0xb0e827c9ab5e68d243f707f832b756981987f704"];
- 
+
   const collectionRanking = collections[collection];
   const account = useRecoilValue(accountAtom);
   const [status, setStatus] = useState("active");
@@ -48,9 +48,10 @@ const FullLastData = ({ collection }) => {
   const [openFilters, setOpenFilters] = useState([]);
   const [refreshInterval, setRefreshInterval] = useRecoilState(refreshAtom);
   const { data, isLoading, isError } = useGetListingsLong(
-    `https://api.x.immutable.com/v1/orders?status="active"&page_size=999999&include_fees=true&sell_token_address=${collection}${sortBy}${metadata}`,
+    `https://api.x.immutable.com/v1/orders?status="active"&buy_token_type=ETH&page_size=999999&include_fees=true&sell_token_address=${collection}${sortBy}${metadata}`,
     refreshInterval
   );
+  console.log(data);
   let collectionData = collectionsList.filter(
     (element) => element.address === collection
   );
@@ -59,7 +60,7 @@ const FullLastData = ({ collection }) => {
   const { floorPrice, isLoadingFloor, errorFloor } = useGetFloorPrice(
     `https://api.x.immutable.com/v1/orders?&status=active&page_size=1&include_fees=true&sell_token_address=${collection}&order_by=buy_quantity&direction=asc`
   );
- 
+
   const setMetadataForUrl = () => {
     const filteredObject = { ...filtersMetadata };
 
