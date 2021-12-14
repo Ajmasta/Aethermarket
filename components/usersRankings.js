@@ -33,7 +33,7 @@ const UsersRankings = ({ collection, name }) => {
   const [userRank, setUserRank] = useState(false);
   const [assetData, setAssetData] = useState("");
   const [imageDisplay, setImageDisplay] = useState([]);
-  console.log(usersCountArray);
+ 
   useEffect(() => setUserRank(inView), [inView]);
 
   const giveLabel = (i, length) => {
@@ -87,7 +87,7 @@ const UsersRankings = ({ collection, name }) => {
         data.status = result[0].status;
         data.price = result[0].buy.data.quantity / 10 ** 18;
       }
-      console.log(data);
+     
       setAssetData(data);
     } catch (err) {
       return "";
@@ -95,7 +95,7 @@ const UsersRankings = ({ collection, name }) => {
   };
 
   const createSimilarListings = (result) => {
-    console.log(result);
+   
     if (result === {}) return "";
     return (
       <Link href={`./${result.token_address}/${result.token_id}`}>
@@ -198,7 +198,7 @@ const UsersRankings = ({ collection, name }) => {
   };
 
   const createUserRank = (account) => {
-    console.log(account[0]);
+   
 
     const users = usersRankings[collection].userRanks;
     const arrayOfUsers = users.map((element) => element[0]);
@@ -275,7 +275,7 @@ const UsersRankings = ({ collection, name }) => {
                   ? newArray.splice(newArray.indexOf(i), 1)
                   : newArray.push(i);
                 setAssetDisplay(newArray);
-                console.log(assetDisplay);
+              
               }}
             >
               <p className={styles.tableCell}>{i + 1}</p>
@@ -354,7 +354,7 @@ const UsersRankings = ({ collection, name }) => {
         ? chartData.datasets[0].data.push(user[1])
         : chartData.datasets[1].data.push(user[1]);
     });
-    console.log(chartData);
+    
     return (
       <Bar className={styles.chart} data={chartData} options={options}></Bar>
     );

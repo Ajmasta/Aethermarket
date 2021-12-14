@@ -9,11 +9,11 @@ const getData = async () => {
             :await (await fetch(`https://api.x.immutable.com/v1/orders?order_by=created_at&status=active&sell_token_type=ERC721&sell_token_address=0x5f32923175e13713242b3ddd632bdee82ab5f509`)).json()
             dataArray.push(data)
             cursor=data.cursor
-            console.log(dataArray)
+          
         
             if (!cursor) roll=false
         }
-console.log(dataArray)
+
 }
 const getSingleData= async () =>{
 const dataArray = []
@@ -21,7 +21,7 @@ const dataArray = []
  const data = await (await fetch(`https://api.x.immutable.com/v1/orders?sell_token_address=0x5f32923175e13713242b3ddd632bdee82ab5f509&status=active`))
         dataArray.push(data)
 }
-console.log(dataArray)
+
 }
 getData()
     return <p>test</p>

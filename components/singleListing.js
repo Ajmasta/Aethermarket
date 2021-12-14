@@ -89,7 +89,7 @@ const SingleListing = ({ dataListing, assetData }) => {
     collectionIcon = listingData.collection.icon_url;
     collectionName = listingData.collection.name;
   }
-  console.log(data);
+ 
   const [ethPrice, setEthPrice] = useRecoilState(ethPriceAtom);
   const [royaltyHelp, setRoyaltyHelp] = useState(false);
 
@@ -134,7 +134,7 @@ const SingleListing = ({ dataListing, assetData }) => {
   const [fees, setFees] = useState([]);
 
   const checkOwnerShip = () => {
-    console.log(userL);
+   
     return thisAsset?.user === account[0] ? true : false;
   };
 
@@ -160,7 +160,7 @@ const SingleListing = ({ dataListing, assetData }) => {
 
     setFees(data.result[0] ? data.result[0].fees : []);
   };
-  console.log(fees);
+  
   const createTraitsTabGodsUnchained = () => {
     return (
       <div className={styles.traitsContainer}>
@@ -225,7 +225,7 @@ const SingleListing = ({ dataListing, assetData }) => {
     const dataFiltered = data.filter((data) =>
       data.status === "filled" ? true : false
     );
-    console.log(data);
+    
     if (dataFiltered.length === 0) return "No sale history for this item";
 
     const chartData = {
@@ -400,7 +400,7 @@ const SingleListing = ({ dataListing, assetData }) => {
     );
   };
   const createSimilarListings = (array) => {
-    console.log(array);
+
     return array.map((result, i) => (
       <Link
         key={i}
@@ -720,7 +720,7 @@ const SingleListing = ({ dataListing, assetData }) => {
       setupAndLogin();
       return "";
     }
-    console.log(Number(userBalance.imx) < Number(order.buy.data.quantity));
+
     if (Number(userBalance.imx) < Number(order.buy.data.quantity)) {
       setError(
         <>
@@ -760,7 +760,7 @@ const SingleListing = ({ dataListing, assetData }) => {
   };
   const calculatePriceWithFees = (price) => {
     let newPrice = Number(price);
-    console.log(fees);
+
     fees?.map((element) => {
       newPrice = newPrice + (newPrice * Number(element["percentage"])) / 100;
     });
@@ -781,7 +781,7 @@ const SingleListing = ({ dataListing, assetData }) => {
       ethBalance: ethBalance.toFixed() / 10 ** 18,
     });
   };
-  console.log(sell, "sell");
+
   return (
     <>
       <div className={styles.mainContainer}>

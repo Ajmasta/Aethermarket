@@ -57,7 +57,7 @@ const Transfer = () => {
       ).json();
 
       setUserBalances(result.result);
-      console.log(userBalances);
+    
     } catch (err) {
       console.log(err);
     }
@@ -124,7 +124,7 @@ const Transfer = () => {
             </div>
             {transferList.map((payload, i) => {
               const token = payload.symbol ? true : false;
-              console.log("mapped");
+           
               const html = token
                 ? createTransferConfirmedToken(payload, i)
                 : createTransferConfirmedAsset(payload, i);
@@ -394,7 +394,7 @@ const Transfer = () => {
     liveCollections.sort((a, b) => b.volume.all - a.volume.all);
     liveCollections.push(...liveCollectionsNo);
     liveCollections.push(...upcomingCollections);
-    console.log(collectionsList.length, liveCollections.length);
+  
 
     if (collectionFilterName.length > 1) {
       liveCollections = liveCollections.filter((element) =>
@@ -462,12 +462,12 @@ const Transfer = () => {
   };
   const createSimilarListings = (assets) => {
     const allAssets = [];
-    console.log(assets);
+  
     assets?.map((element) =>
       element.result.map((result) => allAssets.push(result))
     );
 
-    console.log(allAssets);
+    
     return (
       <>
         {allAssets.map((result, i) => {
@@ -527,7 +527,7 @@ const Transfer = () => {
   };
 
   useEffect(() => getUserBalances(), [account]);
-  console.log(transferList);
+  
   const tokenObject = {
     ETH: {
       name: "Immutable Eth",

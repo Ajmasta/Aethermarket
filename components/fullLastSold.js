@@ -35,7 +35,7 @@ const FullLastSold = ({ collection, name }) => {
     return `https://api.x.immutable.com/v1/orders?page_size=40&status=filled&include_fees=true&sell_token_type=ERC721&sell_token_address=${collection}&cursor=${previousPageData.cursor}`;
   };
   const fetcher = async (url) => {
-    console.log(url);
+    
     const result = await (await fetch(url)).json();
 
     return result;
@@ -121,12 +121,12 @@ const FullLastSold = ({ collection, name }) => {
     );
   };
   const createSalesTable = (sold, numberOfItems) => {
-    console.log(sold);
+
     const allSold = [];
     sold?.map((element) =>
       element.result.map((result) => allSold.push(result))
     );
-    console.log(allSold);
+   
 
     if (sold.length === 0) return "No sales yet!";
 

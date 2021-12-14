@@ -75,7 +75,7 @@ const FullLastListed = ({ data, setSortBy, sortBy, collection }) => {
       setupAndLogin();
       return "";
     }
-    console.log(userBalance.imx);
+ 
     if (Number(userBalance.imx) < order.buy.data.quantity) {
       setError(
         <>
@@ -91,7 +91,7 @@ const FullLastListed = ({ data, setSortBy, sortBy, collection }) => {
     fillOrder(order);
   };
 
-  console.log(buyCart);
+  
   const dollarFormat = Intl.NumberFormat("en-US");
   if (input.length > 0 && isNaN(input)) setInput("");
   const filteredData = data.listings.filter((item) => {
@@ -105,7 +105,7 @@ const FullLastListed = ({ data, setSortBy, sortBy, collection }) => {
     return false;
   });
   const checkDisabled = (result) => {
-    console.log(result);
+    
     const filter = buyCart.filter(
       (element) =>
         element.sell.data.token_id === result.sell.data.token_id &&
@@ -163,7 +163,7 @@ const FullLastListed = ({ data, setSortBy, sortBy, collection }) => {
           ),
         200
       );
-      console.timeEnd("beforeSort");
+     
     }
   }, [extraFilters, timer]);
   const [numberOfItems, setNumberOfItems] = useState(10);

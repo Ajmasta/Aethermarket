@@ -46,7 +46,7 @@ const AllRankings = ({ collection }) => {
       );
       setArray(newArray);
     } else {
-      console.log("FILTER");
+   
       let data = await (
         await fetch(
           `https://api.x.immutable.com/v1/assets/${collection}/${filter}`
@@ -65,15 +65,14 @@ const AllRankings = ({ collection }) => {
         setArray([]);
         setArray([data]);
       } else {
-        console.log("NAME");
+      
         let data2;
         data2 = await (
           await fetch(
             `https://api.x.immutable.com/v1/assets?collection=${collection}&name=${filter}`
           )
         ).json();
-        console.log(data2);
-        console.log(filter);
+  
 
         setArray([]);
 

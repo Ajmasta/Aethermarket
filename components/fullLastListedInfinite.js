@@ -38,7 +38,7 @@ const FullLastListedInfinite = ({
     return `https://api.x.immutable.com/v1/orders?page_size=40&status=active&include_fees=true&sell_token_address=${collection}${sortBy}${metadata}&cursor=${previousPageData.cursor}`;
   };
   const fetcher = async (url) => {
-    console.log(url);
+  
     const result = await (await fetch(url)).json();
 
     return result;
@@ -50,7 +50,7 @@ const FullLastListedInfinite = ({
 
   useEffect(() => (inView ? setSize(size + 1) : ""), [inView]);
 
-  console.log(inView);
+
   const filteredData = [];
   if (input.length > 0 && isNaN(input)) setInput("");
   if (input.length > 0) {

@@ -31,7 +31,7 @@ const Cart = () => {
   };
 
   const ethPrice = useRecoilValue(ethPriceAtom);
-  console.log(buyCart);
+ 
   const dollarFormat = Intl.NumberFormat("en-US");
   const buyCartPrice = buyCart.map((item) => item.buy.data.quantity);
   const buyCartTotal = buyCartPrice.reduce((a, b) => Number(a) + Number(b), 0);
@@ -61,7 +61,7 @@ const Cart = () => {
       setupAndLogin();
       return "";
     }
-    console.log(userBalance.imx);
+    
     if (Number(userBalance.imx) < buyCartTotal) {
       setError(
         <>

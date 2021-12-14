@@ -33,7 +33,7 @@ const UsersCount = ({ collection, name }) => {
 
   const giveLabel = (i, length) => {
     const numberOfAssets = usersCountArray[collection].userCounts.length;
-    console.log(numberOfAssets);
+
     const top10 = Math.ceil(numberOfAssets / 1000);
     const top50 = numberOfAssets / 200;
     const top100 = numberOfAssets / 100;
@@ -82,14 +82,14 @@ const UsersCount = ({ collection, name }) => {
         data.status = result[0].status;
         data.price = result[0].buy.data.quantity / 10 ** 18;
       }
-      console.log(data);
+     
       setAssetData(data);
     } catch (err) {
       return "";
     }
   };
   const createSimilarListings = (result) => {
-    console.log(result);
+    
     if (result === {}) return "";
     return (
       <Link href={`./${result.token_address}/${result.token_id}`}>
@@ -186,11 +186,11 @@ const UsersCount = ({ collection, name }) => {
     );
 
     const numberOfItems = itemArray.reduce((a, b) => a + b);
-    console.log(numberOfItems);
+   
     return numberOfItems;
   };
   const createUserRank = (account) => {
-    console.log(account[0]);
+  
 
     const users = usersCountArray[collection].userCounts;
     const arrayOfUsers = usersCountArray[collection].userCounts.map(
@@ -260,7 +260,7 @@ const UsersCount = ({ collection, name }) => {
                   ? newArray.splice(newArray.indexOf(i), 1)
                   : newArray.push(i);
                 setAssetDisplay(newArray);
-                console.log(assetDisplay);
+               
               }}
               className={styles.tableRow}
             >
@@ -340,7 +340,7 @@ const UsersCount = ({ collection, name }) => {
         ? chartData.datasets[0].data.push(user[1])
         : chartData.datasets[1].data.push(user[1]);
     });
-    console.log(chartData);
+  
     return (
       <Bar className={styles.chart} data={chartData} options={options}></Bar>
     );

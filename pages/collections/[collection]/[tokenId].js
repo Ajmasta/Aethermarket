@@ -12,9 +12,7 @@ const Nfts = () => {
   const { collection, tokenId } = router.query;
   const [asset, setAsset] = useState(false);
 
-  console.log(
-    `https://api.x.immutable.com/v1/orders?sell_token_id=${tokenId}&sell_token_address=${collection}`
-  );
+ 
   const { data, isLoading, isError } = useGetListingInfo(
     `https://api.x.immutable.com/v1/orders?sell_token_id=${tokenId}&include_fees=true&sell_token_address=${collection}`,
     `https://api.x.immutable.com/v1/assets/${collection}/${tokenId}`

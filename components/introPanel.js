@@ -95,7 +95,7 @@ const IntroPanel = () => {
         {!loaded ? (
           ""
         ) : (
-          <Link href="https://twitter.com/TerraObscuraNFT">
+          <Link href="/collections/0x273de487f7546c8e0b74751e96ce4d9b0f48e5c8">
             <a className={styles.pictureFrame}>
               <div className={styles.imageContainer}>
                 <img

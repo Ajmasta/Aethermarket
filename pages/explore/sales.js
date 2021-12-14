@@ -12,7 +12,7 @@ import AllLastSold from "../../components/AllLastSold";
 import Loading from "../../components/loading";
 
 const Explore = ({ listingData }) => {
-  console.log(listingData);
+
   const date = new Date();
   const lastDate =
     listingData.result[listingData.result.length - 1].updated_timestamp;

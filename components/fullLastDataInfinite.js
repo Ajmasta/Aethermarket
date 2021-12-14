@@ -33,7 +33,7 @@ import collectionsList from "./functions/collectionsList.json";
 import FullLastListedInfinite from "./fullLastListedInfinite";
 import imagePath from "./functions/imagePath.json";
 const FullLastDataInfinite = ({ collection }) => {
-  console.log(UsersCount);
+
   const collectionRanking = collections[collection];
   const account = useRecoilValue(accountAtom);
   const [status, setStatus] = useState("active");

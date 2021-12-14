@@ -34,7 +34,7 @@ import collections from "../components/functions/collectionRankings.json";
 import BigNumber from "bignumber.js";
 
 const SingleListing = ({ data }) => {
-  console.log(data);
+ 
   const listingData = data.data;
   const thisAsset = data.data;
   const collection = data.data.token_address;
@@ -75,7 +75,7 @@ const SingleListing = ({ data }) => {
   const [userBalance, setUserBalance] = useRecoilState(userBalanceAtom);
   const [account, setAccount] = useRecoilState(accountAtom);
   const [fees, setFees] = useState([]);
-  console.log(fees);
+ 
   const checkOwnerShip = () => {
     return thisAsset.user === account[0] ? true : false;
   };
@@ -87,7 +87,7 @@ const SingleListing = ({ data }) => {
         `https://api.x.immutable.com/v1/assets?page_size=1&include_fees=true&collection=${listingData.token_address}`
       )
     ).json();
-    console.log(data);
+    
     setFees(data.result[0] ? data.result[0].fees : []);
   };
   const createTraitsTabGodsUnchained = () => {
@@ -641,7 +641,7 @@ const SingleListing = ({ data }) => {
   };
   const calculatePriceWithFees = (price) => {
     let newPrice = Number(price);
-    console.log(fees);
+ 
     fees?.map((element) => {
       newPrice = newPrice + (newPrice * Number(element["percentage"])) / 100;
     });

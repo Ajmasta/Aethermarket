@@ -39,7 +39,7 @@ const AllCollections = () => {
     );
     currentCollections.sort((a, b) => b.volume[filter] - a.volume[filter]);
     currentCollections.push(...currentCollectionsNo);
-    console.log(collections2);
+ 
     return (
       <>
         {currentCollections.slice(0, numberOfItems).map((collection, i) => {

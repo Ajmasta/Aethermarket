@@ -1,7 +1,7 @@
 import { SignalCellularConnectedNoInternet4BarRounded } from "@mui/icons-material";
 import cards from "./godsUnchainedCards.json";
 export const getAllCards = async () => {
-  console.log("ok");
+
 
   try {
     let data = await (
@@ -11,8 +11,8 @@ export const getAllCards = async () => {
     console.log(err);
   }
 
-  console.log("ok");
-  console.log(data);
+
+ 
 };
 
 export const getAllNumberOfCards = async () => {
@@ -33,11 +33,11 @@ export const getAllNumberOfCards = async () => {
         ).json();
         cursor = data.cursor;
         i++;
-        console.log(i);
+      
       }
 
       return { ...card, numberOfCards: fullData.length };
     })
   );
-  console.log(newArray);
+  
 };

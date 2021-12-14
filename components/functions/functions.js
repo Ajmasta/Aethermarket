@@ -29,7 +29,7 @@ const fetchAllFloor = async () => {
       return [collection.address, floorPrice.result[0]?.buy.data.quantity];
     })
   );
-  console.log(newArray);
+
   return newArray;
 };
 
@@ -188,7 +188,7 @@ export const useGetFloorPrice = (url) => {
 };
 const fetchFloorPrice = async (url) => {
   const floor = await (await fetch(url)).json();
-  console.log(floor);
+ 
   return floor.result[0].buy.data.quantity;
 };
 const getAllListings = async (url) => {
@@ -374,7 +374,7 @@ const getSimilarListings = async (tokenAddress, tokenId, newName, asset) => {
   const addOn = "&include_fees=true";
 
   let name = newName.split(" ").join("%20");
-  console.log(name);
+ 
   try {
     similarListings = await (
       await fetch(
@@ -400,9 +400,9 @@ const getSoldListings = async (tokenAddress, tokenId, newName, asset) => {
   let soldListings = { result: [] };
   const addOn = "&include_fees=true";
   let name = newName.split(" ").join("%20");
-  console.log(name);
+  
 
-  console.log(addOn);
+  
   console.log(
     `https://api.x.immutable.com/v1/orders?status=filled${addOn}&sell_token_name=${name}&sell_token_address=${tokenAddress}`
   );

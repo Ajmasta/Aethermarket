@@ -21,7 +21,7 @@ import Image from "next/image";
 import collections from "./functions/collectionsList.json";
 import imagePath from "./functions/imagePath.json";
 const CollectionRankings = () => {
-  console.log(collections);
+  
   const [activeTab, setActiveTab] = useState("day");
   const turnObjectintoArray = (object) => {
     let array = [];

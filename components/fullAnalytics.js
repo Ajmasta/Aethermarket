@@ -10,12 +10,11 @@ import { useRecoilValue } from "recoil";
 import { ethPriceAtom } from "./states/states";
 import { useEffect, useState } from "react";
 import { useGetAllFloorPrices } from "./functions/functions";
-import PushPinIcon from '@mui/icons-material/PushPin';
+import PushPinIcon from "@mui/icons-material/PushPin";
 import ethLogo from "../public/images/ethLogo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
-
 
 const FullAnalytics = () => {
   const ethPrice = useRecoilValue(ethPriceAtom);
@@ -23,21 +22,20 @@ const FullAnalytics = () => {
   const [filterDown, setFilterDown] = useState(false);
   const { data, isLoading, Error } = useGetAllFloorPrices("test");
   const [dragging, setDragging] = useState(false);
-  const [darkMode,setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(false);
   const [scrollC, setScrollC] = useState();
   const [topRow, setTopRow] = useState();
-  const [filterName,setFilterName] = useState("")
-  const [overRow,setOverRow] = useState()
+  const [filterName, setFilterName] = useState("");
+  const [overRow, setOverRow] = useState();
   const [scrollLeft, setScrollLeft] = useState(0);
   const [collections, setCollections] = useState(
     collectionsList.filter((element) => !element.upcoming)
   );
-  const [numberOfItems,setNumberOfItems]=useState(10)
-const [pinnedCollections,setPinnedCollections]=useState([])
+  const [numberOfItems, setNumberOfItems] = useState(10);
+  const [pinnedCollections, setPinnedCollections] = useState([]);
 
-const { ref, inView, entry } = useInView();
-useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
-
+  const { ref, inView, entry } = useInView();
+  useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
 
   useEffect(() => {
     const newArray = collections.map((collection) => {
@@ -49,9 +47,9 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
           usersCount[collection.address]?.userCounts.length;
 
         collection.volume.items = itemArray?.reduce((a, b) => a + b);
-        collection.volume.floorPrice =
-          data?.find((element) => element[0] === collection.address)[1]
-        ;
+        collection.volume.floorPrice = data?.find(
+          (element) => element[0] === collection.address
+        )[1];
         collection.volume.itemsUsers =
           collection.volume.items / collection.volume.users;
         collection.volume.volumeItems =
@@ -73,8 +71,8 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
       }
       return collection;
     });
-    
-    setCollections(newArray)
+
+    setCollections(newArray);
   }, [data]);
 
   const dollarFormat = Intl.NumberFormat("en-US");
@@ -91,24 +89,21 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
   useEffect(() => {
     setScrollC(document.querySelector(".indiana-scroll-container"));
     setTopRow(document.getElementById("topRow"));
-    setOverRow(document.getElementById("overRow"))
+    setOverRow(document.getElementById("overRow"));
   }, []);
-  useEffect(
-    () => {
-      topRow?.scrollLeft = scrollLeft;
-      scrollC?.scrollLeft=scrollLeft;
-      overRow?.scrollLeft=scrollLeft
-    },
-      [scrollLeft, filter, filterDown,dragging]
-    )
-  ;
-   
-  useEffect(() => { 
-    const pinned=collections.filter(collection=>pinnedCollections.includes(collection.name))
+  useEffect(() => {
+    topRow.scrollLeft = scrollLeft;
+    scrollC.scrollLeft = scrollLeft;
+    overRow.scrollLeft = scrollLeft;
+  }, [scrollLeft, filter, filterDown, dragging]);
+
+  useEffect(() => {
+    const pinned = collections.filter((collection) =>
+      pinnedCollections.includes(collection.name)
+    );
     if (filter !== "" && !filterDown) {
       setFilterDown(false);
       let withVolume = collections.filter((element) => {
-
         return element.volume[filter] ? true : false;
       });
       let noVolume = collections.filter(
@@ -118,9 +113,9 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
         (a, b) => b.volume[filter] - a.volume[filter]
       );
       withVolume.push(...noVolume);
-     
-     setCollections([...withVolume])
-    } else if (filter!=="" &&filterDown) {
+
+      setCollections([...withVolume]);
+    } else if (filter !== "" && filterDown) {
       let array2 = [...collections].reverse();
       let withVolume = array2.filter((element) =>
         element.volume[filter] ? true : false
@@ -128,52 +123,84 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
       let noVolume = array2.filter((element) =>
         element.volume[filter] ? false : true
       );
-    setCollections([...withVolume,...noVolume])
-    
+      setCollections([...withVolume, ...noVolume]);
     }
   }, [filter, filterDown]);
   const tableCreator = () => {
-    let collectionsArray = filterName===""?collections:collections.filter(collection=>collection.name.toLowerCase().includes(filterName.toLowerCase()))
-    const pinned=collections.filter(collection=>pinnedCollections.includes(collection.name))
-    collectionsArray=collectionsArray.filter(collection=>!pinnedCollections.includes(collection.name))
-      collectionsArray = [...pinned,...collectionsArray]
-   return (
+    let collectionsArray =
+      filterName === ""
+        ? collections
+        : collections.filter((collection) =>
+            collection.name.toLowerCase().includes(filterName.toLowerCase())
+          );
+    const pinned = collections.filter((collection) =>
+      pinnedCollections.includes(collection.name)
+    );
+    collectionsArray = collectionsArray.filter(
+      (collection) => !pinnedCollections.includes(collection.name)
+    );
+    collectionsArray = [...pinned, ...collectionsArray];
+    return (
       <>
-        {collectionsArray?.slice(0,numberOfItems).map((collection, i) => {
+        {collectionsArray?.slice(0, numberOfItems).map((collection, i) => {
           return (
-            <div key={`${i}collec`} className={!pinnedCollections.includes(collection.name)? styles.mainTableRow:styles.mainTableRowPinned}>
-          <div className={!pinnedCollections.includes(collection.name)? `${styles.mainTableCell4} ${styles.pinCell}`:`${styles.mainTableCell4} ${styles.pinCellActive}`}>
-
-            <PushPinIcon onClick={()=>{
-              const newArray = [...pinnedCollections]
-              newArray.splice(newArray.indexOf(collection.name),1)
-              pinnedCollections.includes(collection.name)? 
-            setPinnedCollections(newArray)
-            :setPinnedCollections([...pinnedCollections,collection.name])}} />
-          </div>  
-            <div className={`${styles.mainTableCell3} ${styles.rankCell}`}>
-            {i+1}
-            </div>
-              <Link href={`/collections/${collection.address}`} >
-              <a className={`${styles.linkContainer}`}>
-              <div className={`${styles.mainTableCell1} ${styles.imageCell}`}>
-                 <img
-                  alt="Icon"
-                  className={styles.collectionIcon}
-                  src={
-                    imagePath[collection]
-                      ? imagePath[collection]
-                      : collection.icon_url
-                      ? collection.icon_url
-                      : collection.collection_image_url
-                  }
+            <div
+              key={`${i}collec`}
+              className={
+                !pinnedCollections.includes(collection.name)
+                  ? styles.mainTableRow
+                  : styles.mainTableRowPinned
+              }
+            >
+              <div
+                className={
+                  !pinnedCollections.includes(collection.name)
+                    ? `${styles.mainTableCell4} ${styles.pinCell}`
+                    : `${styles.mainTableCell4} ${styles.pinCellActive}`
+                }
+              >
+                <PushPinIcon
+                  onClick={() => {
+                    const newArray = [...pinnedCollections];
+                    newArray.splice(newArray.indexOf(collection.name), 1);
+                    pinnedCollections.includes(collection.name)
+                      ? setPinnedCollections(newArray)
+                      : setPinnedCollections([
+                          ...pinnedCollections,
+                          collection.name,
+                        ]);
+                  }}
                 />
               </div>
-              <div className={`${styles.mainTableCell2} ${styles.nameCell} `}>
-                <div className={styles.collectionName}>{collection.name}</div>
+              <div className={`${styles.mainTableCell3} ${styles.rankCell}`}>
+                {i + 1}
               </div>
-</a>
-</Link>
+              <Link href={`/collections/${collection.address}`}>
+                <a className={`${styles.linkContainer}`}>
+                  <div
+                    className={`${styles.mainTableCell1} ${styles.imageCell}`}
+                  >
+                    <img
+                      alt="Icon"
+                      className={styles.collectionIcon}
+                      src={
+                        imagePath[collection]
+                          ? imagePath[collection]
+                          : collection.icon_url
+                          ? collection.icon_url
+                          : collection.collection_image_url
+                      }
+                    />
+                  </div>
+                  <div
+                    className={`${styles.mainTableCell2} ${styles.nameCell} `}
+                  >
+                    <div className={styles.collectionName}>
+                      {collection.name}
+                    </div>
+                  </div>
+                </a>
+              </Link>
               <div
                 className={
                   collection.volume.changeDay > 0
@@ -194,12 +221,16 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
               <div className={`${styles.mainTableCell} ${styles.volumeCell}`}>
                 {collection.volume.day ? (
                   <>
-                    <div> {parseFloat(collection.volume.day?.toFixed(2))}<Image
+                    <div>
+                      {" "}
+                      {parseFloat(collection.volume.day?.toFixed(2))}
+                      <Image
                         src={ethLogo}
                         width={15}
                         height={15}
                         alt="ethlogo"
-                      /> </div>
+                      />{" "}
+                    </div>
                     <div className={styles.usdPrice}>
                       {dollarFormat.format(
                         (collection.volume.day * ethPrice).toFixed(2)
@@ -235,7 +266,8 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
                   <>
                     <div>
                       {" "}
-                      {parseFloat(collection.volume.week?.toFixed(2))}<Image
+                      {parseFloat(collection.volume.week?.toFixed(2))}
+                      <Image
                         src={ethLogo}
                         width={15}
                         height={15}
@@ -257,12 +289,16 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
               <div className={`${styles.mainTableCell} ${styles.volumeCell}`}>
                 {collection.volume.all ? (
                   <>
-                    <div> {parseFloat(collection.volume.all?.toFixed(2))}<Image
+                    <div>
+                      {" "}
+                      {parseFloat(collection.volume.all?.toFixed(2))}
+                      <Image
                         src={ethLogo}
                         width={15}
                         height={15}
                         alt="ethlogo"
-                      /> </div>
+                      />{" "}
+                    </div>
                     <div className={styles.usdPrice}>
                       {dollarFormat.format(
                         (collection.volume.all * ethPrice).toFixed(2)
@@ -274,41 +310,46 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
                   "-"
                 )}
               </div>
-              <div className={`${styles.mainTableCell} ${styles.volumeCell} ${styles.separatorCell}`}>
-                {isNaN(collection.volume.floorPrice )?
-                "-":
-                <>
-                <div>
-                  {" "}
-                  {parseFloat(
-                    (collection.volume.floorPrice / 10 ** 18).toFixed(5)
-                  )}<Image
+              <div
+                className={`${styles.mainTableCell} ${styles.volumeCell} ${styles.separatorCell}`}
+              >
+                {isNaN(collection.volume.floorPrice) ? (
+                  "-"
+                ) : (
+                  <>
+                    <div>
+                      {" "}
+                      {parseFloat(
+                        (collection.volume.floorPrice / 10 ** 18).toFixed(5)
+                      )}
+                      <Image
                         src={ethLogo}
                         width={15}
                         height={15}
                         alt="ethlogo"
                       />
-                </div>
-                <div className={styles.usdPrice}>
-                  {dollarFormat.format(
-                    (
-                      (collection.volume.floorPrice / 10 ** 18) *
-                      ethPrice
-                    ).toFixed(2)
-                  )}
-                  ${" "}
-                </div>
-                </>}
+                    </div>
+                    <div className={styles.usdPrice}>
+                      {dollarFormat.format(
+                        (
+                          (collection.volume.floorPrice / 10 ** 18) *
+                          ethPrice
+                        ).toFixed(2)
+                      )}
+                      ${" "}
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className={`${styles.mainTableCell} ${styles.volumeCell}`}>
                 {Number(collection.volume.items) > 0
-                  ? collection.volume.items+" items"
+                  ? collection.volume.items + " items"
                   : " - "}
               </div>
               <div className={`${styles.mainTableCell} ${styles.volumeCell}`}>
                 {Number(collection.volume.users) > 0
-                  ? collection.volume.users+" users"
+                  ? collection.volume.users + " users"
                   : " - "}
               </div>
               <div className={`${styles.mainTableCell} ${styles.volumeCell}`}>
@@ -327,15 +368,18 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
                   : " - "}
               </div>
               <div className={`${styles.mainTableCell} ${styles.volumeCell}`}>
-                {(collection.volume.all / collection.volume.users).toFixed(2) > 0
+                {(collection.volume.all / collection.volume.users).toFixed(2) >
+                0
                   ? (collection.volume.all / collection.volume.users).toFixed(2)
                   : " - "}
               </div>
               {
                 //order data
               }
-        
-              <div className={`${styles.mainTableCell} ${styles.volumeCell} ${styles.separatorCell}`}>
+
+              <div
+                className={`${styles.mainTableCell} ${styles.volumeCell} ${styles.separatorCell}`}
+              >
                 {dollarFormat.format(collection.volume.totalSales)}
               </div>
               <div className={`${styles.mainTableCell} ${styles.volumeCell}`}>
@@ -344,12 +388,8 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
                     (
                       collection.volume.all / collection.volume.totalSales
                     ).toFixed(5)
-                  )}<Image
-                        src={ethLogo}
-                        width={15}
-                        height={15}
-                        alt="ethlogo"
-                      />
+                  )}
+                  <Image src={ethLogo} width={15} height={15} alt="ethlogo" />
                 </div>
                 <div className={styles.usdPrice}>
                   {dollarFormat.format(
@@ -368,12 +408,8 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
                       collection.volume.max?.buy.data.quantity /
                       10 ** 18
                     ).toFixed(2)
-                  )}<Image
-                        src={ethLogo}
-                        width={15}
-                        height={15}
-                        alt="ethlogo"
-                      />
+                  )}
+                  <Image src={ethLogo} width={15} height={15} alt="ethlogo" />
                 </div>
                 <div className={styles.usdPrice}>
                   {dollarFormat.format(
@@ -396,7 +432,8 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
                     <div>
                       {parseFloat(
                         (collection.volume.lowestSale / 10 ** 18).toFixed(6)
-                      )}<Image
+                      )}
+                      <Image
                         src={ethLogo}
                         width={15}
                         height={15}
@@ -428,14 +465,15 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
   };
 
   return (
-    <div className={!darkMode? styles.mainContainer : styles.mainContainerDark}>
+    <div
+      className={!darkMode ? styles.mainContainer : styles.mainContainerDark}
+    >
       <div className={styles.subMainContainer}>
         <div className={styles.mainTableOverRow} id="overRow">
-        <div
+          <div
             className={`${styles.mainTableCell1} ${styles.mainTableCellCollection} ${styles.mainTableCell1}`}
           >
-              <button onClick={()=>setDarkMode(!darkMode)}>Set Dark </button>
-
+            <button onClick={() => setDarkMode(!darkMode)}>Set Dark </button>
           </div>
           <div className={styles.mainTableOverVolumeCell}>Volume</div>
           <div className={styles.mainTableOverVolumeCell}>Collection Info </div>
@@ -448,8 +486,13 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
           <div
             className={`${styles.mainTableCell1} ${styles.mainTableCellCollection} ${styles.mainTableCell1}`}
           >
-           <span> Collections </span>
-            <input className={styles.input} type="text" placeHolder="Search a collection" onChange={(e)=>setFilterName(e.target.value)} />
+            <span> Collections </span>
+            <input
+              className={styles.input}
+              type="text"
+              placeHolder="Search a collection"
+              onChange={(e) => setFilterName(e.target.value)}
+            />
           </div>
           <div
             className={`${styles.mainTableCell} ${styles.stickyMainCell} `}
@@ -847,13 +890,12 @@ useEffect(() => setNumberOfItems(numberOfItems + 5), [inView]);
           id="scrollContainer"
           className="scrollContainer"
           onStartScroll={(e) => setDragging(true)}
-          onScroll={(e) => (setScrollLeft(scrollC.scrollLeft))}
+          onScroll={(e) => setScrollLeft(scrollC.scrollLeft)}
           onEndScroll={() => setDragging(false)}
         >
           <div className={styles.mainTableContainer}>{tableCreator()}</div>
         </ScrollContainer>
         <div ref={ref}></div>
-
       </div>
     </div>
   );

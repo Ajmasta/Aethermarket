@@ -67,7 +67,7 @@ const NavBar = () => {
       const data = await getEthPrice();
       setEthPrice(data[currency]);
 
-      console.log(ethPrice);
+      
     };
     getData();
   }, [currency, ethPrice, setEthPrice]);

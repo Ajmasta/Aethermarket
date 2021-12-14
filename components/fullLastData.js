@@ -37,7 +37,7 @@ import imagePath from "./functions/imagePath.json";
 
 const FullLastData = ({ collection }) => {
   const blacklistedRanks = ["0xb0e827c9ab5e68d243f707f832b756981987f704"];
-  console.log(UsersCount);
+ 
   const collectionRanking = collections[collection];
   const account = useRecoilValue(accountAtom);
   const [status, setStatus] = useState("active");
@@ -59,7 +59,7 @@ const FullLastData = ({ collection }) => {
   const { floorPrice, isLoadingFloor, errorFloor } = useGetFloorPrice(
     `https://api.x.immutable.com/v1/orders?&status=active&page_size=1&include_fees=true&sell_token_address=${collection}&order_by=buy_quantity&direction=asc`
   );
-  console.log(data);
+ 
   const setMetadataForUrl = () => {
     const filteredObject = { ...filtersMetadata };
 

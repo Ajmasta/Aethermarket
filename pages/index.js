@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Script from "next/script";
+import { useEffect, useState } from "react";
 
 import Image from "next/image";
 import About from "../components/about";
@@ -16,6 +17,9 @@ import LazyLoad from "react-lazyload";
 import FullAnalytics from "../components/fullAnalytics";
 
 export default function Home({}) {
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => setLoaded(true), []);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -51,15 +55,18 @@ export default function Home({}) {
         <meta name="twitter:image" content="/metaImage.svg" />
         <meta name="twitter:card" content="summary"></meta>
       </Head>
-      <NavBar />
-      <IntroPanel />
-      <CollectionRankings />
 
-      <LazyLoad height={1568} offset={300} once>
-        <CollectionList />
-      </LazyLoad>
+      <>
+        <NavBar />
+        <IntroPanel />
+        <LazyLoad height={1568} offset={0} once>
+          <CollectionRankings />
 
-      <About />
+          <CollectionList />
+        </LazyLoad>
+
+        <About />
+      </>
     </div>
   );
 }

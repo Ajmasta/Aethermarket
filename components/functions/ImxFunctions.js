@@ -49,7 +49,7 @@ export async function setupAndLogin() {
 
 //Remove the local storage wallet address
 export function logout() {
-  console.log("test");
+ 
   localStorage.removeItem("WALLET_ADDRESS");
 }
 
