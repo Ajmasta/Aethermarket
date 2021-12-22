@@ -1,4 +1,4 @@
-import usersCount from "./functions/usersCount.json";
+/*import usersCount from "./functions/usersCount.json";
 
 import collectionsList from "./functions/collectionsList.json";
 import orderData from "./functions/orderData.json";
@@ -902,3 +902,4 @@ const FullAnalytics = () => {
 };
 
 export default FullAnalytics;
+*/
