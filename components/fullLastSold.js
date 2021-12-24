@@ -29,13 +29,12 @@ const FullLastSold = ({ collection, name }) => {
 
     // first page, we don't have `previousPageData`
     if (!previousPageData)
-      return `https://api.x.immutable.com/v1/orders?page_size=20&status=filled&include_fees=true&sell_token_type=ERC721&sell_token_address=${collection}`;
+      return `https://api.x.immutable.com/v1/orders?page_size=20&buy_token_type=ETH&status=filled&include_fees=true&sell_token_type=ERC721&sell_token_address=${collection}`;
 
     // add the cursor to the API endpoint
-    return `https://api.x.immutable.com/v1/orders?page_size=40&status=filled&include_fees=true&sell_token_type=ERC721&sell_token_address=${collection}&cursor=${previousPageData.cursor}`;
+    return `https://api.x.immutable.com/v1/orders?page_size=40&buy_token_type=ETH&status=filled&include_fees=true&sell_token_type=ERC721&sell_token_address=${collection}&cursor=${previousPageData.cursor}`;
   };
   const fetcher = async (url) => {
-    
     const result = await (await fetch(url)).json();
 
     return result;
@@ -121,12 +120,10 @@ const FullLastSold = ({ collection, name }) => {
     );
   };
   const createSalesTable = (sold, numberOfItems) => {
-
     const allSold = [];
     sold?.map((element) =>
       element.result.map((result) => allSold.push(result))
     );
-   
 
     if (sold.length === 0) return "No sales yet!";
 

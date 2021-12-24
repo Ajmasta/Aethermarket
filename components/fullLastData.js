@@ -58,7 +58,7 @@ const FullLastData = ({ collection }) => {
   collectionData = collectionData[0];
 
   const { floorPrice, isLoadingFloor, errorFloor } = useGetFloorPrice(
-    `https://api.x.immutable.com/v1/orders?&status=active&page_size=1&include_fees=true&sell_token_address=${collection}&order_by=buy_quantity&direction=asc`
+    `https://api.x.immutable.com/v1/orders?&status=active&buy_token_type=ETH&page_size=1&include_fees=true&sell_token_address=${collection}&order_by=buy_quantity&direction=asc`
   );
 
   const setMetadataForUrl = () => {
